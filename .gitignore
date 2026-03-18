@@ -1,0 +1,9 @@
+# Dossiers générés par Maven
+target/
+
+# Fichiers intellij
+.idea/
+*.iml
+
+# ConfigJPA
+src/main/resources/META-INF/persistence.xml
