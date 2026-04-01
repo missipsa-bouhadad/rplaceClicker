@@ -7,6 +7,3 @@ target/
 
 # Dossier de configuration VS Code
 .vscode/
-
-# ConfigJPA
-src/main/resources/META-INF/persistence.xml
