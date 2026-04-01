@@ -13,9 +13,13 @@ public class JpaInitializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        entityManager = Persistence.createEntityManagerFactory("rplaceClickPU");
-        sce.getServletContext().setAttribute("EMF", entityManager);
-        System.out.println("JPA initialisé, la table players a été crée");
+        try {
+            entityManager = Persistence.createEntityManagerFactory("rplaceClickPU");
+            sce.getServletContext().setAttribute("EMF", entityManager);
+            System.out.println("JPA initialisé avec succès !");
+        } catch (Exception e) {
+            System.err.println("ALERTE : La base de données n'est pas encore prête : " + e.getMessage());
+        }
     }
 
     @Override
