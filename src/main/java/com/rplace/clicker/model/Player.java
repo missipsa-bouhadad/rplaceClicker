@@ -8,17 +8,68 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
+    @Column(nullable = false,unique = true,length = 20)
     private String pseudo;
+
+    @Column(nullable = false,length = 255)
     private String password;
+
+    @Column()
+    private Integer age;
+
+    @Column(length = 20)
+    private String country;
+
+    @Column(nullable = false)
     private int credits = 0;
 
-    public Long getId() { return id; }
-    public String getPseudo() { return pseudo; }
-    public void setPseudo(String pseudo) { this.pseudo = pseudo; }
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-    public int getCredits() { return credits; }
-    public void setCredits(int credits) { this.credits = credits; }
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
 }
