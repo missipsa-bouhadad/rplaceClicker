@@ -9,19 +9,19 @@ import jakarta.servlet.annotation.WebListener;
 @WebListener
 public class JpaInitializer implements ServletContextListener {
 
-    private EntityManagerFactory entityManager;
+    private EntityManagerFactory entityManagerFactory;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        entityManager = Persistence.createEntityManagerFactory("rplaceClickPU");
-        sce.getServletContext().setAttribute("EMF", entityManager);
+        entityManagerFactory = Persistence.createEntityManagerFactory("rplaceClickPU");
+        sce.getServletContext().setAttribute("EMF", entityManagerFactory);
         System.out.println("JPA initialisé, la table players a été crée");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        if (entityManager != null && entityManager.isOpen()) {
-            entityManager.close();
+        if (entityManagerFactory != null && entityManagerFactory.isOpen()) {
+            entityManagerFactory.close();
         }
     }
 }
