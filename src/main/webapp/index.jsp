@@ -22,7 +22,11 @@
         <c:choose>
             <c:when test="${not empty sessionScope.player}">
                 <span class="text-sm font-medium text-gray-700">${sessionScope.player.pseudo}</span>
+                <a href="logout" class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition">
+                    Déconnexion
+                </a>
             </c:when>
+
             <c:otherwise>
                 <a href="login" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
                     Connexion
