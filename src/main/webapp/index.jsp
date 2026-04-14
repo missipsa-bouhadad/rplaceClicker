@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -18,14 +19,19 @@
       </h1>
 
       <div class="space-x-3">
-        <a href="login"
-           class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
-          Connexion
-        </a>
-        <a href="register"
-           class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
-          Inscription
-        </a>
+        <c:choose>
+            <c:when test="${not empty sessionScope.player}">
+                <span class="text-sm font-medium text-gray-700">${sessionScope.player.pseudo}</span>
+            </c:when>
+            <c:otherwise>
+                <a href="login" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+                    Connexion
+                </a>
+                <a href="register" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+                    Inscription
+                </a>
+            </c:otherwise>
+        </c:choose>
       </div>
     </div>
   </nav>

@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
         session.setAttribute("player",player);
-        resp.sendRedirect("ok");
+        resp.sendRedirect(req.getContextPath() + "/");
 
     }
 }
