@@ -44,6 +44,7 @@
             <version>3.0.1</version>
         </dependency>
         <!-- /JSTL -->
+<<<<<<< HEAD
 
         <!-- Gson -->
         <dependency>
@@ -52,6 +53,8 @@
             <version>2.14.0</version>
             <scope>compile</scope>
         </dependency>
+=======
+>>>>>>> 0af172b ([ADD] clicker sans incrementation dans la bd)
     </dependencies>
 
     <build>

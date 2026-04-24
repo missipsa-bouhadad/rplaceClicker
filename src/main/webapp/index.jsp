@@ -5,6 +5,7 @@
 <head>
   <title>rplace clicker</title>
   <script src="https://cdn.tailwindcss.com"></script>
+<<<<<<< HEAD
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
@@ -106,6 +107,55 @@
     const contextPath = "${pageContext.request.contextPath}";
   </script>
   <script src="js/grid.js"></script>
+=======
+</head>
+
+<!-- Style basique avec tailwind css en utilisant l'IA -->
+
+<body class="bg-gray-100">
+
+  <nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+      <h1 class="text-xl font-bold text-gray-800">
+        Rplace clicker test
+      </h1>
+
+      <div class="space-x-3">
+        <c:choose>
+            <c:when test="${not empty sessionScope.player}">
+                <span class="text-sm font-medium text-gray-700">${sessionScope.player.pseudo}</span>
+                <a href="logout" class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition">
+                    Déconnexion
+                </a>
+            </c:when>
+
+            <c:otherwise>
+                <a href="login" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+                    Connexion
+                </a>
+                <a href="register" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+                    Inscription
+                </a>
+            </c:otherwise>
+        </c:choose>
+      </div>
+    </div>
+  </nav>
+
+  <h2>Crédits: <span id="nb_click">${sessionScope.nb_Current_Click != null? sessionScope.nb_Current_Click : 0}</span></h2>
+
+  <img id="credit_btn" src="" style="width: 200px;  cursor: pointer;" alt="click me">
+
+  <script>
+    const btn = document.getElementById('credit_btn');
+    const label = document.getElementById('nb_click');
+
+    btn.addEventListener('click', () => {
+      fetch('click', { method: 'POST'}).then(res => res.text()).then(credit =>{label.innerText = credit});
+    });
+  </script>
+>>>>>>> 0af172b ([ADD] clicker sans incrementation dans la bd)
 
 </body>
 </html>
