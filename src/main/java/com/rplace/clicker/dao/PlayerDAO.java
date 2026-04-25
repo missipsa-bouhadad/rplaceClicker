@@ -7,12 +7,12 @@ import jakarta.persistence.EntityManagerFactory;
 public class PlayerDAO {
     private EntityManagerFactory emf;
 
-    public PlayerDAO(EntityManagerFactory emf){
-        this.emf=emf;
+    public PlayerDAO(EntityManagerFactory emf) {
+        this.emf = emf;
     }
 
-    public void createPlayer(Player player){
-        EntityManager em= emf.createEntityManager();
+    public void createPlayer(Player player) {
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(player);
         em.getTransaction().commit();
@@ -23,11 +23,22 @@ public class PlayerDAO {
         EntityManager em = emf.createEntityManager();
         try {
             String query = "Select p From Player p Where p.pseudo = :pseudo";
-            Player player = em.createQuery(query, Player.class).setParameter("pseudo",pseudo).getSingleResult();
+            Player player = em.createQuery(query, Player.class).setParameter("pseudo", pseudo).getSingleResult();
             return player;
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
-        }finally {
+        } finally {
+            em.close();
+        }
+    }
+
+    public void updatePlayer(Player player) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.merge(player);
+            em.getTransaction().commit();
+        } finally {
             em.close();
         }
     }
