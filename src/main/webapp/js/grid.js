@@ -16,6 +16,7 @@
 
     // écouter un clic
     canvas.addEventListener("click", function (e) {
+        if (!isConnected) return;
         const rect = canvas.getBoundingClientRect();
         const scaleX = canvas.width / rect.width;
         const scaleY = canvas.height / rect.height;
@@ -55,6 +56,7 @@
     // sélectionner une couleur
     document.querySelectorAll(".selected-color").forEach(pixel => {
       pixel.addEventListener("click", () => {
+        if (!isConnected) return;
         selectedColor = pixel.style.background;
         document.getElementById("selected-color-rectangle").style.background = selectedColor;
       });
