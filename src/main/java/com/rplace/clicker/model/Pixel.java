@@ -30,6 +30,10 @@ public class Pixel {
         return id;
     }
 
+    public void setId(PixelId id) {
+        this.id = id;
+    }
+
     public String getColor() {
         return color;
     }
@@ -60,5 +64,9 @@ public class Pixel {
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+
+    public int getPrice() {
+        return 10 +(modificationCount * 5);
     }
 }

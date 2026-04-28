@@ -27,7 +27,32 @@ public class History {
     @Column(nullable = false)
     private LocalDateTime placedAt = LocalDateTime.now();
 
-    public History(){}
+    public History() {
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setPlacedAt(LocalDateTime placedAt) {
+        this.placedAt = placedAt;
+    }
 
     public Integer getId() {
         return id;
