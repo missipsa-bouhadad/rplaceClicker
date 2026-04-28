@@ -39,7 +39,7 @@ public class PixelDAO {
     public List<Pixel> findAllPixels() {
         EntityManager em = emf.createEntityManager();
         try {
-            String query = "Select * From Pixel p";
+            String query = "Select p From Pixel p";
             List<Pixel> pixels = em.createQuery(query, Pixel.class).getResultList();
             return pixels;
         } finally {

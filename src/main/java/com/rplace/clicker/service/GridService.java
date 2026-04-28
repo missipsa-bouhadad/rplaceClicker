@@ -32,6 +32,7 @@ public class GridService {
 
         if (pixel == null) {
             pixel = new Pixel();
+            pixel.setId(new PixelId(x, y));
         }
 
         int price = pixel.getPrice();

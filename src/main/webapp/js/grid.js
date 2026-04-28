@@ -1,8 +1,9 @@
     const canvas = document.getElementById("grid-canvas");
     const ctx = canvas.getContext("2d");
     let selectedColor = "#FF0000";
+    let socket = null;
 
-    // dessiner la grille
+    // dessiner la grille (vide)
     function drawGrid() {
         for (let x = 0; x < 50; x++) {
             for (let y = 0; y < 50; y++) {
@@ -14,22 +15,63 @@
         }
     }
 
-    // écouter un clic
-    canvas.addEventListener("click", function (e) {
-        if (!isConnected) return;
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
-        const x = Math.floor((e.clientX - rect.left) * scaleX / 20);
-        const y = Math.floor((e.clientY - rect.top)  * scaleY / 20);
-        drawPixel(x, y, selectedColor);
-    });
-
     // colorier un pixel
     function drawPixel(x, y, color) {
         ctx.fillStyle = color;
         ctx.fillRect(x * 20, y * 20, 20, 20);
     }
+
+    // ouvrir le websocket
+    function openGrid() {
+        document.getElementById("grid-overlay").classList.remove("hidden");
+
+        if (socket !== null && socket.readyState == WebSocket.OPEN) return;
+
+        const url = "ws://" + window.location.host + contextPath + "/grid";
+        socket = new WebSocket(url);
+
+        /*socket.onopen = function() {
+            console.log("connecté");
+        };
+
+        socket.onerror = function(error) {
+            console.log("erreur", error);
+        };
+
+        socket.onclose = function() {
+            console.log("fermé");
+        };*/
+
+        // utilisation de l'ia pour gérer la réception des messages
+        socket.onmessage = function(event) {
+            //console.log("message: ", event.data);
+            const data = JSON.parse(event.data);
+            if (data.type == "init") {
+                drawGrid();
+                data.pixels.forEach(p => drawPixel(p.x, p.y, p.color));
+            } else if (data.type == "pixel") {
+                drawPixel(data.x, data.y, data.color);
+            } else if (data.type == "error") {
+                alert(data.message);
+            }
+        };
+    }
+
+    // écouter un clic
+    canvas.addEventListener("click", function (e) {
+        if (!isConnected) return;
+
+        if (socket == null || socket.readyState !== WebSocket.OPEN) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        const x = Math.floor((e.clientX - rect.left) * scaleX / 20);
+        const y = Math.floor((e.clientY - rect.top)  * scaleY / 20);
+        // envoyer un nouveau message au websocket
+        const json = JSON.stringify({ x: x, y: y, color: selectedColor })
+        socket.send(json);
+    });
 
     drawGrid();
 
@@ -57,7 +99,7 @@
     document.querySelectorAll(".selected-color").forEach(pixel => {
       pixel.addEventListener("click", () => {
         if (!isConnected) return;
-        selectedColor = pixel.style.background;
+        selectedColor = pixel.getAttribute("data-color");
         document.getElementById("selected-color-rectangle").style.background = selectedColor;
       });
     });
