@@ -1,12 +1,9 @@
 # Dossiers générés par Maven
 target/
 
-<<<<<<< HEAD
-=======
 # Fichier vscode
 .vscode/
 
->>>>>>> 0af172b ([ADD] clicker sans incrementation dans la bd)
 # Fichiers intellij
 .idea/
 *.iml

@@ -27,7 +27,6 @@ public class History {
     @Column(nullable = false)
     private LocalDateTime placedAt = LocalDateTime.now();
 
-<<<<<<< HEAD
     public History() {
     }
 
@@ -54,9 +53,6 @@ public class History {
     public void setPlacedAt(LocalDateTime placedAt) {
         this.placedAt = placedAt;
     }
-=======
-    public History(){}
->>>>>>> 0af172b ([ADD] clicker sans incrementation dans la bd)
 
     public Integer getId() {
         return id;

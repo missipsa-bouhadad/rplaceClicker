@@ -30,13 +30,10 @@ public class Pixel {
         return id;
     }
 
-<<<<<<< HEAD
     public void setId(PixelId id) {
         this.id = id;
     }
 
-=======
->>>>>>> 0af172b ([ADD] clicker sans incrementation dans la bd)
     public String getColor() {
         return color;
     }
@@ -68,11 +65,8 @@ public class Pixel {
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
-<<<<<<< HEAD
 
     public int getPrice() {
         return 10 +(modificationCount * 5);
     }
-=======
->>>>>>> 0af172b ([ADD] clicker sans incrementation dans la bd)
 }

@@ -7,21 +7,12 @@ import jakarta.persistence.EntityManagerFactory;
 public class PlayerDAO {
     private EntityManagerFactory emf;
 
-<<<<<<< HEAD
     public PlayerDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
     public void createPlayer(Player player) {
         EntityManager em = emf.createEntityManager();
-=======
-    public PlayerDAO(EntityManagerFactory emf){
-        this.emf=emf;
-    }
-
-    public void createPlayer(Player player){
-        EntityManager em= emf.createEntityManager();
->>>>>>> 0af172b ([ADD] clicker sans incrementation dans la bd)
         em.getTransaction().begin();
         em.persist(player);
         em.getTransaction().commit();
@@ -32,7 +23,6 @@ public class PlayerDAO {
         EntityManager em = emf.createEntityManager();
         try {
             String query = "Select p From Player p Where p.pseudo = :pseudo";
-<<<<<<< HEAD
             Player player = em.createQuery(query, Player.class).setParameter("pseudo", pseudo).getSingleResult();
             return player;
         } catch (Exception e) {
@@ -49,13 +39,6 @@ public class PlayerDAO {
             em.merge(player);
             em.getTransaction().commit();
         } finally {
-=======
-            Player player = em.createQuery(query, Player.class).setParameter("pseudo",pseudo).getSingleResult();
-            return player;
-        }catch (Exception e){
-            return null;
-        }finally {
->>>>>>> 0af172b ([ADD] clicker sans incrementation dans la bd)
             em.close();
         }
     }
