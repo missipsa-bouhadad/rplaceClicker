@@ -9,7 +9,7 @@
             for (let y = 0; y < 50; y++) {
                 ctx.fillStyle = "#FFFFFF";
                 ctx.fillRect(x * 20, y * 20, 20, 20);
-                ctx.strokeStyle = "rgba(0,0,0,0.1)";
+                ctx.strokeStyle = "#000000";
                 ctx.strokeRect(x * 20, y * 20, 20, 20);
             }
         }
