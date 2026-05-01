@@ -31,4 +31,8 @@ public class PlayerService {
         playerDAO.createPlayer(newPlayer);
         return true;
     }
+
+    public void updatePlayer(Player player){
+        playerDAO.updatePlayer(player);
+    }
 }
