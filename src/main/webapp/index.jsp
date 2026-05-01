@@ -33,9 +33,10 @@
 
 
   <div class="flex flex-col items-center p-4">
-    <!--Block droite-->
+    <!--Block droite 
+    suppression max-w-[250px] md:max-w-[300px] corrige le flex de la previsualisation grand ecran-->
     <div onclick="openGrid()" 
-      class="p-2 bg-white border-2 border-gray-800 shadow-md max-w-[250px] md:max-w-[300px]">
+      class="p-2 bg-white border-2 border-gray-800 shadow-md">
         <canvas id="gridCanvas" 
                 width="500" 
                 height="500" 
