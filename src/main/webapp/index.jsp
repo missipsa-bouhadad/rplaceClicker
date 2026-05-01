@@ -53,7 +53,7 @@
   </main>
 
   <div id="grid-overlay" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-    <div class="relative bg-white shadow-2xl p-4 w-[95vw] h-[95vh] flex flex-col">
+    <div class="relative bg-gray-200 shadow-2xl p-4 w-[95vw] h-[95vh] flex flex-col">
       <button onclick="document.getElementById('grid-overlay').classList.add('hidden')"
               class="absolute top-3 right-4 text-gray-400 hover:text-gray-800 text-2xl bg-transparent border-none cursor-pointer transition-colors">
               &times;
