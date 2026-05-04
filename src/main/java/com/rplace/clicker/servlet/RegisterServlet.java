@@ -37,6 +37,6 @@ public class RegisterServlet extends HttpServlet {
         }
 
         req.setAttribute("success","Compte créé avec succès!");
-        req.getRequestDispatcher("/register.jsp").forward(req,resp);
+        req.getRequestDispatcher("/login.jsp").forward(req,resp);
     }
 }
