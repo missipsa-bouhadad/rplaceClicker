@@ -22,13 +22,16 @@ public class Bonus {
     private int cost;
 
     @Column
-    private int creditsGeneratedPerSecond;
+    private float creditsGeneratedPerSecond;
 
     @Column(length = 7)
     private String unlockedColor;
 
     @Column
-    private int pixelCount;
+    private Integer pixelCount;
+
+    @Transient
+    private Integer currentPrice;
 
     public Bonus() {}
 
@@ -68,11 +71,11 @@ public class Bonus {
         this.cost = cost;
     }
 
-    public int getCreditsGeneratedPerSecond() {
+    public float getCreditsGeneratedPerSecond() {
         return creditsGeneratedPerSecond;
     }
 
-    public void setCreditsGeneratedPerSecond(int creditsGeneratedPerSecond) {
+    public void setCreditsGeneratedPerSecond(float creditsGeneratedPerSecond) {
         this.creditsGeneratedPerSecond = creditsGeneratedPerSecond;
     }
 
@@ -90,5 +93,13 @@ public class Bonus {
 
     public void setPixelCount(int pixelCount) {
         this.pixelCount = pixelCount;
+    }
+
+    public Integer getCurrentPrice() {
+        return currentPrice;
+    }
+
+    public void setCurrentPrice(Integer currentPrice) {
+        this.currentPrice = currentPrice;
     }
 }
