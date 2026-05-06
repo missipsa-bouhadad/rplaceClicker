@@ -3,6 +3,7 @@ package com.rplace.clicker.service;
 import com.rplace.clicker.dao.BonusDAO;
 import com.rplace.clicker.dao.PlayerBonusDAO;
 import com.rplace.clicker.dao.PlayerDAO;
+import com.rplace.clicker.dto.PurchaseResult;
 import com.rplace.clicker.model.Bonus;
 import com.rplace.clicker.model.Player;
 import com.rplace.clicker.model.PlayerBonus;
@@ -29,7 +30,7 @@ public class PlayerBonusService {
         return (int) Math.ceil(nextPrice);
     }
 
-    public Boolean buyBonus(Player player, int bonusId) {
+    public PurchaseResult buyBonus(Player player, int bonusId) {
         Bonus b = bonusDAO.findBonusById(bonusId);
 
         PlayerBonus pb = playerBonusDAO.findPlayerBonusByBonusId(player.getId(), b.getId());
@@ -46,7 +47,7 @@ public class PlayerBonusService {
                 pb.setQuantity(1);
 
                 playerBonusDAO.createPlayerBonus(pb);
-                return true;
+                return new PurchaseResult(true, player);
             }
         }
 
@@ -58,9 +59,9 @@ public class PlayerBonusService {
 
                 pb.setQuantity(pb.getQuantity() + 1);
                 playerBonusDAO.updatePlayerBonus(pb);
-                return true;
+                return new PurchaseResult(true, player);
             }
         }
-        return false;
+        return new PurchaseResult(false, player);
     }
 }
