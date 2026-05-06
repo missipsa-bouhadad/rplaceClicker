@@ -26,7 +26,10 @@
 
     <div class="flex flex-col border-r-4 border-gray-400 p-4 pt-8 items-center md:col-span-2">
       <!--Block central-->
-
+      <h2 class="text-2xl font-bold mb-6 text-gray-800"><i class="fas fa-store mr-2"></i>Boutique de Bonus</h2>
+      <div id="bonuses-container" class="w-full max-w-lg flex flex-col gap-3 overflow-y-auto max-h-[70vh] p-2">
+        <p class="text-gray-500 italic text-center">Chargement des bonus...</p>
+      </div>
     </div>
 
 
@@ -126,6 +129,14 @@
   <script>
     const isConnected = ${not empty sessionScope.player ? "true" : "false"};
     const contextPath = "${pageContext.request.contextPath}";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof loadAllBonuses === "function") {
+        loadAllBonuses();
+      } else {
+        console.warn("La fonction loadAllBonuses n'est pas définie.");
+      }
+    });
   </script>
 
   
