@@ -36,7 +36,19 @@ public class LoginServlet extends HttpServlet {
         }
 
         HttpSession session = req.getSession();
-        session.setAttribute("player",player);
+
+        //recuperation du score farmer en amont (hors connextion)
+        Integer farmClicks = (Integer) session.getAttribute("nb_Current_Click");
+        if (farmClicks == null) farmClicks = 0;
+        //mise a jours  BD
+        int totalCredits = player.getCredits() + farmClicks;
+        player.setCredits(totalCredits);
+        playerService.updatePlayer(player);
+        //Session credit msj
+        session.setAttribute("player", player);
+        session.setAttribute("nb_Current_Click", totalCredits);
+
         resp.sendRedirect(req.getContextPath() + "/");
+
     }
 }

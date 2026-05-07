@@ -50,4 +50,8 @@ public class PlayerBonus {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public float getTotalCreditsGeneratedPerSecond() {
+        return bonus.getCreditsGeneratedPerSecond() * quantity;
+    }
 }

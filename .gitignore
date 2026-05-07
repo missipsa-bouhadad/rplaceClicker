@@ -1,6 +1,9 @@
 # Dossiers générés par Maven
 target/
 
+# Fichier vscode
+.vscode/
+
 # Fichiers intellij
 .idea/
 *.iml
