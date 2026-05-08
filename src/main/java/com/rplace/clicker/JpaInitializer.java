@@ -6,6 +6,9 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @WebListener
 public class JpaInitializer implements ServletContextListener {
 
@@ -13,9 +16,18 @@ public class JpaInitializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        entityManagerFactory = Persistence.createEntityManagerFactory("rplaceClickPU");
+        String dbUrl = System.getenv("DB_URL");
+        String dbUser = System.getenv("DB_USER");
+        String dbPassword = System.getenv("DB_PASSWORD");
+
+        Map<String, String> properties = new HashMap<>();
+        properties.put("jakarta.persistence.jdbc.url", dbUrl);
+        properties.put("jakarta.persistence.jdbc.user", dbUser);
+        properties.put("jakarta.persistence.jdbc.password", dbPassword);
+
+        entityManagerFactory = Persistence.createEntityManagerFactory("rplaceClickPU", properties);
         sce.getServletContext().setAttribute("EMF", entityManagerFactory);
-        System.out.println("JPA initialisé, la table players a été crée");
+        System.out.println("JPA initialisé");
     }
 
     @Override
