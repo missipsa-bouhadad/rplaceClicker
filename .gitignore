@@ -8,8 +8,5 @@ target/
 .idea/
 *.iml
 
-# ConfigJPA
-src/main/resources/META-INF/persistence.xml
-
 # Configuration locale Smart Tomcat
 .smarttomcat/

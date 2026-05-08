@@ -32,7 +32,8 @@
 
         if (socket !== null && socket.readyState == WebSocket.OPEN) return;
 
-        const url = "ws://" + window.location.host + contextPath + "/grid";
+        const protocole = window.location.protocol === "https:" ? "wss://" : "ws://";
+        const url = protocole + window.location.host + contextPath + "/grid";
         socket = new WebSocket(url);
 
         /*socket.onopen = function() {

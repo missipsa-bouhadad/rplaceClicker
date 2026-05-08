@@ -31,7 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
         pCtx.stroke();
     };
 
-    const socket = new WebSocket(`ws://${location.host}${contextPath}/grid`);
+    const protocole = location.protocol === "https:" ? "wss://" : "ws://";
+    const socket = new WebSocket(`${protocole}${location.host}${contextPath}/grid`);
 
     socket.onmessage = ({ data }) => {
         const payload = JSON.parse(data);
