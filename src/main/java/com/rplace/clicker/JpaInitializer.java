@@ -21,9 +21,9 @@ public class JpaInitializer implements ServletContextListener {
         String dbPassword = System.getenv("DB_PASSWORD");
 
         Map<String, String> properties = new HashMap<>();
-        properties.put("jakarta.persistence.jdbc.url", dbUrl);
-        properties.put("jakarta.persistence.jdbc.user", dbUser);
-        properties.put("jakarta.persistence.jdbc.password", dbPassword);
+        if (dbUrl != null) properties.put("jakarta.persistence.jdbc.url", dbUrl);
+        if (dbUser != null) properties.put("jakarta.persistence.jdbc.user", dbUser);
+        if (dbPassword != null) properties.put("jakarta.persistence.jdbc.password", dbPassword);
 
         entityManagerFactory = Persistence.createEntityManagerFactory("rplaceClickPU", properties);
         sce.getServletContext().setAttribute("EMF", entityManagerFactory);

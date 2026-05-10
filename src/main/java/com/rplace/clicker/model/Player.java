@@ -1,6 +1,7 @@
 package com.rplace.clicker.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "players")
@@ -10,10 +11,10 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false,unique = true,length = 20)
+    @Column(nullable = false, unique = true, length = 20)
     private String pseudo;
 
-    @Column(nullable = false,length = 255)
+    @Column(nullable = false, length = 255)
     private String password;
 
     @Column()
@@ -24,6 +25,9 @@ public class Player {
 
     @Column(nullable = false)
     private int credits = 0;
+
+    @Column
+    private LocalDateTime lastUpdate;
 
     public Integer getId() {
         return id;
@@ -71,5 +75,13 @@ public class Player {
 
     public void setCredits(int credits) {
         this.credits = credits;
+    }
+
+    public LocalDateTime getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }

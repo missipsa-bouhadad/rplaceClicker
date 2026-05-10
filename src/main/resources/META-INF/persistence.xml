@@ -11,9 +11,20 @@
         <class>com.rplace.clicker.model.Player</class>
 
         <properties>
+        <!--
             <property name="jakarta.persistence.jdbc.url" value="${DB_URL}"/>
             <property name="jakarta.persistence.jdbc.user"     value="${DB_USER}"/>
             <property name="jakarta.persistence.jdbc.password" value="${DB_PASSWORD}"/>
+        -->   
+            <!-- URL : Il faut préciser le protocole jdbc:mysql et le nom de la base de données -->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/rplace_clicker_db"/>
+   
+            <!-- Utilisateur : On met la valeur directement -->
+            <property name="jakarta.persistence.jdbc.user" value="root"/>
+   
+            <!-- Mot de passe : On met la valeur directement -->
+            <property name="jakarta.persistence.jdbc.password" value="admin"/>
+
             <property name="jakarta.persistence.jdbc.driver"   value="com.mysql.cj.jdbc.Driver"/>
 
             <property name="hibernate.hbm2ddl.auto" value="update"/>
