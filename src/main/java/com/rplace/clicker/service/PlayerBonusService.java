@@ -8,6 +8,7 @@ import com.rplace.clicker.model.Bonus;
 import com.rplace.clicker.model.Player;
 import com.rplace.clicker.model.PlayerBonus;
 import jakarta.persistence.EntityManagerFactory;
+import java.util.List;
 
 public class PlayerBonusService {
     private final PlayerBonusDAO playerBonusDAO;
@@ -63,5 +64,14 @@ public class PlayerBonusService {
             }
         }
         return new PurchaseResult(false, player);
+    }
+
+    public float getTotalPassiveIncome(int playerId){
+        List<PlayerBonus> playerBonuses = playerBonusDAO.findPlayerBonuses(playerId);
+        float totalIncome = 0;
+        for (PlayerBonus pb : playerBonuses){
+            totalIncome += pb.getBonus().getCreditsGeneratedPerSecond() * pb.getQuantity();
+        }
+        return totalIncome;
     }
 }

@@ -44,6 +44,7 @@ public class LoginServlet extends HttpServlet {
         int totalCredits = player.getCredits() + farmClicks;
         player.setCredits(totalCredits);
         playerService.updatePlayer(player);
+        player.setLastUpdate(java.time.LocalDateTime.now());
         //Session credit msj
         session.setAttribute("player", player);
         session.setAttribute("nb_Current_Click", totalCredits);
