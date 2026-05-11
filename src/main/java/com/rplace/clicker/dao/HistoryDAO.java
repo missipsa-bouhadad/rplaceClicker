@@ -21,4 +21,16 @@ public class HistoryDAO {
             em.close();
         }
     }
+
+    public long countTotalPixelsPlacedByPlayer(String pseudo) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            // COUNT retourne un long en JPQL
+            long total = em.createQuery("Select COUNT(h) From History h Where h.player.pseudo = :pseudo", Long.class)
+            .setParameter("pseudo", pseudo).getSingleResult();
+            return total;
+        } finally {
+            em.close();
+        }
+    }
 }
