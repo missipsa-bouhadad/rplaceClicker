@@ -1,5 +1,6 @@
 package com.rplace.clicker.servlet;
 
+import com.rplace.clicker.service.PlayerService;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,6 +17,8 @@ public class StatsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("EMF");
 
+        PlayerService playerService = new PlayerService(emf);
+        req.setAttribute("players", playerService.getAllPlayers());
 
         req.getRequestDispatcher("/stats.jsp").forward(req, resp);
     }

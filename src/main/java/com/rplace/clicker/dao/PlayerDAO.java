@@ -4,6 +4,8 @@ import com.rplace.clicker.model.Player;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
+import java.util.List;
+
 public class PlayerDAO {
     private EntityManagerFactory emf;
 
@@ -38,6 +40,16 @@ public class PlayerDAO {
             em.getTransaction().begin();
             em.merge(player);
             em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Player> findAllPlayers() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            List<Player> players = em.createQuery("SELECT p FROM Player p ORDER BY p.pseudo", Player.class).getResultList();
+            return players;
         } finally {
             em.close();
         }
