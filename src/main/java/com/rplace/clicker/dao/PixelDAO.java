@@ -67,7 +67,7 @@ public class PixelDAO {
                     .setMaxResults(1)
                     .getResultList();
 
-            return pixels.get(0);
+            return pixels.isEmpty() ? null : pixels.get(0);
         } finally {
             em.close();
         }
