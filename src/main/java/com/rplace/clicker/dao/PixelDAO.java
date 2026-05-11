@@ -46,4 +46,30 @@ public class PixelDAO {
             em.close();
         }
     }
+
+    public long countCurrentPixelsByPlayer(String pseudo) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            long total = em.createQuery("Select COUNT(p) From Pixel p Where p.currentPlayer.pseudo = :pseudo", Long.class)
+            .setParameter("pseudo", pseudo).getSingleResult();
+            return total;
+        } finally {
+            em.close();
+        }
+    }
+
+    public Pixel findOldestPixelByPlayer(String pseudo) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            // utilisation de l'ia pour la requete
+            List<Pixel> pixels = em.createQuery("SELECT p FROM Pixel p WHERE p.currentPlayer.pseudo = :pseudo ORDER BY p.updatedAt ASC", Pixel.class)
+                    .setParameter("pseudo", pseudo)
+                    .setMaxResults(1)
+                    .getResultList();
+
+            return pixels.get(0);
+        } finally {
+            em.close();
+        }
+    }
 }
