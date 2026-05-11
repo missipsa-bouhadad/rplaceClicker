@@ -20,19 +20,28 @@
       <section>
         <h2 class="text-2xl font-bold text-gray-800 mb-4">Joueurs enregistrés</h2>
         <div class="bg-white rounded-xl shadow p-4">
-            <div class="bg-white rounded-lg border border-gray-200">
-              <c:forEach var="p" items="${players}">
-                <a href=""
-                   class="flex justify-between items-center px-4 py-2 hover:bg-gray-50 border-b border-gray-100 last:border-0">
-                  <span class="text-gray-800">
-                    ${p.pseudo}
-                  </span>
-                  <span class="text-sm text-gray-400">
-                    ${p.country }
-                  </span>
-                </a>
-              </c:forEach>
+          <c:forEach var="ps" items="${playerStats}">
+            <div class="flex justify-between items-center py-2 cursor-pointer"
+                   onclick="togglePlayer('${ps.player.pseudo}')">
+                <span class="text-gray-800">${ps.player.pseudo}</span>
+                <div class="flex items-center gap-2">
+                  <span class="text-sm text-gray-400">${ps.player.country}</span>
+                  <i id="icon-${ps.player.pseudo}" class="fas fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+              </div>
+              <div id="detail-${ps.player.pseudo}" class="hidden py-2 text-sm text-gray-500 flex flex-col gap-1 pl-2">
+              <span>Age : ${not empty ps.player.age ? ps.player.age : '–'}</span>
+              <span>Pays : ${not empty ps.player.country ? ps.player.country : '–'}</span>
+              <span>Pixels placés : ${ps.totalPlaced}</span>
+              <span>Pixels en place : ${ps.currentPixels}</span>
+              <span>Pixel le plus ancien :
+                <c:choose>
+                  <c:when test="${ps.oldestPixel != null}">(${ps.oldestPixel.id.x},${ps.oldestPixel.id.y})</c:when>
+                  <c:otherwise>null</c:otherwise>
+                </c:choose>
+              </span>
             </div>
+          </c:forEach>
         </div>
       </section>
 
@@ -53,6 +62,8 @@
     </div>
 
   </main>
+
+  <script src="js/stats.js"></script>
 
 </body>
 </html>
