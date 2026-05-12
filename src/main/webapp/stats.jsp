@@ -68,6 +68,22 @@
       <section>
         <h2 class="text-2xl font-bold text-gray-800 mb-4">Classement – Ancienneté</h2>
         <div class="bg-white rounded-xl shadow p-4">
+          <c:forEach var="ps" items="${topPlayersWithOldestPixel}" varStatus="loop">
+            <div class="flex items-center justify-between py-2 border-b last:border-0">
+              <div class="flex items-center gap-3">
+                <span class="font-bold w-6 text-center text-gray-500">${loop.index + 1}</span>
+                <span class="text-gray-800 font-medium">${ps.player.pseudo}</span>
+              </div>
+              <span class="text-sm text-gray-500">
+                <c:choose>
+                  <c:when test="${ps.oldestPixel != null}">
+                    (${ps.oldestPixel.id.x}, ${ps.oldestPixel.id.y})
+                  </c:when>
+                  <c:otherwise>Aucun pixel</c:otherwise>
+                </c:choose>
+              </span>
+            </div>
+          </c:forEach>
         </div>
       </section>
 

@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -51,6 +52,18 @@ public class StatsServlet extends HttpServlet {
         // utilisation de l'ia pour la fonction de comparaison
         topPlayers.sort(Comparator.comparingLong(PlayerStatsDTO::getCurrentPixels).reversed());
         req.setAttribute("topPlayers", topPlayers);
+
+        // trier les joueurs selon l'ancienneté du pixel le plus ancien encore en place (null en dernier)
+        List<PlayerStatsDTO> topPlayersWithOldestPixel = new ArrayList<>(playerStats);
+        topPlayersWithOldestPixel.sort(Comparator.comparing(dto -> {
+            Pixel oldestPixel = dto.getOldestPixel();
+            if (oldestPixel == null) {
+                return LocalDateTime.MAX;
+            }
+            LocalDateTime updatedAt = oldestPixel.getUpdatedAt();
+            return updatedAt;
+        }));
+        req.setAttribute("topPlayersWithOldestPixel", topPlayersWithOldestPixel);
 
         req.getRequestDispatcher("/stats.jsp").forward(req, resp);
     }
