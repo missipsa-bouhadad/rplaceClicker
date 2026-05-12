@@ -2,11 +2,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('credit_btn');
     const label = document.getElementById('nb_click');
 
-    btn.addEventListener('click', () => {
-        fetch('click', { method: 'POST' })
-            .then(res => res.text())
-            .then(credit => label.innerText = credit);
-    });
+    if (btn) {
+        btn.addEventListener('click', () => {
+            fetch('click', { method: 'POST' })
+                .then(res => res.text())
+                .then(credit => {
+                    label.innerText = credit;
+                    // Mise à jour du compteur interne pour la fluidité
+                    currentCredits = parseFloat(credit);
+                });
+        });
+    }
+
+    affichage();
 });
 
 async function loadAllBonuses() {
@@ -23,7 +31,9 @@ async function loadAllBonuses() {
             throw new Error('Erreur lors de la récupération des bonus');
         }
 
-        const bonuses = await response.json();
+        const data = await response.json();
+        const bonuses = data.bonuses ? data.bonuses : data;
+        currentCps = data.totalCps ? data.totalCps : 0;
 
         container.innerHTML = '';
 
@@ -94,6 +104,7 @@ async function buyBonus(bonusId) {
             const scoreElement = document.getElementById('nb_click');
             if (scoreElement) {
                 scoreElement.innerText = newCredits;
+                currentCredits = parseFloat(newCredits);
             }
             await loadAllBonuses();
         } else {
@@ -103,4 +114,32 @@ async function buyBonus(bonusId) {
     } catch (error) {
         console.error("Erreur lors de l'achat :", error);
     }
+}
+
+// Variables pour la gestion du compteur de crédits fluide
+let currentCredits = 0;
+let currentCps = 0;
+let lastFrameTime = performance.now();
+
+/**
+ * Fonction affichage : gère l'animation fluide du compteur de crédits avec ia 
+ */
+function affichage() {
+    const label = document.getElementById('nb_click');
+    if (!label) return;
+
+    // Initialisation au premier lancement
+    currentCredits = parseFloat(label.innerText) || 0;
+
+    function updateCounter(now) {
+        const deltaTime = (now - lastFrameTime) / 1000;
+        lastFrameTime = now;
+
+        if (currentCps > 0) {
+            currentCredits += currentCps * deltaTime;
+            label.innerText = Math.floor(currentCredits);
+        }
+        requestAnimationFrame(updateCounter);
+    }
+    requestAnimationFrame(updateCounter);
 }

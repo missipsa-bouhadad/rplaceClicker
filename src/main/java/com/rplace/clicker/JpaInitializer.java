@@ -25,9 +25,15 @@ public class JpaInitializer implements ServletContextListener {
         if (dbUser != null) properties.put("jakarta.persistence.jdbc.user", dbUser);
         if (dbPassword != null) properties.put("jakarta.persistence.jdbc.password", dbPassword);
 
-        entityManagerFactory = Persistence.createEntityManagerFactory("rplaceClickPU", properties);
-        sce.getServletContext().setAttribute("EMF", entityManagerFactory);
-        System.out.println("JPA initialisé");
+        try {
+            entityManagerFactory = Persistence.createEntityManagerFactory("rplaceClickPU", properties);
+            sce.getServletContext().setAttribute("EMF", entityManagerFactory);
+            System.out.println("JPA initialisé avec succès");
+        } catch (Exception e) {
+            System.err.println("ERREUR CRITIQUE lors de l'initialisation de JPA :");
+            e.printStackTrace();
+            throw e; // Relancer pour que Tomcat sache que le déploiement a échoué
+        }
     }
 
     @Override
