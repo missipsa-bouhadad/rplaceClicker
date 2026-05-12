@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @WebServlet("/stats")
@@ -44,6 +45,13 @@ public class StatsServlet extends HttpServlet {
         }
 
         req.setAttribute("playerStats", playerStats);
+
+        // trier les joueurs selon le pourcentage de couverture de la grille
+        List<PlayerStatsDTO> topPlayers = new ArrayList<>(playerStats);
+        // utilisation de l'ia pour la fonction de comparaison
+        topPlayers.sort(Comparator.comparingLong(PlayerStatsDTO::getCurrentPixels).reversed());
+        req.setAttribute("topPlayers", topPlayers);
+
         req.getRequestDispatcher("/stats.jsp").forward(req, resp);
     }
 }

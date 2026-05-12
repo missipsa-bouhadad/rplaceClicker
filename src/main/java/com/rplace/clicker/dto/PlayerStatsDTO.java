@@ -23,4 +23,8 @@ public class PlayerStatsDTO {
     public long getTotalPlaced() { return totalPlaced; }
     public long getCurrentPixels() { return currentPixels; }
     public Pixel getOldestPixel() { return oldestPixel; }
+    // fonction corrigée par l'ia par ce qu'avant, je retournais un double comme 9.854515 %
+    public String getCoveragePercentForPlayer() {
+        return String.format("%.2f", (currentPixels / 2500.0) * 100);
+    }
 }
