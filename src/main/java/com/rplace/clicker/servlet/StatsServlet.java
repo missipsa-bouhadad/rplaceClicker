@@ -1,6 +1,7 @@
 package com.rplace.clicker.servlet;
 
 import com.rplace.clicker.dto.PlayerStatsDTO;
+import com.rplace.clicker.model.History;
 import com.rplace.clicker.model.Pixel;
 import com.rplace.clicker.model.Player;
 import com.rplace.clicker.service.HistoryService;
@@ -42,7 +43,8 @@ public class StatsServlet extends HttpServlet {
             long totalPlaced = historyService.getTotalPixelsPlacedByPlayer(p.getPseudo());
             long currentPixels = pixelService.getCurrentPixelsByPlayer(p.getPseudo());
             Pixel oldestPixel = pixelService.getOldestPixelByPlayer(p.getPseudo());
-            playerStats.add(new PlayerStatsDTO(p, totalPlaced, currentPixels, oldestPixel));
+            History record = historyService.getRecord(p.getPseudo());
+            playerStats.add(new PlayerStatsDTO(p, totalPlaced, currentPixels, oldestPixel, record));
         }
 
         req.setAttribute("playerStats", playerStats);

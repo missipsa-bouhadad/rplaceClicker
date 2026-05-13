@@ -41,8 +41,17 @@
                     <span style="display:inline-block; width:14px; height:14px; background:${ps.oldestPixel.color}; border:1px solid #999; vertical-align:middle;"></span>
                     (${ps.oldestPixel.id.x}, ${ps.oldestPixel.id.y})
                   </c:when>
-                  <c:otherwise>null</c:otherwise>
+                  <c:otherwise>-</c:otherwise>
                 </c:choose>
+              </span>
+              <span>Record d age :
+                  <c:choose>
+                      <c:when test="${ps.record != null && ps.record.age > 0}">
+                          <span style="display:inline-block; width:14px; height:14px; background:${ps.record.color}; border:1px solid #999; vertical-align:middle;"></span>
+                          (${ps.record.x}, ${ps.record.y}) - ${ps.recordFormatted}
+                      </c:when>
+                      <c:otherwise>-</c:otherwise>
+                  </c:choose>
               </span>
             </div>
           </c:forEach>

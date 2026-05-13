@@ -27,6 +27,9 @@ public class History {
     @Column(nullable = false)
     private LocalDateTime placedAt = LocalDateTime.now();
 
+    @Column(nullable = false)
+    private long age = 0;
+
     public History() {
     }
 
@@ -50,9 +53,7 @@ public class History {
         this.player = player;
     }
 
-    public void setPlacedAt(LocalDateTime placedAt) {
-        this.placedAt = placedAt;
-    }
+    public void setAge(long age) { this.age = age; }
 
     public Integer getId() {
         return id;
@@ -77,4 +78,6 @@ public class History {
     public LocalDateTime getPlacedAt() {
         return placedAt;
     }
+
+    public long getAge() { return age; }
 }

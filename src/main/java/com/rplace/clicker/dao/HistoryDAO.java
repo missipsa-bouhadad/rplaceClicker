@@ -33,4 +33,47 @@ public class HistoryDAO {
             em.close();
         }
     }
+
+    // placedAt du pixel écrasé
+    public History getCrushedPixel(String pseudo, int x, int y) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("Select h From History h Where h.player.pseudo =  :pseudo and h.x = :x and h.y = :y ORDER BY h.placedAt DESC", History.class)
+            .setParameter("pseudo", pseudo).setParameter("x", x).setParameter("y", y)
+            .setMaxResults(1)
+            .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
+    public void updateAge(int historyId, long age) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            History h = em.find(History.class, historyId);
+            if (h != null) {
+                h.setAge(age);
+            }
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
+    // la ligne history avec le plus grand age pour un joueur
+    public History getRecordFromHistory(String pseudo) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("Select h From History h Where h.player.pseudo = :pseudo ORDER BY h.age DESC", History.class)
+            .setParameter("pseudo", pseudo)
+            .setMaxResults(1).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
 }

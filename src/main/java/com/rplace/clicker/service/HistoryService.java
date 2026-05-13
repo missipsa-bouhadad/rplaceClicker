@@ -1,6 +1,7 @@
 package com.rplace.clicker.service;
 
 import com.rplace.clicker.dao.HistoryDAO;
+import com.rplace.clicker.model.History;
 import jakarta.persistence.EntityManagerFactory;
 
 public class HistoryService {
@@ -12,5 +13,9 @@ public class HistoryService {
 
     public long getTotalPixelsPlacedByPlayer(String pseudo) {
         return historyDAO.countTotalPixelsPlacedByPlayer(pseudo);
+    }
+
+    public History getRecord(String pseudo) {
+        return historyDAO.getRecordFromHistory(pseudo);
     }
 }

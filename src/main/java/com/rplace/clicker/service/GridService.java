@@ -9,6 +9,7 @@ import com.rplace.clicker.model.PixelId;
 import com.rplace.clicker.model.Player;
 import jakarta.persistence.EntityManagerFactory;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,6 +39,15 @@ public class GridService {
         int price = pixel.getPrice();
         if (player.getCredits() < price) {
             return false;
+        }
+
+        Player oldPlayer = pixel.getCurrentPlayer();
+        if (oldPlayer != null) {
+            History crushedPixel = historyDAO.getCrushedPixel(oldPlayer.getPseudo(), x, y);
+            if (crushedPixel != null) {
+                long age = Duration.between(crushedPixel.getPlacedAt(), LocalDateTime.now()).toSeconds();
+                historyDAO.updateAge(crushedPixel.getId(), age);
+            }
         }
 
         player.setCredits(player.getCredits() - price);
