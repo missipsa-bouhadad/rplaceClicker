@@ -37,7 +37,10 @@
               <span>Pixels en place : ${ps.currentPixels}</span>
               <span>Pixel le plus ancien :
                 <c:choose>
-                  <c:when test="${ps.oldestPixel != null}">(${ps.oldestPixel.id.x},${ps.oldestPixel.id.y})</c:when>
+                  <c:when test="${ps.oldestPixel != null}">
+                    <span style="display:inline-block; width:14px; height:14px; background:${ps.oldestPixel.color}; border:1px solid #999; vertical-align:middle;"></span>
+                    (${ps.oldestPixel.id.x}, ${ps.oldestPixel.id.y})
+                  </c:when>
                   <c:otherwise>null</c:otherwise>
                 </c:choose>
               </span>
@@ -77,6 +80,7 @@
               <span class="text-sm text-gray-500">
                 <c:choose>
                   <c:when test="${ps.oldestPixel != null}">
+                    <span style="display:inline-block; width:14px; height:14px; background:${ps.oldestPixel.color}; border:1px solid #999; vertical-align:middle;"></span>
                     (${ps.oldestPixel.id.x}, ${ps.oldestPixel.id.y})
                   </c:when>
                   <c:otherwise>Aucun pixel</c:otherwise>
