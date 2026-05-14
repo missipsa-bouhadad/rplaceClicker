@@ -16,10 +16,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.time.format.DateTimeFormatter;
 
 @ServerEndpoint(value = "/grid", configurator = WebSocketConfig.class)
 public class WebSocket {
     private static final Set<Session> sessions = Collections.synchronizedSet(new HashSet<>());
+
+     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     // utilisation de l'IA pour voir comment faire passer la session pour la websocket
     @OnOpen
@@ -42,6 +45,8 @@ public class WebSocket {
                 object.addProperty("y", p.getId().getY());
                 object.addProperty("color", p.getColor());
                 object.addProperty("player", p.getCurrentPlayer().getPseudo());
+                object.addProperty("price", p.getPrice());
+                object.addProperty("date", p.getUpdatedAt().format(DATE_FORMATTER));
                 pixelsJson.add(object);
             }
 
@@ -88,22 +93,28 @@ public class WebSocket {
                 return;
             }
 
-            JsonObject broadCastMessage = new JsonObject();
-            broadCastMessage.addProperty("type", "pixel");
-            broadCastMessage.addProperty("x", x);
-            broadCastMessage.addProperty("y", y);
-            broadCastMessage.addProperty("color", color);
-            broadCastMessage.addProperty("pseudo", player.getPseudo());
+            Pixel p = gridService.getPixel(x, y);
+            
+            if (p != null) {
+                JsonObject broadCastMessage = new JsonObject();
+                broadCastMessage.addProperty("type", "pixel");
+                broadCastMessage.addProperty("x", x);
+                broadCastMessage.addProperty("y", y);
+                broadCastMessage.addProperty("color", p.getColor());
+                broadCastMessage.addProperty("player",p.getCurrentPlayer().getPseudo());
+                broadCastMessage.addProperty("date",p.getUpdatedAt().format(DATE_FORMATTER));
+                broadCastMessage.addProperty("price", p.getPrice());
 
-            for (Session s : sessions) {
-                if (s.isOpen()) {
-                    s.getBasicRemote().sendText(broadCastMessage.toString());
+                for (Session s : sessions) {
+                    if (s.isOpen()) {
+                        s.getBasicRemote().sendText(broadCastMessage.toString());
+                    }
+                }         
+            }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @OnClose
     public void onClose(Session session) {

@@ -60,4 +60,9 @@ public class GridService {
         return true;
 
     }
+
+    public Pixel getPixel(int x, int y) {
+        return pixelDAO.findPixelById(new PixelId(x, y));
+    }
+
 }

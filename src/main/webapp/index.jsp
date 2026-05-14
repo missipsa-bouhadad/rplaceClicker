@@ -121,6 +121,12 @@
                 style="image-rendering: pixelated; width: calc(95vh - 2rem); height: calc(95vh - 2rem);"
                 class="border border-gray-200 block">
         </canvas>
+
+        <div id="pixel-popover"
+            class="pointer-events-none opacity-0 absolute w-48 bg-white text-gray-800 border border-gray-300 rounded-lg shadow-lg py-2 z-[60] transition-opacity duration-200">
+            <p id="popover-content" class="px-4 py-2 text-sm"></p>
+        </div>
+
       </div>
 
     </div>
