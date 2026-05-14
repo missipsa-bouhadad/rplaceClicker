@@ -2,11 +2,12 @@ package com.rplace.clicker.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "pixels")
-public class Pixel {
+public class Pixel implements Serializable {
 
     @EmbeddedId
     private PixelId id;
