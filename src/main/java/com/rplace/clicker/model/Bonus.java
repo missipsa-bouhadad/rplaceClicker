@@ -19,7 +19,7 @@ public class Bonus {
     private String type;
 
     @Column(nullable = false)
-    private int cost;
+    private long cost;
 
     @Column
     private float creditsGeneratedPerSecond;
@@ -31,7 +31,7 @@ public class Bonus {
     private Integer pixelCount;
 
     @Transient
-    private Integer currentPrice;
+    private long currentPrice;
 
     public Bonus() {}
 
@@ -63,11 +63,11 @@ public class Bonus {
         this.type = type;
     }
 
-    public int getCost() {
+    public long getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(long cost) {
         this.cost = cost;
     }
 
@@ -95,11 +95,11 @@ public class Bonus {
         this.pixelCount = pixelCount;
     }
 
-    public Integer getCurrentPrice() {
+    public long getCurrentPrice() {
         return currentPrice;
     }
 
-    public void setCurrentPrice(Integer currentPrice) {
+    public void setCurrentPrice(long currentPrice) {
         this.currentPrice = currentPrice;
     }
 }

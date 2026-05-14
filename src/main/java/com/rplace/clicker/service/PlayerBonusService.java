@@ -23,7 +23,7 @@ public class PlayerBonusService {
 
     public int calculatePrice(Bonus bonus, PlayerBonus bonusPlayer) {
         double q = 1.15;
-        int u0 = bonus.getCost();
+        long u0 = bonus.getCost();
         int n = bonusPlayer.getQuantity();
 
         double nextPrice = u0 * Math.pow(q, n);
@@ -37,9 +37,9 @@ public class PlayerBonusService {
         PlayerBonus pb = playerBonusDAO.findPlayerBonusByBonusId(player.getId(), b.getId());
 
         if (pb == null) {
-            int cost = b.getCost();
+            long cost = b.getCost();
             if (player.getCredits() >= cost) {
-                player.setCredits(player.getCredits() - cost);
+                player.setCredits((int) (player.getCredits() - cost));
                 playerDAO.updatePlayer(player);
 
                 pb = new PlayerBonus();
