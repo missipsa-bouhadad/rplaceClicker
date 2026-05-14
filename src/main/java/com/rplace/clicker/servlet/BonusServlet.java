@@ -37,7 +37,7 @@ public class BonusServlet extends HttpServlet {
         }
 
         for (Bonus b : bonuses) {
-            int price = bonusService.getDynamicPriceForPlayer(b, player);
+            long price = bonusService.getDynamicPriceForPlayer(b, player);
             b.setCurrentPrice(price);
         }
 

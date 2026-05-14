@@ -24,7 +24,7 @@ public class BonusService {
         return bonusDAO.findAllBonuses();
     }
 
-    public int getDynamicPriceForPlayer(Bonus b, Player player) {
+    public long getDynamicPriceForPlayer(Bonus b, Player player) {
         if (player == null) return b.getCost();
 
         PlayerBonus pb = playerBonusDAO.findPlayerBonusByBonusId(player.getId(), b.getId());
