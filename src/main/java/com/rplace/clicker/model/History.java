@@ -21,7 +21,7 @@ public class History implements Serializable {
     @Column(nullable = false)
     private String color;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "playerId", nullable = false)
     private Player player;
 
