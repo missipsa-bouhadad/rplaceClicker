@@ -3,6 +3,7 @@ package com.rplace.clicker.websocket;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.rplace.clicker.dto.PurchaseResult;
 import com.rplace.clicker.model.Pixel;
 import com.rplace.clicker.model.Player;
 import com.rplace.clicker.service.GridService;
@@ -83,15 +84,20 @@ public class WebSocket {
             String color = data.get("color").getAsString();
             EntityManagerFactory emf = (EntityManagerFactory) httpSession.getServletContext().getAttribute("EMF");
             GridService gridService = new GridService(emf);
-            Boolean response = gridService.putPixel(player, x, y, color);
+            PurchaseResult result = gridService.putPixel(player, x, y, color);
 
-            if (!response) {
+            if (!result.success()) {
                 JsonObject errorJson = new JsonObject();
                 errorJson.addProperty("type", "error");
                 errorJson.addProperty("message", "Vous n'avez pas assez de crédits !");
                 session.getBasicRemote().sendText(errorJson.toString());
                 return;
             }
+            
+            Player updatedPlayer = result.player();
+            httpSession.setAttribute("player", updatedPlayer);
+            httpSession.setAttribute("nb_Current_Click", updatedPlayer.getCredits());
+
 
             Pixel p = gridService.getPixel(x, y);
             
@@ -104,6 +110,7 @@ public class WebSocket {
                 broadCastMessage.addProperty("player",p.getCurrentPlayer().getPseudo());
                 broadCastMessage.addProperty("date",p.getUpdatedAt().format(DATE_FORMATTER));
                 broadCastMessage.addProperty("price", p.getPrice());
+                broadCastMessage.addProperty("newBalance", updatedPlayer.getCredits());
 
                 for (Session s : sessions) {
                     if (s.isOpen()) {

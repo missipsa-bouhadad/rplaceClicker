@@ -67,12 +67,21 @@
             } else if (data.type == "error") {
                 alert(data.message);
             }
+            if (data.newBalance !== undefined) {
+                const counter = document.getElementById("nb_click");
+                if (counter) {
+                    counter.innerText = data.newBalance;
+                    currentCredits = parseFloat(data.newBalance);
+                }
+            }
         };
     }
 
     // écouter un clic
-    canvas.addEventListener("click", function (e) {
+    canvas.addEventListener("click",async function (e) {
         if (!isConnected) return;
+
+        await fetch('save', { method: 'POST' }); 
 
         if (socket == null || socket.readyState !== WebSocket.OPEN) return;
 
