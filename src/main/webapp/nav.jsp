@@ -5,9 +5,9 @@
     <!--suppression car empeche le flex de la navsur grand ecran max-w-7xl Pourquoi l'avoir mis ? -->
     <div class="mx-auto px-6 py-4 flex items-center justify-between">
 
-        <h1 class="text-xl font-bold text-gray-800">
+        <a href="${pageContext.request.contextPath}/" class="text-xl font-bold text-gray-800 hover:text-gray-600 transition">
             r/Place Clicker
-        </h1>
+        </a>
 
         <div class="space-x-3">
             <c:choose>

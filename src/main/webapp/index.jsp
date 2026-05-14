@@ -126,6 +126,13 @@
     </div>
   </div>
 
+  <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40">
+      <a href="${pageContext.request.contextPath}/stats"
+         class="flex items-center gap-2 px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors font-semibold text-lg shadow-lg">
+          Statistiques
+      </a>
+  </div>
+
   <script>
     const isConnected = ${not empty sessionScope.player ? "true" : "false"};
     const contextPath = "${pageContext.request.contextPath}";

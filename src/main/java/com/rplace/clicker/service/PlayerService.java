@@ -4,6 +4,8 @@ import com.rplace.clicker.dao.PlayerDAO;
 import com.rplace.clicker.model.Player;
 import jakarta.persistence.EntityManagerFactory;
 
+import java.util.List;
+
 public class PlayerService {
     private final PlayerDAO playerDAO;
 
@@ -34,5 +36,9 @@ public class PlayerService {
 
     public void updatePlayer(Player player){
         playerDAO.updatePlayer(player);
+    }
+
+    public List<Player> getAllPlayers() {
+        return playerDAO.findAllPlayers();
     }
 }
