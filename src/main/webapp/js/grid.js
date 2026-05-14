@@ -137,8 +137,12 @@
         const info = gridData[`${x},${y}`];
    
         if (info) {
-            popoverContent.innerHTML = 
-            `<strong>${info.pseudo}</strong><br>Prix: ${info.price}<br><span class='text-xs'>${info.date}</span>`;
+            let contenu = `<strong>${info.pseudo}</strong><br>`;
+            if(isConnected){
+             contenu += `prix : ${info.price}<br>`;
+            }
+             contenu += `<span class='text-xs'>${info.date}</span>`;
+            popoverContent.innerHTML = contenu;
             popover.style.left = (e.clientX - 50) + "px";
             popover.style.top = (e.clientY - 125) + "px";
             popover.classList.replace("opacity-0","opacity-100");
