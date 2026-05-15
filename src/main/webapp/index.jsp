@@ -77,7 +77,7 @@
             <div id="selected-color-rectangle" class="w-full h-8 rounded" style="background:#FF0000;"></div>
 
             <p class="text-xs font-semibold text-gray-500 mb-1">Palette</p>
-            <div class="grid grid-cols-4 gap-1">
+            <div id="palette-grid" class="grid grid-cols-4 gap-1">
               <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FF0000;" data-color="#FF0000"></div>
               <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FF4500;" data-color="#FF4500"></div>
               <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FF6600;" data-color="#FF6600"></div>
