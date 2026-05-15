@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(credit => {
                     label.innerText = credit;
                     // Mise à jour du compteur interne pour la fluidité
-                    currentCredits = parseFloat(credit);
+                    currentCredits = Number.parseFloat(credit);
                 });
         });
     }
@@ -157,7 +157,7 @@ async function buyBonus(bonusId) {
             const scoreElement = document.getElementById('nb_click');
             if (scoreElement) {
                 scoreElement.innerText = newCredits;
-                currentCredits = parseFloat(newCredits);
+                currentCredits = Number.parseFloat(newCredits);
             }
             await loadAllBonuses();
         } else {
@@ -182,7 +182,7 @@ function affichage() {
     if (!label) return;
 
     // Initialisation au premier lancement
-    currentCredits = parseFloat(label.innerText) || 0;
+    currentCredits = Number.parseFloat(label.innerText) || 0;
 
     function updateCounter(now) {
         const deltaTime = (now - lastFrameTime) / 1000;
