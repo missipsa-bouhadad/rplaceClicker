@@ -32,7 +32,7 @@ async function loadAllBonuses() {
         }
 
         const data = await response.json();
-        const bonuses = data.bonuses ? data.bonuses : data;
+        const bonuses = data.bonuses ? data.bonuses : [];
         currentCps = data.totalCps ? data.totalCps : 0;
 
         container.innerHTML = '';
@@ -48,15 +48,28 @@ async function loadAllBonuses() {
 
             const displayPrice = bonus.currentPrice ? bonus.currentPrice : bonus.cost;
 
+            const quantity = bonus.userQuantityOwned || 0;
+
+            const quantityHtml = quantity > 0
+                ? `<div class="hidden sm:flex absolute right-36 top-1/2 transform -translate-y-1/2 select-none pointer-events-none">
+                       <span class="text-5xl font-black text-gray-200">x${quantity}</span>
+                   </div>`
+                : '';
+
+            bonusDiv.classList.add('relative');
+
             bonusDiv.innerHTML = `
-                <div class="flex-1 pr-4">
+                <div class="flex-1 pr-4 relative z-10">
                     <h3 class="font-bold text-lg text-gray-800">${bonus.name}</h3>
                     <p class="text-sm text-gray-600 line-clamp-2">${bonus.description}</p>
                     <p class="text-xs font-semibold text-green-600 mt-1">
                         <i class="fas fa-arrow-trend-up mr-1"></i>+${bonus.creditsGeneratedPerSecond} crédits/sec
                     </p>
                 </div>
-                <div class="flex flex-col items-end gap-2 shrink-0">
+            
+                ${quantityHtml}
+            
+                <div class="flex flex-col items-end gap-2 shrink-0 relative z-10">
                     <span class="font-bold text-yellow-600 bg-yellow-50 px-2 py-1 rounded">
                         <i class="fas fa-coins mr-1"></i>${displayPrice}
                     </span>
