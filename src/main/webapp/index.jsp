@@ -16,12 +16,20 @@
 
 <main class="flex-1 grid grid-cols-1 md:grid-cols-4 min-h-[calc(100vh-64px)]">
 
-    <div class="flex flex-col items-center border-r-4 border-gray-400">
+    <div class="flex flex-col items-center border-r-4 border-gray-400 p-6 gap-6">
       <!--Block gauche-->
-        <h2>Crédits: <span id="nb_click">${sessionScope.nb_Current_Click != null? sessionScope.nb_Current_Click : 0}</span></h2>
+      <div class="flex flex-col items-center gap-1 bg-white rounded-2xl shadow px-6 py-3 border border-gray-200">
+        <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Crédits</span>
+        <span id="nb_click" class="text-4xl font-bold text-gray-800">
+          ${sessionScope.nb_Current_Click != null ? sessionScope.nb_Current_Click : 0}
+        </span>
+      </div>
 
-        <img id="credit_btn" src="" style="width: 200px;  cursor: pointer;" alt="click me">
-
+      <img id="credit_btn"
+           src="${pageContext.request.contextPath}/images/cookie.png"
+           style="width: 200px; cursor: pointer;"
+           alt="click me"
+           class="hover:scale-110 active:scale-95 transition-transform duration-100 drop-shadow-lg">
     </div>
 
     <div class="flex flex-col border-r-4 border-gray-400 p-4 pt-8 items-center md:col-span-2">
