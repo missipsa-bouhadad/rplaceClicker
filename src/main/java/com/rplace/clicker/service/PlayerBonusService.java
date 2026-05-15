@@ -70,7 +70,9 @@ public class PlayerBonusService {
         List<PlayerBonus> playerBonuses = playerBonusDAO.findPlayerBonuses(playerId);
         float totalIncome = 0;
         for (PlayerBonus pb : playerBonuses){
-            totalIncome += pb.getBonus().getCreditsGeneratedPerSecond() * pb.getQuantity();
+            if (pb.getBonus().getType().equals("PASSIVE")) {
+                totalIncome += pb.getBonus().getCreditsGeneratedPerSecond() * pb.getQuantity();
+            }
         }
         return totalIncome;
     }

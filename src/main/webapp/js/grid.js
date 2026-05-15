@@ -119,12 +119,17 @@
 
     // sélectionner une couleur
     document.querySelectorAll(".selected-color").forEach(pixel => {
-      pixel.addEventListener("click", () => {
-        if (!isConnected) return;
-        selectedColor = pixel.getAttribute("data-color");
-        document.getElementById("selected-color-rectangle").style.background = selectedColor;
-      });
+        pixel.addEventListener("click", () => {
+            changeSelectedColor(pixel.getAttribute("data-color"));
+        });
     });
+
+    // Fonction pour changer la couleur sélectionnée avec les couleurs bonus
+    function changeSelectedColor(color) {
+        if (!isConnected) return;
+        selectedColor = color;
+        document.getElementById("selected-color-rectangle").style.background = selectedColor;
+    }
 
     //action overlay au survol des pixels
     const popover = document.getElementById("pixel-popover");

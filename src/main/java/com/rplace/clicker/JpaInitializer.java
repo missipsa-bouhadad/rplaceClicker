@@ -59,6 +59,23 @@ public class JpaInitializer implements ServletContextListener {
                 "('Laboratoire d''Alchimie', 'Transforme la matière pure en cookies.', 'PASSIVE', 75000000000, 45000000)";
 
                 em.createNativeQuery(sql).executeUpdate();
+
+                 sql = "INSERT INTO bonuses (name, description, type, cost, unlockedColor) VALUES" +
+                "('Rouge Sang de Dragon', 'Rouge Sang de Dragon', 'COLOR', 500, '#8B0000')," +
+                "('Bleu Abyssal', 'Bleu Abyssal', 'COLOR', 1000, '#000080')," +
+                "('Vert Émeraude', 'Vert Émeraude', 'COLOR', 1500, '#50C878')," +
+                "('Or Antique', 'Or Antique', 'COLOR', 2500, '#DAA520')," +
+                "('Nuit Étoilée', 'Nuit Étoilée', 'COLOR', 4000, '#191970')," +
+                "('Rose Cyberpunk', 'Rose Cyberpunk', 'COLOR', 7500, '#FF007F')," +
+                "('Vert Toxique', 'Vert Toxique', 'COLOR', 10000, '#39FF14')," +
+                "('Corail Soyeux', 'Corail Soyeux', 'COLOR', 15000, '#FF7F50')," +
+                "('Violet Impérial', 'Violet Impérial', 'COLOR', 25000, '#4B0082')," +
+                "('Gris Sidéral', 'Gris Sidéral', 'COLOR', 50000, '#708090')," +
+                "('Bleu Électrique', 'Bleu Électrique', 'COLOR', 100000, '#00E5FF')," +
+                "('Vantablack', 'Vantablack', 'COLOR', 250000, '#0F0F0F')";
+
+                em.createNativeQuery(sql).executeUpdate();
+
                 System.out.println("Bonus insérés avec succès !");
             }
 
