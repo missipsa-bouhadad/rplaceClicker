@@ -24,7 +24,7 @@ public class Bonus implements Serializable {
     private long cost;
 
     @Column
-    private float creditsGeneratedPerSecond;
+    private Float creditsGeneratedPerSecond;
 
     @Column(length = 7)
     private String unlockedColor;
@@ -76,11 +76,11 @@ public class Bonus implements Serializable {
         this.cost = cost;
     }
 
-    public float getCreditsGeneratedPerSecond() {
+    public Float getCreditsGeneratedPerSecond() {
         return creditsGeneratedPerSecond;
     }
 
-    public void setCreditsGeneratedPerSecond(float creditsGeneratedPerSecond) {
+    public void setCreditsGeneratedPerSecond(Float creditsGeneratedPerSecond) {
         this.creditsGeneratedPerSecond = creditsGeneratedPerSecond;
     }
 
