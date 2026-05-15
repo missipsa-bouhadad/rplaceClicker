@@ -3,6 +3,7 @@ package com.rplace.clicker.service;
 import com.rplace.clicker.dao.HistoryDAO;
 import com.rplace.clicker.dao.PixelDAO;
 import com.rplace.clicker.dao.PlayerDAO;
+import com.rplace.clicker.dto.PurchaseResult;
 import com.rplace.clicker.model.History;
 import com.rplace.clicker.model.Pixel;
 import com.rplace.clicker.model.PixelId;
@@ -28,7 +29,10 @@ public class GridService {
         return pixelDAO.findAllPixels();
     }
 
-    public boolean putPixel(Player player, int x, int y, String color) {
+    public PurchaseResult putPixel(Player player, int x, int y, String color) {
+        Player p = playerDAO.findPlayerByPseudo(player.getPseudo());
+        if (p == null) return new PurchaseResult(false, player);
+        
         Pixel pixel = pixelDAO.findPixelById(new PixelId(x, y));
 
         if (pixel == null) {
@@ -37,8 +41,8 @@ public class GridService {
         }
 
         int price = pixel.getPrice();
-        if (player.getCredits() < price) {
-            return false;
+        if (p.getCredits() < price) {
+            return new PurchaseResult(false, p);
         }
 
         Player oldPlayer = pixel.getCurrentPlayer();
@@ -50,24 +54,29 @@ public class GridService {
             }
         }
 
-        player.setCredits(player.getCredits() - price);
-        playerDAO.updatePlayer(player);
+        p.setCredits(p.getCredits() - price);
+        playerDAO.updatePlayer(p);
 
 
         pixel.setColor(color);
         pixel.setModificationCount(pixel.getModificationCount() + 1);
         pixel.setUpdatedAt(LocalDateTime.now());
-        pixel.setCurrentPlayer(player);
+        pixel.setCurrentPlayer(p);
         pixelDAO.createOrUpdatePixel(pixel);
 
         History row = new History();
         row.setX(x);
         row.setY(y);
         row.setColor(color);
-        row.setPlayer(player);
+        row.setPlayer(p);
         historyDAO.insert(row);
 
-        return true;
+        return new PurchaseResult(true, p);
 
     }
+
+    public Pixel getPixel(int x, int y) {
+        return pixelDAO.findPixelById(new PixelId(x, y));
+    }
+
 }

@@ -33,7 +33,7 @@ public class JpaInitializer implements ServletContextListener {
         } catch (Exception e) {
             System.err.println("ERREUR CRITIQUE lors de l'initialisation de JPA :");
             e.printStackTrace();
-            throw e; // Relancer pour que Tomcat sache que le déploiement a échoué
+            throw e; 
         }
 
         EntityManager em = entityManagerFactory.createEntityManager();
