@@ -74,4 +74,8 @@ public class PlayerBonusService {
         }
         return totalIncome;
     }
+
+    public List<PlayerBonus> findPlayerBonuses(int playerId){
+        return playerBonusDAO.findPlayerBonuses(playerId);
+    }
 }
