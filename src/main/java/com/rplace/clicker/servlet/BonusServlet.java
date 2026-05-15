@@ -3,6 +3,7 @@ package com.rplace.clicker.servlet;
 import com.google.gson.Gson;
 import com.rplace.clicker.model.Bonus;
 import com.rplace.clicker.model.Player;
+import com.rplace.clicker.model.PlayerBonus;
 import com.rplace.clicker.service.BonusService;
 import com.rplace.clicker.service.PlayerBonusService;
 import jakarta.persistence.EntityManagerFactory;
@@ -34,11 +35,11 @@ public class BonusServlet extends HttpServlet {
         if (session != null && session.getAttribute("player") != null) {
             player = (Player) session.getAttribute("player");
             totalCps = playerBonusService.getTotalPassiveIncome(player.getId());
-        }
+            List<PlayerBonus> allPlayerBonuses = playerBonusService.findPlayerBonuses(player.getId());
 
-        for (Bonus b : bonuses) {
-            long price = bonusService.getDynamicPriceForPlayer(b, player);
-            b.setCurrentPrice(price);
+            bonusService.updateBonusesPriceAndQuantity(bonuses, allPlayerBonuses);
+        } else {
+            bonusService.updateBonusesPriceAndQuantity(bonuses, null);
         }
 
         resp.setContentType("application/json");

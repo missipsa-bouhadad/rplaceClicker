@@ -35,6 +35,9 @@ public class Bonus implements Serializable {
     @Transient
     private long currentPrice;
 
+    @Transient
+    private long userQuantityOwned;
+
     public Bonus() {}
 
     public Integer getId() {
@@ -103,5 +106,13 @@ public class Bonus implements Serializable {
 
     public void setCurrentPrice(long currentPrice) {
         this.currentPrice = currentPrice;
+    }
+
+    public long getUserQuantityOwned() {
+        return userQuantityOwned;
+    }
+
+    public void setUserQuantityOwned(long userQuantityOwned) {
+        this.userQuantityOwned = userQuantityOwned;
     }
 }
