@@ -17,14 +17,14 @@ public class JpaInitializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        String dbUrl = System.getenv("DB_URL");
-        String dbUser = System.getenv("DB_USER");
-        String dbPassword = System.getenv("DB_PASSWORD");
+        String dbUrl = System.getenv("DB_URL") != null ? System.getenv("DB_URL") : "jdbc:mysql://localhost:3306/rplace_clicker_db";
+        String dbUser = System.getenv("DB_USER") != null ? System.getenv("DB_USER") : "root"; // remplacer par vote user MYSQL
+        String dbPassword = System.getenv("DB_PASSWORD") != null ? System.getenv("DB_PASSWORD") : "root"; // remplacer par vote password MYSQL
 
         Map<String, String> properties = new HashMap<>();
-        if (dbUrl != null) properties.put("jakarta.persistence.jdbc.url", dbUrl);
-        if (dbUser != null) properties.put("jakarta.persistence.jdbc.user", dbUser);
-        if (dbPassword != null) properties.put("jakarta.persistence.jdbc.password", dbPassword);
+        properties.put("jakarta.persistence.jdbc.url", dbUrl);
+        properties.put("jakarta.persistence.jdbc.user", dbUser);
+        properties.put("jakarta.persistence.jdbc.password", dbPassword);
 
         try {
             entityManagerFactory = Persistence.createEntityManagerFactory("rplaceClickPU", properties);
