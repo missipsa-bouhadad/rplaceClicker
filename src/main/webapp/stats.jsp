@@ -96,6 +96,7 @@
                   <c:otherwise>-</c:otherwise>
                 </c:choose>
               </span>
+              <span><strong>Pixel le plus agé :</strong> ${ps.recordFormatted}</span>
             </div>
           </c:forEach>
         </div>
