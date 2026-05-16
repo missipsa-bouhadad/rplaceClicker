@@ -38,10 +38,10 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = req.getSession();
 
         //recuperation du score farmer en amont (hors connextion)
-        Integer farmClicks = (Integer) session.getAttribute("nb_Current_Click");
-        if (farmClicks == null) farmClicks = 0;
+        Double farmClicks = (Double) session.getAttribute("nb_Current_Click");
+        if (farmClicks == null) farmClicks = 0.0;
         //mise a jours  BD
-        int totalCredits = player.getCredits() + farmClicks;
+        double totalCredits = player.getCredits() + farmClicks;
         player.setCredits(totalCredits);
         player.setLastUpdate(java.time.LocalDateTime.now());
         playerService.updatePlayer(player);

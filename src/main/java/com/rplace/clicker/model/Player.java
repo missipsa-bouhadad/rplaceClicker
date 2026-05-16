@@ -25,7 +25,7 @@ public class Player implements Serializable {
     private String country;
 
     @Column(nullable = false)
-    private int credits = 0;
+    private double credits = 0;
 
     @Column(name = "lastUpdate")
     private java.time.LocalDateTime lastUpdate;
@@ -70,11 +70,11 @@ public class Player implements Serializable {
         this.country = country;
     }
 
-    public int getCredits() {
+    public double getCredits() {
         return credits;
     }
 
-    public void setCredits(int credits) {
+    public void setCredits(double credits) {
         this.credits = credits;
     }
 

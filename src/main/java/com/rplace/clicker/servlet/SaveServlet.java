@@ -16,30 +16,31 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+//correction effectuer avec l'ia pour eviter le saut lors du click pour le conteur de credits
+
 @WebServlet("/save")
 public class SaveServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Player player = (Player) session.getAttribute("player");
-        Integer currentClicks = (Integer) session.getAttribute("nb_Current_Click");
+        Double currentClicks = (Double) session.getAttribute("nb_Current_Click");
 
         //Verif connection
         if (player != null && currentClicks != null) {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("EMF");
             PlayerDAO dao = new PlayerDAO(emf);
             PlayerBonusService bonusService = new PlayerBonusService(emf);
-            
+
             LocalDateTime now = LocalDateTime.now();
-            long secondsEcouler = 0;
+            double passiveGain = 0;
             if(player.getLastUpdate() != null){
-                secondsEcouler = Duration.between(player.getLastUpdate(), now).getSeconds();
+                long millis = Duration.between(player.getLastUpdate(), now).toMillis();
+                float cps = bonusService.getTotalPassiveIncome(player.getId());
+                passiveGain = (millis * cps / 1000.0);
             }
 
-            float cps = bonusService.getTotalPassiveIncome(player.getId());
-            int passiveGain = (int) (secondsEcouler * cps);
-
-            int newTotalCredits = currentClicks + passiveGain;
+            double newTotalCredits = currentClicks + passiveGain;
             player.setCredits(newTotalCredits);
             player.setLastUpdate(now);
 

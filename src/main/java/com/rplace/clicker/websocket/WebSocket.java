@@ -22,16 +22,12 @@ import java.time.format.DateTimeFormatter;
 @ServerEndpoint(value = "/grid", configurator = WebSocketConfig.class)
 public class WebSocket {
     private static final Set<Session> sessions = Collections.synchronizedSet(new HashSet<>());
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
-    // utilisation de l'IA pour voir comment faire passer la session pour la websocket
     @OnOpen
-    public void onOpen(Session session, EndpointConfig endpointConfig) throws IOException { // La session = le canal
-
+    public void onOpen(Session session, EndpointConfig endpointConfig) throws IOException {
         try {
             HttpSession httpSession = (HttpSession) endpointConfig.getUserProperties().get(HttpSession.class.getName());
-            System.out.println("session:" + httpSession);
             session.getUserProperties().put("httpSession", httpSession);
             sessions.add(session);
 
@@ -45,21 +41,11 @@ public class WebSocket {
                 object.addProperty("x", p.getId().getX());
                 object.addProperty("y", p.getId().getY());
                 object.addProperty("color", p.getColor());
-                object.addProperty("player", p.getCurrentPlayer().getPseudo());
+                object.addProperty("player", p.getCurrentPlayer() != null ? p.getCurrentPlayer().getPseudo() : "Personne");
                 object.addProperty("price", p.getPrice());
-                object.addProperty("date", p.getUpdatedAt().format(DATE_FORMATTER));
+                object.addProperty("date", p.getUpdatedAt() != null ? p.getUpdatedAt().format(DATE_FORMATTER) : "Jamais");
                 pixelsJson.add(object);
             }
-
-            /* a quoi ressemble le JSON
-             * {
-             *   "type":"init",
-             *   "pixels":{
-             *       "x" : 15,
-             *       "y" : 20, .....
-             *   }
-             * }
-             * */
 
             JsonObject docJson = new JsonObject();
             docJson.addProperty("type", "init");
@@ -82,6 +68,7 @@ public class WebSocket {
             int x = data.get("x").getAsInt();
             int y = data.get("y").getAsInt();
             String color = data.get("color").getAsString();
+            
             EntityManagerFactory emf = (EntityManagerFactory) httpSession.getServletContext().getAttribute("EMF");
             GridService gridService = new GridService(emf);
             PurchaseResult result = gridService.putPixel(player, x, y, color);
@@ -98,7 +85,6 @@ public class WebSocket {
             httpSession.setAttribute("player", updatedPlayer);
             httpSession.setAttribute("nb_Current_Click", updatedPlayer.getCredits());
 
-
             Pixel p = gridService.getPixel(x, y);
             
             if (p != null) {
@@ -107,21 +93,27 @@ public class WebSocket {
                 broadCastMessage.addProperty("x", x);
                 broadCastMessage.addProperty("y", y);
                 broadCastMessage.addProperty("color", p.getColor());
-                broadCastMessage.addProperty("player",p.getCurrentPlayer().getPseudo());
-                broadCastMessage.addProperty("date",p.getUpdatedAt().format(DATE_FORMATTER));
+                broadCastMessage.addProperty("player", p.getCurrentPlayer() != null ? p.getCurrentPlayer().getPseudo() : "Personne");
+                broadCastMessage.addProperty("date", p.getUpdatedAt() != null ? p.getUpdatedAt().format(DATE_FORMATTER) : "Maintenant");
                 broadCastMessage.addProperty("price", p.getPrice());
-                broadCastMessage.addProperty("newBalance", updatedPlayer.getCredits());
+
+                JsonObject privateMessage = broadCastMessage.deepCopy();
+                privateMessage.addProperty("newBalance", updatedPlayer.getCredits());
 
                 for (Session s : sessions) {
                     if (s.isOpen()) {
-                        s.getBasicRemote().sendText(broadCastMessage.toString());
+                        if (s.equals(session)) {
+                            s.getBasicRemote().sendText(privateMessage.toString());
+                        } else {
+                            s.getBasicRemote().sendText(broadCastMessage.toString());
+                        }
                     }
                 }         
             }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @OnClose
     public void onClose(Session session) {
@@ -132,5 +124,4 @@ public class WebSocket {
     public void onError(Session session, Throwable throwable) {
         sessions.remove(session);
     }
-
 }

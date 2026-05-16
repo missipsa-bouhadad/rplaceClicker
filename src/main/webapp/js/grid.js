@@ -139,7 +139,7 @@
         const rect = canvas.getBoundingClientRect();
         const x = Math.floor((e.clientX - rect.left) * (canvas.width / rect.width) / cellSize);
         const y = Math.floor((e.clientY - rect.top) * (canvas.height / rect.height) / cellSize);
-        const info = gridData[`${x},${y}`];
+        const info = gridData[`${x},${y}`] || {pseudo: "Aucun", date: "N/A", price: 10};
    
         if (info) {
             let contenu = `<strong>${info.pseudo}</strong><br>`;
@@ -149,7 +149,11 @@
              contenu += `<span class='text-xs'>${info.date}</span>`;
             popoverContent.innerHTML = contenu;
             popover.style.left = (e.clientX - 50) + "px";
-            popover.style.top = (e.clientY - 125) + "px";
+             if (e.clientY < 150) {
+             popover.style.top = (e.clientY + 20) + "px";
+         } else {
+             popover.style.top = (e.clientY - 125) + "px";
+         }
             popover.classList.replace("opacity-0","opacity-100");
         } else {
             popover.classList.replace("opacity-100","opacity-0");
