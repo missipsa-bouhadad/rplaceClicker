@@ -2,9 +2,11 @@ package com.rplace.clicker.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "bonuses")
-public class Bonus {
+public class Bonus implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -19,10 +21,10 @@ public class Bonus {
     private String type;
 
     @Column(nullable = false)
-    private int cost;
+    private long cost;
 
     @Column
-    private float creditsGeneratedPerSecond;
+    private Float creditsGeneratedPerSecond;
 
     @Column(length = 7)
     private String unlockedColor;
@@ -31,7 +33,10 @@ public class Bonus {
     private Integer pixelCount;
 
     @Transient
-    private Integer currentPrice;
+    private long currentPrice;
+
+    @Transient
+    private long userQuantityOwned;
 
     public Bonus() {}
 
@@ -63,19 +68,19 @@ public class Bonus {
         this.type = type;
     }
 
-    public int getCost() {
+    public long getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(long cost) {
         this.cost = cost;
     }
 
-    public float getCreditsGeneratedPerSecond() {
+    public Float getCreditsGeneratedPerSecond() {
         return creditsGeneratedPerSecond;
     }
 
-    public void setCreditsGeneratedPerSecond(float creditsGeneratedPerSecond) {
+    public void setCreditsGeneratedPerSecond(Float creditsGeneratedPerSecond) {
         this.creditsGeneratedPerSecond = creditsGeneratedPerSecond;
     }
 
@@ -95,11 +100,19 @@ public class Bonus {
         this.pixelCount = pixelCount;
     }
 
-    public Integer getCurrentPrice() {
+    public long getCurrentPrice() {
         return currentPrice;
     }
 
-    public void setCurrentPrice(Integer currentPrice) {
+    public void setCurrentPrice(long currentPrice) {
         this.currentPrice = currentPrice;
+    }
+
+    public long getUserQuantityOwned() {
+        return userQuantityOwned;
+    }
+
+    public void setUserQuantityOwned(long userQuantityOwned) {
+        this.userQuantityOwned = userQuantityOwned;
     }
 }

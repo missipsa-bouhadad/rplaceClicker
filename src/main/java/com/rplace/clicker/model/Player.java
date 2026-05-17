@@ -2,9 +2,11 @@ package com.rplace.clicker.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "players")
-public class Player {
+public class Player implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +25,10 @@ public class Player {
     private String country;
 
     @Column(nullable = false)
-    private int credits = 0;
+    private double credits = 0;
+
+    @Column(name = "lastUpdate")
+    private java.time.LocalDateTime lastUpdate;
 
     public Integer getId() {
         return id;
@@ -65,11 +70,19 @@ public class Player {
         this.country = country;
     }
 
-    public int getCredits() {
+    public double getCredits() {
         return credits;
     }
 
-    public void setCredits(int credits) {
+    public void setCredits(double credits) {
         this.credits = credits;
+    }
+
+    public java.time.LocalDateTime getLastUpdate(){
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(java.time.LocalDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }

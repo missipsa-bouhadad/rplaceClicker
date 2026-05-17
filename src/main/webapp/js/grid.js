@@ -4,6 +4,8 @@
     const gridSize = 50; //''
     let selectedColor = "#FF0000";
     let socket = null;
+    //ajout objet pour les infos sur les pixel 
+    let gridData = {};
 
     // dessiner la grille (vide)
     function drawGrid() {
@@ -54,18 +56,32 @@
             const data = JSON.parse(event.data);
             if (data.type == "init") {
                 drawGrid();
-                data.pixels.forEach(p => drawPixel(p.x, p.y, p.color));
+                data.pixels.forEach(p => { 
+                    drawPixel(p.x, p.y, p.color);
+                    gridData[`${p.x},${p.y}`] = { pseudo: p.player, date: p.date, price: p.price };
+                });
+
             } else if (data.type == "pixel") {
                 drawPixel(data.x, data.y, data.color);
+                gridData[`${data.x},${data.y}`] = { pseudo: data.player, date: data.date, price: data.price };
             } else if (data.type == "error") {
                 alert(data.message);
+            }
+            if (data.newBalance !== undefined) {
+                const counter = document.getElementById("nb_click");
+                if (counter) {
+                    counter.innerText = data.newBalance;
+                    currentCredits = parseFloat(data.newBalance);
+                }
             }
         };
     }
 
     // écouter un clic
-    canvas.addEventListener("click", function (e) {
+    canvas.addEventListener("click",async function (e) {
         if (!isConnected) return;
+
+        await fetch('save', { method: 'POST' }); 
 
         if (socket == null || socket.readyState !== WebSocket.OPEN) return;
 
@@ -103,9 +119,44 @@
 
     // sélectionner une couleur
     document.querySelectorAll(".selected-color").forEach(pixel => {
-      pixel.addEventListener("click", () => {
-        if (!isConnected) return;
-        selectedColor = pixel.getAttribute("data-color");
-        document.getElementById("selected-color-rectangle").style.background = selectedColor;
-      });
+        pixel.addEventListener("click", () => {
+            changeSelectedColor(pixel.getAttribute("data-color"));
+        });
     });
+
+    // Fonction pour changer la couleur sélectionnée avec les couleurs bonus
+    function changeSelectedColor(color) {
+        if (!isConnected) return;
+        selectedColor = color;
+        document.getElementById("selected-color-rectangle").style.background = selectedColor;
+    }
+
+    //action overlay au survol des pixels
+    const popover = document.getElementById("pixel-popover");
+    const popoverContent = document.getElementById("popover-content");
+    
+    canvas.addEventListener("mousemove", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = Math.floor((e.clientX - rect.left) * (canvas.width / rect.width) / cellSize);
+        const y = Math.floor((e.clientY - rect.top) * (canvas.height / rect.height) / cellSize);
+        const info = gridData[`${x},${y}`] || {pseudo: "Aucun", date: "N/A", price: 10};
+   
+        if (info) {
+            let contenu = `<strong>${info.pseudo}</strong><br>`;
+            if(isConnected){
+             contenu += `prix : ${info.price}<br>`;
+            }
+             contenu += `<span class='text-xs'>${info.date}</span>`;
+            popoverContent.innerHTML = contenu;
+            popover.style.left = (e.clientX - 50) + "px";
+             if (e.clientY < 150) {
+             popover.style.top = (e.clientY + 20) + "px";
+         } else {
+             popover.style.top = (e.clientY - 125) + "px";
+         }
+            popover.classList.replace("opacity-0","opacity-100");
+        } else {
+            popover.classList.replace("opacity-100","opacity-0");
+        }
+    });
+   canvas.addEventListener("mouseleave", () => popover.classList.replace("opacity-100", "opacity-0"));

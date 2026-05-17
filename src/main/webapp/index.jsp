@@ -16,18 +16,26 @@
 
 <main class="flex-1 grid grid-cols-1 md:grid-cols-4 min-h-[calc(100vh-64px)]">
 
-    <div class="flex flex-col items-center border-r-4 border-gray-400">
+    <div class="flex flex-col items-center border-r-4 border-gray-400 p-6 gap-6">
       <!--Block gauche-->
-        <h2>Crédits: <span id="nb_click">${sessionScope.nb_Current_Click != null? sessionScope.nb_Current_Click : 0}</span></h2>
+      <div class="flex flex-col items-center gap-1 bg-white rounded-2xl shadow px-6 py-3 border border-gray-200">
+        <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Crédits</span>
+        <span id="nb_click" class="text-4xl font-bold text-gray-800">
+          ${sessionScope.nb_Current_Click != null ? sessionScope.nb_Current_Click : 0}
+        </span>
+      </div>
 
-        <img id="credit_btn" src="" style="width: 200px;  cursor: pointer;" alt="click me">
-
+      <img id="credit_btn"
+           src="${pageContext.request.contextPath}/images/cookie.png"
+           style="width: 200px; cursor: pointer;"
+           alt="click me"
+           class="hover:scale-110 active:scale-95 transition-transform duration-100 drop-shadow-lg">
     </div>
 
     <div class="flex flex-col border-r-4 border-gray-400 p-4 pt-8 items-center md:col-span-2">
       <!--Block central-->
       <h2 class="text-2xl font-bold mb-6 text-gray-800"><i class="fas fa-store mr-2"></i>Boutique de Bonus</h2>
-      <div id="bonuses-container" class="w-full max-w-lg flex flex-col gap-3 overflow-y-auto max-h-[70vh] p-2">
+      <div id="bonuses-container" class="w-full flex flex-col gap-3 overflow-y-auto max-h-[70vh] p-2">
         <p class="text-gray-500 italic text-center">Chargement des bonus...</p>
       </div>
     </div>
@@ -77,7 +85,7 @@
             <div id="selected-color-rectangle" class="w-full h-8 rounded" style="background:#FF0000;"></div>
 
             <p class="text-xs font-semibold text-gray-500 mb-1">Palette</p>
-            <div class="grid grid-cols-4 gap-1">
+            <div id="palette-grid" class="grid grid-cols-4 gap-1">
               <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FF0000;" data-color="#FF0000"></div>
               <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FF4500;" data-color="#FF4500"></div>
               <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FF6600;" data-color="#FF6600"></div>
@@ -121,9 +129,22 @@
                 style="image-rendering: pixelated; width: calc(95vh - 2rem); height: calc(95vh - 2rem);"
                 class="border border-gray-200 block">
         </canvas>
+
+        <div id="pixel-popover"
+            class="pointer-events-none opacity-0 absolute w-48 bg-white text-gray-800 border border-gray-300 rounded-lg shadow-lg py-2 z-[60] transition-opacity duration-200">
+            <p id="popover-content" class="px-4 py-2 text-sm"></p>
+        </div>
+
       </div>
 
     </div>
+  </div>
+
+  <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40">
+      <a href="${pageContext.request.contextPath}/stats"
+         class="flex items-center gap-2 px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors font-semibold text-lg shadow-lg">
+          Statistiques
+      </a>
   </div>
 
   <script>

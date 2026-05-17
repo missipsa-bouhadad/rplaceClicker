@@ -3,12 +3,25 @@ package com.rplace.clicker.dao;
 import com.rplace.clicker.model.PlayerBonus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import java.util.List;
 
 public class PlayerBonusDAO {
     private EntityManagerFactory emf;
 
     public PlayerBonusDAO(EntityManagerFactory emf) {
         this.emf = emf;
+    }
+
+    public List<PlayerBonus> findPlayerBonuses(Integer playerId){
+        EntityManager em = emf.createEntityManager();
+        try{
+            String query = "Select pb From PlayerBonus pb Where pb.player.id = :playerId";
+            return em.createQuery(query, PlayerBonus.class)
+                    .setParameter("playerId", playerId)
+                    .getResultList();
+        }finally{
+            em.close();
+        }
     }
 
     public PlayerBonus findPlayerBonusByBonusId(Integer playerId, Integer bonusId) {

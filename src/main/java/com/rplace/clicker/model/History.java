@@ -2,11 +2,12 @@ package com.rplace.clicker.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "history")
-public class History {
+public class History implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -20,12 +21,15 @@ public class History {
     @Column(nullable = false)
     private String color;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "playerId", nullable = false)
     private Player player;
 
     @Column(nullable = false)
     private LocalDateTime placedAt = LocalDateTime.now();
+
+    @Column(nullable = false)
+    private long age = 0;
 
     public History() {
     }
@@ -50,9 +54,7 @@ public class History {
         this.player = player;
     }
 
-    public void setPlacedAt(LocalDateTime placedAt) {
-        this.placedAt = placedAt;
-    }
+    public void setAge(long age) { this.age = age; }
 
     public Integer getId() {
         return id;
@@ -77,4 +79,6 @@ public class History {
     public LocalDateTime getPlacedAt() {
         return placedAt;
     }
+
+    public long getAge() { return age; }
 }

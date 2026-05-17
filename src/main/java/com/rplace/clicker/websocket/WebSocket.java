@@ -3,6 +3,7 @@ package com.rplace.clicker.websocket;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.rplace.clicker.dto.PurchaseResult;
 import com.rplace.clicker.model.Pixel;
 import com.rplace.clicker.model.Player;
 import com.rplace.clicker.service.GridService;
@@ -16,18 +17,17 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.time.format.DateTimeFormatter;
 
 @ServerEndpoint(value = "/grid", configurator = WebSocketConfig.class)
 public class WebSocket {
     private static final Set<Session> sessions = Collections.synchronizedSet(new HashSet<>());
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-    // utilisation de l'IA pour voir comment faire passer la session pour la websocket
     @OnOpen
-    public void onOpen(Session session, EndpointConfig endpointConfig) throws IOException { // La session = le canal
-
+    public void onOpen(Session session, EndpointConfig endpointConfig) throws IOException {
         try {
             HttpSession httpSession = (HttpSession) endpointConfig.getUserProperties().get(HttpSession.class.getName());
-            System.out.println("session:" + httpSession);
             session.getUserProperties().put("httpSession", httpSession);
             sessions.add(session);
 
@@ -41,19 +41,11 @@ public class WebSocket {
                 object.addProperty("x", p.getId().getX());
                 object.addProperty("y", p.getId().getY());
                 object.addProperty("color", p.getColor());
-                object.addProperty("player", p.getCurrentPlayer().getPseudo());
+                object.addProperty("player", p.getCurrentPlayer() != null ? p.getCurrentPlayer().getPseudo() : "Personne");
+                object.addProperty("price", p.getPrice());
+                object.addProperty("date", p.getUpdatedAt() != null ? p.getUpdatedAt().format(DATE_FORMATTER) : "Jamais");
                 pixelsJson.add(object);
             }
-
-            /* a quoi ressemble le JSON
-             * {
-             *   "type":"init",
-             *   "pixels":{
-             *       "x" : 15,
-             *       "y" : 20, .....
-             *   }
-             * }
-             * */
 
             JsonObject docJson = new JsonObject();
             docJson.addProperty("type", "init");
@@ -76,29 +68,47 @@ public class WebSocket {
             int x = data.get("x").getAsInt();
             int y = data.get("y").getAsInt();
             String color = data.get("color").getAsString();
+            
             EntityManagerFactory emf = (EntityManagerFactory) httpSession.getServletContext().getAttribute("EMF");
             GridService gridService = new GridService(emf);
-            Boolean response = gridService.putPixel(player, x, y, color);
+            PurchaseResult result = gridService.putPixel(player, x, y, color);
 
-            if (!response) {
+            if (!result.success()) {
                 JsonObject errorJson = new JsonObject();
                 errorJson.addProperty("type", "error");
                 errorJson.addProperty("message", "Vous n'avez pas assez de crédits !");
                 session.getBasicRemote().sendText(errorJson.toString());
                 return;
             }
+            
+            Player updatedPlayer = result.player();
+            httpSession.setAttribute("player", updatedPlayer);
+            httpSession.setAttribute("nb_Current_Click", updatedPlayer.getCredits());
 
-            JsonObject broadCastMessage = new JsonObject();
-            broadCastMessage.addProperty("type", "pixel");
-            broadCastMessage.addProperty("x", x);
-            broadCastMessage.addProperty("y", y);
-            broadCastMessage.addProperty("color", color);
-            broadCastMessage.addProperty("pseudo", player.getPseudo());
+            Pixel p = gridService.getPixel(x, y);
+            
+            if (p != null) {
+                JsonObject broadCastMessage = new JsonObject();
+                broadCastMessage.addProperty("type", "pixel");
+                broadCastMessage.addProperty("x", x);
+                broadCastMessage.addProperty("y", y);
+                broadCastMessage.addProperty("color", p.getColor());
+                broadCastMessage.addProperty("player", p.getCurrentPlayer() != null ? p.getCurrentPlayer().getPseudo() : "Personne");
+                broadCastMessage.addProperty("date", p.getUpdatedAt() != null ? p.getUpdatedAt().format(DATE_FORMATTER) : "Maintenant");
+                broadCastMessage.addProperty("price", p.getPrice());
 
-            for (Session s : sessions) {
-                if (s.isOpen()) {
-                    s.getBasicRemote().sendText(broadCastMessage.toString());
-                }
+                JsonObject privateMessage = broadCastMessage.deepCopy();
+                privateMessage.addProperty("newBalance", updatedPlayer.getCredits());
+
+                for (Session s : sessions) {
+                    if (s.isOpen()) {
+                        if (s.equals(session)) {
+                            s.getBasicRemote().sendText(privateMessage.toString());
+                        } else {
+                            s.getBasicRemote().sendText(broadCastMessage.toString());
+                        }
+                    }
+                }         
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,5 +124,4 @@ public class WebSocket {
     public void onError(Session session, Throwable throwable) {
         sessions.remove(session);
     }
-
 }

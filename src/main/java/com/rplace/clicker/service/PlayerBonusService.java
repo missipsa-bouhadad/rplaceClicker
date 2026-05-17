@@ -8,6 +8,7 @@ import com.rplace.clicker.model.Bonus;
 import com.rplace.clicker.model.Player;
 import com.rplace.clicker.model.PlayerBonus;
 import jakarta.persistence.EntityManagerFactory;
+import java.util.List;
 
 public class PlayerBonusService {
     private final PlayerBonusDAO playerBonusDAO;
@@ -22,7 +23,7 @@ public class PlayerBonusService {
 
     public int calculatePrice(Bonus bonus, PlayerBonus bonusPlayer) {
         double q = 1.15;
-        int u0 = bonus.getCost();
+        long u0 = bonus.getCost();
         int n = bonusPlayer.getQuantity();
 
         double nextPrice = u0 * Math.pow(q, n);
@@ -36,9 +37,9 @@ public class PlayerBonusService {
         PlayerBonus pb = playerBonusDAO.findPlayerBonusByBonusId(player.getId(), b.getId());
 
         if (pb == null) {
-            int cost = b.getCost();
+            long cost = b.getCost();
             if (player.getCredits() >= cost) {
-                player.setCredits(player.getCredits() - cost);
+                player.setCredits((int) (player.getCredits() - cost));
                 playerDAO.updatePlayer(player);
 
                 pb = new PlayerBonus();
@@ -63,5 +64,20 @@ public class PlayerBonusService {
             }
         }
         return new PurchaseResult(false, player);
+    }
+
+    public float getTotalPassiveIncome(int playerId){
+        List<PlayerBonus> playerBonuses = playerBonusDAO.findPlayerBonuses(playerId);
+        float totalIncome = 0.1f;
+        for (PlayerBonus pb : playerBonuses){
+            if (pb.getBonus().getType().equals("PASSIVE")) {
+                totalIncome += pb.getBonus().getCreditsGeneratedPerSecond() * pb.getQuantity();
+            }
+        }
+        return totalIncome;
+    }
+
+    public List<PlayerBonus> findPlayerBonuses(int playerId){
+        return playerBonusDAO.findPlayerBonuses(playerId);
     }
 }
