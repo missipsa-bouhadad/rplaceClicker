@@ -25,7 +25,7 @@
 
     <div>
       <label class="block text-sm font-medium text-gray-700">Âge</label>
-      <input type="number" name="age" value="${sessionScope.player.age}"
+      <input type="number" name="age" min="1" max="120" value="${sessionScope.player.age}"
              class="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
     </div>
 

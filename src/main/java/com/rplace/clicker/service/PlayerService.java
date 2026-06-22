@@ -21,7 +21,23 @@ public class PlayerService {
         return player;
     }
 
-    public boolean register(String pseudo, String password, int age, String country) {
+    // age facultatif, sinon un entier entre 1 et 120
+    public static Integer parseAge(String age) {
+        if (age == null || age.isBlank()) {
+            return null;
+        }
+        try {
+            int value = Integer.parseInt(age.trim());
+            if (value < 1 || value > 120) {
+                throw new IllegalArgumentException("Âge invalide");
+            }
+            return value;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Âge invalide");
+        }
+    }
+
+    public boolean register(String pseudo, String password, Integer age, String country) {
         if (playerDAO.findPlayerByPseudo(pseudo) != null) {
             return false;
         }

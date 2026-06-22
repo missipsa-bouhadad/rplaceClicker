@@ -25,8 +25,16 @@ public class RegisterServlet extends HttpServlet {
 
         String pseudo = req.getParameter("pseudo");
         String password = req.getParameter("password");
-        int age = Integer.parseInt(req.getParameter("age"));
         String country = req.getParameter("country");
+
+        Integer age;
+        try {
+            age = PlayerService.parseAge(req.getParameter("age"));
+        } catch (IllegalArgumentException e) {
+            req.setAttribute("error", e.getMessage());
+            req.getRequestDispatcher("/register.jsp").forward(req, resp);
+            return;
+        }
 
         boolean isCreated = playerService.register(pseudo, password, age, country);
 
