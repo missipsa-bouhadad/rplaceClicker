@@ -68,11 +68,7 @@
                 alert(data.message);
             }
             if (data.newBalance !== undefined) {
-                const counter = document.getElementById("nb_click");
-                if (counter) {
-                    counter.innerText = data.newBalance;
-                    currentCredits = parseFloat(data.newBalance);
-                }
+                setCredits(data.newBalance);
             }
         };
     }

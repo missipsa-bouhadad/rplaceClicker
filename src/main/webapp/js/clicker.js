@@ -1,16 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('credit_btn');
-    const label = document.getElementById('nb_click');
 
     if (btn) {
         btn.addEventListener('click', () => {
             fetch('click', { method: 'POST' })
                 .then(res => res.text())
-                .then(credit => {
-                    label.innerText = credit;
-                    // Mise à jour du compteur interne pour la fluidité
-                    currentCredits = Number.parseFloat(credit);
-                });
+                .then(credit => setCredits(credit));
         });
     }
 
@@ -153,12 +148,7 @@ async function buyBonus(bonusId) {
         });
 
         if (response.ok) {
-            const newCredits = await response.text();
-            const scoreElement = document.getElementById('nb_click');
-            if (scoreElement) {
-                scoreElement.innerText = newCredits;
-                currentCredits = Number.parseFloat(newCredits);
-            }
+            setCredits(await response.text());
             await loadAllBonuses();
         } else {
             const errorMsg = await response.text();
@@ -174,15 +164,27 @@ let currentCredits = 0;
 let currentCps = 0;
 let lastFrameTime = performance.now();
 
+// entier avec separateur de milliers : 1234567.8 -> "1 234 567"
+function formatCredits(value) {
+    return Math.floor(value).toLocaleString('fr-FR');
+}
+
+// seul point d'ecriture du compteur, la valeur serveur arrive en texte ("12.5")
+function setCredits(value) {
+    currentCredits = Number.parseFloat(value) || 0;
+    const label = document.getElementById('nb_click');
+    if (label) label.innerText = formatCredits(currentCredits);
+}
+
 /**
- * Fonction affichage : gère l'animation fluide du compteur de crédits avec ia 
+ * Fonction affichage : gère l'animation fluide du compteur de crédits avec ia
  */
 function affichage() {
     const label = document.getElementById('nb_click');
     if (!label) return;
 
     // Initialisation au premier lancement
-    currentCredits = Number.parseFloat(label.innerText) || 0;
+    setCredits(label.innerText);
 
     function updateCounter(now) {
         const deltaTime = (now - lastFrameTime) / 1000;
@@ -190,8 +192,8 @@ function affichage() {
 
         if (currentCps > 0) {
             currentCredits += currentCps * deltaTime;
-            label.innerText = Math.floor(currentCredits);
         }
+        label.innerText = formatCredits(currentCredits);
         requestAnimationFrame(updateCounter);
     }
     requestAnimationFrame(updateCounter);
