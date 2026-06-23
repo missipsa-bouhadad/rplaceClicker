@@ -31,7 +31,7 @@
 
     <div>
       <label class="block text-sm font-medium text-gray-700">Pays</label>
-      <input type="text" name="country" value="${sessionScope.player.country}"
+      <input type="text" name="country" maxlength="20" value="${sessionScope.player.country}"
              class="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
     </div>
 

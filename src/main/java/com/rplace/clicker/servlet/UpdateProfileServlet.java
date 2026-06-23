@@ -27,11 +27,11 @@ public class UpdateProfileServlet extends HttpServlet {
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("EMF");
         PlayerService playerService = new PlayerService(emf);
 
-        String country = request.getParameter("country");
-
         Integer age;
+        String country;
         try {
             age = PlayerService.parseAge(request.getParameter("age"));
+            country = PlayerService.validateCountry(request.getParameter("country"));
         } catch (IllegalArgumentException e) {
             request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("profile.jsp").forward(request, response);

@@ -23,13 +23,15 @@ public class RegisterServlet extends HttpServlet {
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("EMF");
         PlayerService playerService = new PlayerService(emf);
 
-        String pseudo = req.getParameter("pseudo");
         String password = req.getParameter("password");
-        String country = req.getParameter("country");
 
+        String pseudo;
         Integer age;
+        String country;
         try {
+            pseudo = PlayerService.validatePseudo(req.getParameter("pseudo"));
             age = PlayerService.parseAge(req.getParameter("age"));
+            country = PlayerService.validateCountry(req.getParameter("country"));
         } catch (IllegalArgumentException e) {
             req.setAttribute("error", e.getMessage());
             req.getRequestDispatcher("/register.jsp").forward(req, resp);

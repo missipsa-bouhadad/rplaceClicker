@@ -21,7 +21,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Pseudo</label>
-                <input type="text" name="pseudo" required
+                <input type="text" name="pseudo" maxlength="20" required
                        class="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
             </div>
 
@@ -39,7 +39,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Pays</label>
-                <input type="text" name="country"
+                <input type="text" name="country" maxlength="20"
                        class="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
             </div>
 

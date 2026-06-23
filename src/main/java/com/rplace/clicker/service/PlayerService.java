@@ -37,6 +37,27 @@ public class PlayerService {
         }
     }
 
+    // colonne pseudo limitee a 20 en base
+    public static String validatePseudo(String pseudo) {
+        String value = pseudo == null ? "" : pseudo.trim();
+        if (value.isEmpty() || value.length() > 20) {
+            throw new IllegalArgumentException("Le pseudo doit faire entre 1 et 20 caractères");
+        }
+        return value;
+    }
+
+    // pays facultatif, colonne limitee a 20 en base
+    public static String validateCountry(String country) {
+        if (country == null || country.isBlank()) {
+            return null;
+        }
+        String value = country.trim();
+        if (value.length() > 20) {
+            throw new IllegalArgumentException("Le pays ne doit pas dépasser 20 caractères");
+        }
+        return value;
+    }
+
     public boolean register(String pseudo, String password, Integer age, String country) {
         if (playerDAO.findPlayerByPseudo(pseudo) != null) {
             return false;
