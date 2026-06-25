@@ -1,10 +1,7 @@
 package com.rplace.clicker.servlet;
 
 import java.io.IOException;
-import java.time.Duration;
-import java.time.LocalDateTime;
 
-import com.rplace.clicker.dao.PlayerDAO;
 import com.rplace.clicker.model.Player;
 import com.rplace.clicker.service.PlayerBonusService;
 
@@ -29,22 +26,9 @@ public class SaveServlet extends HttpServlet {
         //Verif connection
         if (player != null && currentClicks != null) {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("EMF");
-            PlayerDAO dao = new PlayerDAO(emf);
             PlayerBonusService bonusService = new PlayerBonusService(emf);
 
-            LocalDateTime now = LocalDateTime.now();
-            double passiveGain = 0;
-            if(player.getLastUpdate() != null){
-                long millis = Duration.between(player.getLastUpdate(), now).toMillis();
-                float cps = bonusService.getTotalPassiveIncome(player.getId());
-                passiveGain = (millis * cps / 1000.0);
-            }
-
-            double newTotalCredits = currentClicks + passiveGain;
-            player.setCredits(newTotalCredits);
-            player.setLastUpdate(now);
-
-            dao.updatePlayer(player);
+            double newTotalCredits = bonusService.saveProgress(player, currentClicks);
             session.setAttribute("player", player);
             session.setAttribute("nb_Current_Click", newTotalCredits);
 

@@ -8,6 +8,8 @@ import com.rplace.clicker.model.Bonus;
 import com.rplace.clicker.model.Player;
 import com.rplace.clicker.model.PlayerBonus;
 import jakarta.persistence.EntityManagerFactory;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class PlayerBonusService {
@@ -64,6 +66,23 @@ public class PlayerBonusService {
             }
         }
         return new PurchaseResult(false, player);
+    }
+
+    // ajoute le gain passif depuis lastUpdate aux credits de session et enregistre en base
+    public double saveProgress(Player player, double sessionCredits) {
+        LocalDateTime now = LocalDateTime.now();
+        double passiveGain = 0;
+        if (player.getLastUpdate() != null) {
+            long millis = Duration.between(player.getLastUpdate(), now).toMillis();
+            float cps = getTotalPassiveIncome(player.getId());
+            passiveGain = (millis * cps / 1000.0);
+        }
+
+        double newTotalCredits = sessionCredits + passiveGain;
+        player.setCredits(newTotalCredits);
+        player.setLastUpdate(now);
+        playerDAO.updatePlayer(player);
+        return newTotalCredits;
     }
 
     public float getTotalPassiveIncome(int playerId){
