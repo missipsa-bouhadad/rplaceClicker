@@ -33,8 +33,12 @@ public class BonusService {
 
             bonus.setUserQuantityOwned(quantityOwned);
 
-            long dynamicPrice = (long) (bonus.getCost() * Math.pow(1.15, quantityOwned));
-            bonus.setCurrentPrice(dynamicPrice);
+            bonus.setCurrentPrice(computePrice(bonus.getCost(), quantityOwned));
         }
+    }
+
+    // prix du prochain exemplaire : +15% par exemplaire deja possede, arrondi au superieur
+    public static long computePrice(long baseCost, int quantityOwned) {
+        return (long) Math.ceil(baseCost * Math.pow(1.15, quantityOwned));
     }
 }

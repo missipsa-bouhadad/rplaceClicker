@@ -23,49 +23,32 @@ public class PlayerBonusService {
         this.playerDAO = new PlayerDAO(emf);
     }
 
-    public int calculatePrice(Bonus bonus, PlayerBonus bonusPlayer) {
-        double q = 1.15;
-        long u0 = bonus.getCost();
-        int n = bonusPlayer.getQuantity();
-
-        double nextPrice = u0 * Math.pow(q, n);
-
-        return (int) Math.ceil(nextPrice);
-    }
-
     public PurchaseResult buyBonus(Player player, int bonusId) {
         Bonus b = bonusDAO.findBonusById(bonusId);
 
         PlayerBonus pb = playerBonusDAO.findPlayerBonusByBonusId(player.getId(), b.getId());
+        int quantity = pb == null ? 0 : pb.getQuantity();
+
+        // meme calcul que l'affichage de la boutique
+        long cost = BonusService.computePrice(b.getCost(), quantity);
+        if (player.getCredits() < cost) {
+            return new PurchaseResult(false, player);
+        }
+
+        player.setCredits(player.getCredits() - cost);
+        playerDAO.updatePlayer(player);
 
         if (pb == null) {
-            long cost = b.getCost();
-            if (player.getCredits() >= cost) {
-                player.setCredits((int) (player.getCredits() - cost));
-                playerDAO.updatePlayer(player);
-
-                pb = new PlayerBonus();
-                pb.setPlayer(player);
-                pb.setBonus(b);
-                pb.setQuantity(1);
-
-                playerBonusDAO.createPlayerBonus(pb);
-                return new PurchaseResult(true, player);
-            }
+            pb = new PlayerBonus();
+            pb.setPlayer(player);
+            pb.setBonus(b);
+            pb.setQuantity(1);
+            playerBonusDAO.createPlayerBonus(pb);
+        } else {
+            pb.setQuantity(quantity + 1);
+            playerBonusDAO.updatePlayerBonus(pb);
         }
-
-        else {
-            int cost = calculatePrice(b, pb);
-            if (player.getCredits() >= cost) {
-                player.setCredits(player.getCredits() - cost);
-                playerDAO.updatePlayer(player);
-
-                pb.setQuantity(pb.getQuantity() + 1);
-                playerBonusDAO.updatePlayerBonus(pb);
-                return new PurchaseResult(true, player);
-            }
-        }
-        return new PurchaseResult(false, player);
+        return new PurchaseResult(true, player);
     }
 
     // ajoute le gain passif depuis lastUpdate aux credits de session et enregistre en base
