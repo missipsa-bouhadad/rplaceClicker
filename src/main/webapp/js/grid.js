@@ -65,7 +65,7 @@
                 drawPixel(data.x, data.y, data.color);
                 gridData[`${data.x},${data.y}`] = { pseudo: data.player, date: data.date, price: data.price };
             } else if (data.type == "error") {
-                alert(data.message);
+                showToast(data.message);
             }
             if (data.newBalance !== undefined) {
                 setCredits(data.newBalance);

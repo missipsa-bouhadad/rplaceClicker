@@ -161,6 +161,7 @@
   </script>
 
   
+  <script src="js/toast.js"></script>
   <script src="js/grid.js"></script>
   <script src="js/clicker.js"></script>
   <script src="js/autosave.js"></script>

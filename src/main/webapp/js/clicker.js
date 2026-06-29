@@ -126,14 +126,14 @@ async function loadAllBonuses() {
 
 async function buyBonus(bonusId) {
     if (!isConnected) {
-        alert("Vous devez être connecté pour acheter un bonus !");
+        showToast("Vous devez être connecté pour acheter un bonus !");
         return;
     }
 
     const saveResponse = await fetch('save', { method: 'POST' });
 
     if (!saveResponse.ok) {
-        alert("Erreur lors de la sauvegarde avant l'achat. Veuillez réessayer.");
+        showToast("Erreur lors de la sauvegarde avant l'achat. Veuillez réessayer.");
         return;
     }
 
@@ -149,13 +149,15 @@ async function buyBonus(bonusId) {
 
         if (response.ok) {
             setCredits(await response.text());
+            showToast("Bonus acheté !", 'success');
             await loadAllBonuses();
         } else {
             const errorMsg = await response.text();
-            alert("Achat impossible : " + errorMsg);
+            showToast("Achat impossible : " + errorMsg);
         }
     } catch (error) {
         console.error("Erreur lors de l'achat :", error);
+        showToast("Erreur lors de l'achat. Veuillez réessayer.");
     }
 }
 
