@@ -63,7 +63,7 @@ async function loadAllBonuses() {
                         <h3 class="font-bold text-lg text-gray-800">${bonus.name}</h3>
                         <p class="text-sm text-gray-600 line-clamp-2">${bonus.description}</p>
                         <p class="text-xs font-semibold text-green-600 mt-1">
-                            <i class="fas fa-arrow-trend-up mr-1"></i>+${bonus.creditsGeneratedPerSecond} crédits/sec
+                            <i class="fas fa-arrow-trend-up mr-1"></i>+${Number(bonus.creditsGeneratedPerSecond).toLocaleString('fr-FR')} crédits/sec
                         </p>
                     </div>
                 
@@ -71,10 +71,10 @@ async function loadAllBonuses() {
                 
                     <div class="flex flex-col items-end gap-2 shrink-0 relative z-10">
                         <span class="font-bold text-yellow-600 bg-yellow-50 px-2 py-1 rounded">
-                            <i class="fas fa-coins mr-1"></i>${displayPrice}
+                            <i class="fas fa-coins mr-1"></i>${formatCredits(displayPrice)}
                         </span>
-                        <button onclick="buyBonus(${bonus.id})" 
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition-colors text-sm font-bold active:scale-95">
+                        <button onclick="buyBonus(${bonus.id})" data-price="${displayPrice}"
+                                class="buy-btn bg-blue-600 enabled:hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition-colors text-sm font-bold enabled:active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed">
                             Acheter
                         </button>
                     </div>
@@ -107,7 +107,7 @@ async function loadAllBonuses() {
                         <i class="fas fa-lock text-white text-[12px] drop-shadow-md"></i>
                         
                         <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-max opacity-0 transition-opacity duration-200 group-hover:opacity-100 bg-gray-900 text-white text-xs font-bold rounded py-1 px-2 z-50 shadow-lg">
-                            <i class="fas fa-coins text-yellow-400 mr-1"></i>${displayPrice}
+                            <i class="fas fa-coins text-yellow-400 mr-1"></i>${formatCredits(displayPrice)}
                         </div>
                     `;
 
@@ -117,6 +117,8 @@ async function loadAllBonuses() {
                 paletteGrid.appendChild(paletteColorDiv);
             }
         });
+
+        refreshAffordability();
 
     } catch (error) {
         console.error("Erreur de chargement des bonus:", error);
@@ -166,9 +168,19 @@ let currentCredits = 0;
 let currentCps = 0;
 let lastFrameTime = performance.now();
 
-// entier avec separateur de milliers : 1234567.8 -> "1 234 567"
+const UNITS = [[1e12, 'Bn'], [1e9, 'Md'], [1e6, 'M']];
+
+// 12345.6 -> "12 345", 1234567 -> "1,23 M", 75000000000 -> "75 Md"
 function formatCredits(value) {
-    return Math.floor(value).toLocaleString('fr-FR');
+    const n = Math.floor(value);
+    for (const [size, unit] of UNITS) {
+        if (n >= size) {
+            // tronque pour ne jamais afficher plus que la valeur reelle
+            const short = Math.floor(n / size * 100) / 100;
+            return short.toLocaleString('fr-FR') + ' ' + unit;
+        }
+    }
+    return n.toLocaleString('fr-FR');
 }
 
 // seul point d'ecriture du compteur, la valeur serveur arrive en texte ("12.5")
@@ -176,6 +188,15 @@ function setCredits(value) {
     currentCredits = Number.parseFloat(value) || 0;
     const label = document.getElementById('nb_click');
     if (label) label.innerText = formatCredits(currentCredits);
+    refreshAffordability();
+}
+
+// grise les bonus trop chers, non connecte on laisse cliquer pour afficher le message de connexion
+function refreshAffordability() {
+    if (!isConnected) return;
+    document.querySelectorAll('.buy-btn').forEach(btn => {
+        btn.disabled = currentCredits < Number(btn.dataset.price);
+    });
 }
 
 /**
@@ -196,6 +217,7 @@ function affichage() {
             currentCredits += currentCps * deltaTime;
         }
         label.innerText = formatCredits(currentCredits);
+        refreshAffordability();
         requestAnimationFrame(updateCounter);
     }
     requestAnimationFrame(updateCounter);
