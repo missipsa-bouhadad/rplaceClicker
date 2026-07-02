@@ -23,6 +23,7 @@
         <span id="nb_click" class="text-4xl font-bold text-gray-800">
           ${sessionScope.nb_Current_Click != null ? sessionScope.nb_Current_Click : 0}
         </span>
+        <span id="cps_label" class="hidden text-xs font-semibold text-green-600"></span>
       </div>
 
       <img id="credit_btn"

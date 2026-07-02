@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('credit_btn');
 
     if (btn) {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+            showClickGain(e.clientX, e.clientY);
             fetch('click', { method: 'POST' })
                 .then(res => res.text())
                 .then(credit => setCredits(credit));
@@ -30,6 +31,7 @@ async function loadAllBonuses() {
         const data = await response.json();
         const bonuses = data.bonuses ? data.bonuses : [];
         currentCps = data.totalCps ? data.totalCps : 0;
+        showCps();
 
         container.innerHTML = '';
 
@@ -189,6 +191,32 @@ function setCredits(value) {
     const label = document.getElementById('nb_click');
     if (label) label.innerText = formatCredits(currentCredits);
     refreshAffordability();
+}
+
+// "+1" qui monte et disparait a l'endroit du clic, sans attendre le serveur
+function showClickGain(x, y) {
+    const gain = document.createElement('span');
+    gain.textContent = '+1';
+    gain.className = 'fixed pointer-events-none select-none text-2xl font-black text-yellow-600 drop-shadow z-40';
+    gain.style.left = (x - 12) + 'px';
+    gain.style.top = (y - 20) + 'px';
+    document.body.appendChild(gain);
+
+    gain.animate(
+        [{ transform: 'translateY(0)', opacity: 1 }, { transform: 'translateY(-60px)', opacity: 0 }],
+        { duration: 800, easing: 'ease-out' }
+    ).onfinish = () => gain.remove();
+}
+
+// cps sous le compteur, cache si 0 (visiteur non connecte)
+function showCps() {
+    const label = document.getElementById('cps_label');
+    if (!label) return;
+    label.classList.toggle('hidden', currentCps <= 0);
+    const value = currentCps >= 1e6
+        ? formatCredits(currentCps)
+        : currentCps.toLocaleString('fr-FR', { maximumFractionDigits: 1 });
+    label.textContent = '+' + value + ' /s';
 }
 
 // grise les bonus trop chers, non connecte on laisse cliquer pour afficher le message de connexion
