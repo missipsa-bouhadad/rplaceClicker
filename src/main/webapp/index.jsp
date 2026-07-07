@@ -4,6 +4,7 @@
 <html lang="fr">
 <head>
   <title>rplace clicker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -14,9 +15,9 @@
 
   <%@ include file="nav.jsp" %>
 
-<main class="flex-1 grid grid-cols-1 md:grid-cols-4 min-h-[calc(100vh-64px)]">
+<main class="flex-1 grid grid-cols-1 md:grid-cols-4 min-h-[calc(100vh-64px)] pb-24">
 
-    <div class="flex flex-col items-center border-r-4 border-gray-400 p-6 gap-6">
+    <div class="flex flex-col items-center border-b-4 md:border-b-0 md:border-r-4 border-gray-400 p-6 gap-6">
       <!--Block gauche-->
       <div class="flex flex-col items-center gap-1 bg-white rounded-2xl shadow px-6 py-3 border border-gray-200">
         <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Crédits</span>
@@ -33,7 +34,7 @@
            class="hover:scale-110 active:scale-95 transition-transform duration-100 drop-shadow-lg">
     </div>
 
-    <div class="flex flex-col border-r-4 border-gray-400 p-4 pt-8 items-center md:col-span-2">
+    <div class="flex flex-col border-b-4 md:border-b-0 md:border-r-4 border-gray-400 p-4 pt-8 items-center md:col-span-2">
       <!--Block central-->
       <h2 class="text-2xl font-bold mb-6 text-gray-800"><i class="fas fa-store mr-2"></i>Boutique de Bonus</h2>
       <div id="bonuses-container" class="w-full flex flex-col gap-3 overflow-y-auto max-h-[70vh] p-2">
@@ -127,7 +128,7 @@
         
         <canvas id="grid-canvas"
                 width="1000" height="1000"
-                style="image-rendering: pixelated; width: calc(95vh - 2rem); height: calc(95vh - 2rem);"
+                style="image-rendering: pixelated; width: calc(min(95vh, 95vw) - 2rem); height: calc(min(95vh, 95vw) - 2rem);"
                 class="border border-gray-200 block">
         </canvas>
 
