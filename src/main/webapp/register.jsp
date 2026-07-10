@@ -22,7 +22,8 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Pseudo</label>
-                <input type="text" name="pseudo" maxlength="20" required
+                <%-- c:out echappe la saisie reaffichee apres une erreur --%>
+                <input type="text" name="pseudo" maxlength="20" required value="<c:out value='${param.pseudo}'/>"
                        class="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
             </div>
 
@@ -33,14 +34,20 @@
             </div>
 
             <div>
+                <label class="block text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
+                <input type="password" name="confirmPassword" required
+                       class="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+            </div>
+
+            <div>
                 <label class="block text-sm font-medium text-gray-700">Age</label>
-                <input type="number" name="age" min="1" max="120"
+                <input type="number" name="age" min="1" max="120" value="<c:out value='${param.age}'/>"
                        class="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Pays</label>
-                <input type="text" name="country" maxlength="20"
+                <input type="text" name="country" maxlength="20" value="<c:out value='${param.country}'/>"
                        class="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
             </div>
 
@@ -53,12 +60,6 @@
         <c:if test="${not empty error}">
             <div class="mt-4 bg-red-100 text-red-700 px-4 py-2 rounded-lg text-sm">
                 ${error}
-            </div>
-        </c:if>
-
-        <c:if test="${not empty success}">
-            <div class="mt-4 bg-green-100 text-green-700 px-4 py-2 rounded-lg text-sm">
-                ${success}
             </div>
         </c:if>
 

@@ -20,7 +20,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Pseudo</label>
-                <input type="text" name="pseudo" required
+                <input type="text" name="pseudo" required value="<c:out value='${param.pseudo}'/>"
                        class="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
             </div>
 
@@ -36,6 +36,13 @@
             </button>
 
         </form>
+
+        <%-- apres la redirection de RegisterServlet --%>
+        <c:if test="${param.registered != null}">
+            <div class="mt-4 bg-green-100 text-green-700 px-4 py-2 rounded-lg text-sm">
+                Compte créé avec succès, vous pouvez vous connecter.
+            </div>
+        </c:if>
 
         <c:if test="${not empty error}">
             <div class="mt-4 bg-red-100 text-red-700 px-4 py-2 rounded-lg text-sm">

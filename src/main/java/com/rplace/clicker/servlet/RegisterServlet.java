@@ -32,6 +32,9 @@ public class RegisterServlet extends HttpServlet {
             pseudo = PlayerService.validatePseudo(req.getParameter("pseudo"));
             age = PlayerService.parseAge(req.getParameter("age"));
             country = PlayerService.validateCountry(req.getParameter("country"));
+            if (password == null || !password.equals(req.getParameter("confirmPassword"))) {
+                throw new IllegalArgumentException("Les mots de passe ne correspondent pas");
+            }
         } catch (IllegalArgumentException e) {
             req.setAttribute("error", e.getMessage());
             req.getRequestDispatcher("/register.jsp").forward(req, resp);
@@ -46,7 +49,7 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        req.setAttribute("success","Compte créé avec succès!");
-        req.getRequestDispatcher("/login.jsp").forward(req,resp);
+        // redirection (et pas forward) 
+        resp.sendRedirect(req.getContextPath() + "/login?registered");
     }
 }
