@@ -43,13 +43,15 @@ public class WebSocket {
                 object.addProperty("color", p.getColor());
                 object.addProperty("player", p.getCurrentPlayer() != null ? p.getCurrentPlayer().getPseudo() : "Personne");
                 object.addProperty("price", p.getPrice());
-                object.addProperty("date", p.getUpdatedAt() != null ? p.getUpdatedAt().format(DATE_FORMATTER) : "Jamais");
+                object.addProperty("date", p.getUpdatedAt() != null ? p.getUpdatedAt().format(DATE_FORMATTER) : "Jamais peinte");
                 pixelsJson.add(object);
             }
 
             JsonObject docJson = new JsonObject();
             docJson.addProperty("type", "init");
             docJson.add("pixels", pixelsJson);
+            // prix d'une case jamais peinte, evite de le dupliquer dans grid.js
+            docJson.addProperty("emptyPrice", new Pixel().getPrice());
             session.getBasicRemote().sendText(docJson.toString());
         } catch (Exception e) {
             e.printStackTrace();

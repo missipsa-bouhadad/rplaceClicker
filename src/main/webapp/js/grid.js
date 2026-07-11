@@ -6,6 +6,8 @@
     let socket = null;
     //ajout objet pour les infos sur les pixel 
     let gridData = {};
+    // prix d'une case jamais peinte, envoye par le serveur dans le message init
+    let emptyPixelPrice = null;
 
     // dessiner la grille (vide)
     function drawGrid() {
@@ -55,6 +57,7 @@
             //console.log("message: ", event.data);
             const data = JSON.parse(event.data);
             if (data.type == "init") {
+                emptyPixelPrice = data.emptyPrice;
                 drawGrid();
                 data.pixels.forEach(p => { 
                     drawPixel(p.x, p.y, p.color);
@@ -135,15 +138,21 @@
         const rect = canvas.getBoundingClientRect();
         const x = Math.floor((e.clientX - rect.left) * (canvas.width / rect.width) / cellSize);
         const y = Math.floor((e.clientY - rect.top) * (canvas.height / rect.height) / cellSize);
-        const info = gridData[`${x},${y}`] || {pseudo: "Aucun", date: "N/A", price: 10};
-   
+        // memes libelles que le serveur pour une case jamais peinte
+        const info = gridData[`${x},${y}`] || {pseudo: "Personne", date: "Jamais peinte", price: emptyPixelPrice};
+
         if (info) {
-            let contenu = `<strong>${info.pseudo}</strong><br>`;
-            if(isConnected){
-             contenu += `prix : ${info.price}<br>`;
+            const pseudo = document.createElement("strong");
+            pseudo.textContent = info.pseudo;
+            const date = document.createElement("span");
+            date.className = "text-xs";
+            date.textContent = info.date;
+
+            popoverContent.replaceChildren(pseudo, document.createElement("br"));
+            if (isConnected && info.price != null) {
+                popoverContent.append("Prix : " + formatCredits(info.price) + " crédits", document.createElement("br"));
             }
-             contenu += `<span class='text-xs'>${info.date}</span>`;
-            popoverContent.innerHTML = contenu;
+            popoverContent.append(date);
             popover.style.left = (e.clientX - 50) + "px";
              if (e.clientY < 150) {
              popover.style.top = (e.clientY + 20) + "px";
