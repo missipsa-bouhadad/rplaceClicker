@@ -5,7 +5,7 @@
 <head>
     <title>Inscription</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/tailwind.css">
 </head>
 
 <!-- Style basique avec tailwind css en utilisant l'IA -->

@@ -5,7 +5,7 @@
 <head>
     <title>Connexion</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/tailwind.css">
 </head>
 
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">

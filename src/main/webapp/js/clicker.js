@@ -141,8 +141,6 @@ async function buyBonus(bonusId) {
         return;
     }
 
-    console.log("Sauvegarde effectuée");
-
     try {
         const response = await fetch(contextPath + '/bonuses/buy/' + bonusId, {
             method: 'POST',

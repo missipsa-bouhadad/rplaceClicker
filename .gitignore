@@ -10,3 +10,6 @@ target/
 
 # Configuration locale Smart Tomcat
 .smarttomcat/
+
+# Dependances npm (Tailwind CLI)
+node_modules/

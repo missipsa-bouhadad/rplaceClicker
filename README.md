@@ -24,6 +24,12 @@ Dans le fichier `JpaInitializer.java`, remplacez `dbUser` par votre nom d'utilis
 mvn package
 ```
 
+Le CSS Tailwind (`src/main/webapp/css/tailwind.css`) est déjà généré et versionné. Après avoir ajouté ou modifié des classes Tailwind dans les JSP ou le JS, il faut le régénérer (Node.js requis) :
+```powershell
+npm install
+npm run build:css
+```
+
 ### 5. Déployer sur Tomcat
 **Windows :**
 
