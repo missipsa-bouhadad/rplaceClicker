@@ -21,7 +21,7 @@
 
   <main class="flex-1 w-full px-4 py-6 flex flex-col min-h-0">
 
-    <!-- ajout stat perso sans ia puis modifiaction du style avec ia avec retouche -->
+    <%-- ajout stat perso sans ia puis modifiaction du style avec ia avec retouche --%>
 
 
     <c:if test="${not empty sessionScope.player}">
@@ -71,7 +71,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 min-h-0">
 
-      <!-- Liste des joueurs -->
+      <%-- Liste des joueurs --%>
       <section class="flex flex-col min-h-0">
         <h2 class="text-xl font-bold text-gray-800 mb-3">Joueurs enregistrés</h2>
         <div class="bg-white rounded-xl shadow p-4 overflow-y-auto flex-1 border border-gray-100 custom-scroll">
@@ -103,7 +103,7 @@
         </div>
       </section>
 
-      <!-- Classement par couverture -->
+      <%-- Classement par couverture --%>
       <section class="flex flex-col min-h-0">
         <h2 class="text-xl font-bold text-gray-800 mb-3">Classement – Couverture</h2>
         <div class="bg-white rounded-xl shadow p-4 overflow-y-auto flex-1 border border-gray-100 custom-scroll">
@@ -121,7 +121,7 @@
         </div>
       </section>
 
-      <!-- Classement par ancienneté -->
+      <%-- Classement par ancienneté --%>
       <section class="flex flex-col min-h-0">
         <h2 class="text-xl font-bold text-gray-800 mb-3">Classement – Ancienneté</h2>
         <div class="bg-white rounded-xl shadow p-4 overflow-y-auto flex-1 border border-gray-100 custom-scroll">

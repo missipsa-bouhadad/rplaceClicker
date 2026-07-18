@@ -40,21 +40,8 @@
         const url = protocole + window.location.host + contextPath + "/grid";
         socket = new WebSocket(url);
 
-        /*socket.onopen = function() {
-            console.log("connecté");
-        };
-
-        socket.onerror = function(error) {
-            console.log("erreur", error);
-        };
-
-        socket.onclose = function() {
-            console.log("fermé");
-        };*/
-
         // utilisation de l'ia pour gérer la réception des messages
         socket.onmessage = function(event) {
-            //console.log("message: ", event.data);
             const data = JSON.parse(event.data);
             if (data.type == "init") {
                 emptyPixelPrice = data.emptyPrice;

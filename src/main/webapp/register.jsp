@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/tailwind.css">
 </head>
 
-<!-- Style basique avec tailwind css en utilisant l'IA -->
+<%-- Style basique avec tailwind css en utilisant l'IA --%>
 
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">
 

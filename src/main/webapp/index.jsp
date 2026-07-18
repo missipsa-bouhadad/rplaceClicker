@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
-<!-- Style avec tailwind css en utilisant l'IA -->
+<%-- Style avec tailwind css en utilisant l'IA --%>
 
 <body class="bg-gray-100 min-h-screen flex flex-col overflow-x-hidden">
 
@@ -18,7 +18,7 @@
 <main class="flex-1 grid grid-cols-1 md:grid-cols-4 min-h-[calc(100vh-64px)] pb-24">
 
     <div class="flex flex-col items-center border-b-4 md:border-b-0 md:border-r-4 border-gray-400 p-6 gap-6">
-      <!--Block gauche-->
+      <%-- Block gauche --%>
       <div class="flex flex-col items-center gap-1 bg-white rounded-2xl shadow px-6 py-3 border border-gray-200">
         <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Crédits</span>
         <span id="nb_click" class="text-4xl font-bold text-gray-800">
@@ -35,7 +35,7 @@
     </div>
 
     <div class="flex flex-col border-b-4 md:border-b-0 md:border-r-4 border-gray-400 p-4 pt-8 items-center md:col-span-2">
-      <!--Block central-->
+      <%-- Block central --%>
       <h2 class="text-2xl font-bold mb-6 text-gray-800"><i class="fas fa-store mr-2"></i>Boutique de Bonus</h2>
       <div id="bonuses-container" class="w-full flex flex-col gap-3 overflow-y-auto max-h-[70vh] p-2">
         <p class="text-gray-500 italic text-center">Chargement des bonus...</p>
@@ -46,8 +46,7 @@
 
 
   <div class="flex flex-col items-center p-4">
-    <!--Block droite 
-    suppression max-w-[250px] md:max-w-[300px] corrige le flex de la previsualisation grand ecran-->
+    <%-- Block droite --%>
     <div onclick="openGrid()" 
       class="p-2 bg-white border-2 border-gray-800 shadow-md">
         <canvas id="gridCanvas" 
@@ -79,7 +78,7 @@
             <i id="palette-icon" class="fas fa-chevron-left text-gray-600"></i>
           </button>
 
-          <!-- Drawer palette -->
+          <%-- Drawer palette --%>
           <div id="palette-drawer"
                class="hidden absolute right-0 top-0 h-full w-48 bg-white border-l border-gray-200 rounded-r-xl p-3 flex-col gap-2 z-20">
 

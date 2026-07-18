@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <nav class="bg-white shadow-md">
-    <!--suppression car empeche le flex de la navsur grand ecran max-w-7xl Pourquoi l'avoir mis ? -->
     <div class="mx-auto px-6 py-4 flex items-center justify-between">
 
         <a href="${pageContext.request.contextPath}/" class="text-xl font-bold text-gray-800 hover:text-gray-600 transition">
@@ -13,7 +12,7 @@
             <c:choose>
                 <c:when test="${not empty sessionScope.player}">
 
-                    <!-- Utilisation de l'IA pour le style du menu déroulant -->
+                    <%-- Utilisation de l'IA pour le style du menu déroulant --%>
                     <div class="relative inline-block text-left">
                         <button id="user-menu-btn" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none transition">
                             <span class="text-sm font-medium">${sessionScope.player.pseudo}</span>

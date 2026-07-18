@@ -13,7 +13,7 @@
 
 <div class="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
 
-  <!-- Utilisation de l'IA pour le style de la page de modification du profil -->
+  <%-- Utilisation de l'IA pour le style de la page de modification du profil --%>
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold text-gray-800">Mon Profil</h1>
     <a href="${pageContext.request.contextPath}/" class="text-sm text-blue-600 hover:text-blue-800 transition">
