@@ -24,6 +24,18 @@ public class PlayerBonusDAO {
         }
     }
 
+    // [playerId, somme cps * quantite] des bonus passifs, groupe par joueur
+    public List<Object[]> sumPassiveIncomeByPlayer() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            String query = "Select pb.player.id, Sum(pb.bonus.creditsGeneratedPerSecond * pb.quantity) From PlayerBonus pb "
+                    + "Where pb.bonus.type = 'PASSIVE' Group By pb.player.id";
+            return em.createQuery(query, Object[].class).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
     public PlayerBonus findPlayerBonusByBonusId(Integer playerId, Integer bonusId) {
         EntityManager em = emf.createEntityManager();
         try {

@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<fmt:setLocale value="fr_FR" />
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -69,7 +71,7 @@
       </c:if>
     </c:if>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 min-h-0">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 flex-1 min-h-0">
 
       <%-- Liste des joueurs --%>
       <section class="flex flex-col min-h-0">
@@ -98,6 +100,29 @@
                 </c:choose>
               </span>
               <span><strong>Pixel le plus agé :</strong> ${ps.recordFormatted}</span>
+            </div>
+          </c:forEach>
+        </div>
+      </section>
+
+      <%-- Classement par credits, avec le cps de chaque joueur --%>
+      <section class="flex flex-col min-h-0">
+        <h2 class="text-xl font-bold text-gray-800 mb-3">Classement – Crédits</h2>
+        <div class="bg-white rounded-xl shadow p-4 overflow-y-auto flex-1 border border-gray-100 custom-scroll">
+          <c:forEach var="ps" items="${topCredits}" varStatus="loop">
+            <div class="flex items-center justify-between py-2 border-b last:border-0 hover:bg-gray-50 px-1">
+              <div class="flex items-center gap-3">
+                <span class="font-bold w-6 text-center text-gray-400 text-sm">${loop.index + 1}</span>
+                <span class="text-gray-800 font-medium">${ps.player.pseudo}</span>
+              </div>
+              <div class="flex flex-col items-end">
+                <span class="text-sm font-bold text-yellow-600 bg-yellow-50 px-2 py-1 rounded">
+                  <fmt:formatNumber value="${ps.player.credits}" maxFractionDigits="0" />
+                </span>
+                <span class="text-xs font-semibold text-green-600">
+                  +<fmt:formatNumber value="${ps.cps}" maxFractionDigits="1" /> /s
+                </span>
+              </div>
             </div>
           </c:forEach>
         </div>

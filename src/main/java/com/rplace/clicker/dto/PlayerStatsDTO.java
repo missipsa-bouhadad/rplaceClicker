@@ -13,14 +13,18 @@ public class PlayerStatsDTO {
     private final long currentPixels;
     private final Pixel oldestPixel;
     private final History record;
+    private final double cps;
 
-    public PlayerStatsDTO(Player player, long totalPlaced, long currentPixels, Pixel oldestPixel, History record) {
+    public PlayerStatsDTO(Player player, long totalPlaced, long currentPixels, Pixel oldestPixel, History record, double cps) {
         this.player = player;
         this.totalPlaced = totalPlaced;
         this.currentPixels = currentPixels;
         this.oldestPixel = oldestPixel;
         this.record = record;
+        this.cps = cps;
     }
+
+    public double getCps() { return cps; }
 
     public Player getPlayer() { return player; }
     public long getTotalPlaced() { return totalPlaced; }

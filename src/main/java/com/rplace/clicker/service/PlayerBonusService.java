@@ -10,7 +10,9 @@ import com.rplace.clicker.model.PlayerBonus;
 import jakarta.persistence.EntityManagerFactory;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PlayerBonusService {
     private final PlayerBonusDAO playerBonusDAO;
@@ -68,15 +70,27 @@ public class PlayerBonusService {
         return newTotalCredits;
     }
 
+    // gain passif de base, meme sans bonus
+    public static final float BASE_INCOME = 0.1f;
+
     public float getTotalPassiveIncome(int playerId){
         List<PlayerBonus> playerBonuses = playerBonusDAO.findPlayerBonuses(playerId);
-        float totalIncome = 0.1f;
+        float totalIncome = BASE_INCOME;
         for (PlayerBonus pb : playerBonuses){
             if (pb.getBonus().getType().equals("PASSIVE")) {
                 totalIncome += pb.getBonus().getCreditsGeneratedPerSecond() * pb.getQuantity();
             }
         }
         return totalIncome;
+    }
+
+    // cps de chaque joueur en une seule requete (page stats), un joueur sans bonus n'est pas dans la map
+    public Map<Integer, Double> getPassiveIncomeByPlayer() {
+        Map<Integer, Double> incomes = new HashMap<>();
+        for (Object[] row : playerBonusDAO.sumPassiveIncomeByPlayer()) {
+            incomes.put((Integer) row[0], BASE_INCOME + ((Number) row[1]).doubleValue());
+        }
+        return incomes;
     }
 
     public List<PlayerBonus> findPlayerBonuses(int playerId){
