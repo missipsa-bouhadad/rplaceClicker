@@ -63,8 +63,78 @@
         };
     }
 
+    // zoom (molette) et deplacement (glisser) par transform CSS : getBoundingClientRect
+    // tient compte de la transformation, donc le calcul de la case cliquee ne change pas
+    const MIN_ZOOM = 1;
+    const MAX_ZOOM = 8;
+    let zoom = 1;
+    let panX = 0;
+    let panY = 0;
+    let dragStart = null;
+    let dragged = false;
+
+    canvas.style.transformOrigin = "0 0";
+
+    function applyTransform() {
+        if (zoom === MIN_ZOOM) {
+            panX = 0;
+            panY = 0;
+        }
+        canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+        canvas.style.cursor = zoom > MIN_ZOOM ? "grab" : "";
+    }
+
+    function resetZoom() {
+        zoom = MIN_ZOOM;
+        applyTransform();
+    }
+
+    canvas.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        const rect = canvas.getBoundingClientRect();
+        const newZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom * (e.deltaY < 0 ? 1.2 : 1 / 1.2)));
+        // garde le point sous le curseur au meme endroit
+        const px = e.clientX - rect.left;
+        const py = e.clientY - rect.top;
+        panX += px * (1 - newZoom / zoom);
+        panY += py * (1 - newZoom / zoom);
+        zoom = newZoom;
+        applyTransform();
+    }, { passive: false });
+
+    canvas.addEventListener("pointerdown", (e) => {
+        if (zoom === MIN_ZOOM) return;
+        dragStart = { x: e.clientX, y: e.clientY, panX, panY };
+        dragged = false;
+        canvas.setPointerCapture(e.pointerId);
+    });
+
+    canvas.addEventListener("pointermove", (e) => {
+        if (!dragStart) return;
+        const dx = e.clientX - dragStart.x;
+        const dy = e.clientY - dragStart.y;
+        // au-dela de 5px c'est un deplacement, pas un clic
+        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) dragged = true;
+        if (dragged) {
+            panX = dragStart.panX + dx;
+            panY = dragStart.panY + dy;
+            canvas.style.cursor = "grabbing";
+            applyTransform();
+        }
+    });
+
+    canvas.addEventListener("pointerup", () => {
+        dragStart = null;
+        if (zoom > MIN_ZOOM) canvas.style.cursor = "grab";
+    });
+
     // écouter un clic
     canvas.addEventListener("click",async function (e) {
+        // fin d'un glisser : ne pas poser de pixel
+        if (dragged) {
+            dragged = false;
+            return;
+        }
         if (!isConnected) return;
 
         await fetch('save', { method: 'POST' }); 
