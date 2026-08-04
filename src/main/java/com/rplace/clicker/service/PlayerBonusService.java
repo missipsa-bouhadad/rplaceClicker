@@ -73,6 +73,22 @@ public class PlayerBonusService {
     // gain passif de base, meme sans bonus
     public static final float BASE_INCOME = 0.1f;
 
+    // hors ligne : moitie du cps, plafonne a 12h pour ne pas desequilibrer la grille
+    private static final double OFFLINE_RATE = 0.5;
+    private static final long OFFLINE_MAX_SECONDS = 12 * 3600;
+
+    // credits gagnes entre la derniere sauvegarde et maintenant, a appeler avant de remettre lastUpdate a jour
+    public double computeOfflineGain(Player player) {
+        if (player.getLastUpdate() == null) {
+            return 0;
+        }
+        long seconds = Math.min(Duration.between(player.getLastUpdate(), LocalDateTime.now()).toSeconds(), OFFLINE_MAX_SECONDS);
+        if (seconds <= 0) {
+            return 0;
+        }
+        return getTotalPassiveIncome(player.getId()) * seconds * OFFLINE_RATE;
+    }
+
     public float getTotalPassiveIncome(int playerId){
         List<PlayerBonus> playerBonuses = playerBonusDAO.findPlayerBonuses(playerId);
         float totalIncome = BASE_INCOME;

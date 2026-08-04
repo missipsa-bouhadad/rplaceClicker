@@ -1,6 +1,7 @@
 package com.rplace.clicker.servlet;
 
 import com.rplace.clicker.model.Player;
+import com.rplace.clicker.service.PlayerBonusService;
 import com.rplace.clicker.service.PlayerService;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.servlet.ServletException;
@@ -40,8 +41,10 @@ public class LoginServlet extends HttpServlet {
         //recuperation du score farmer en amont (hors connextion)
         Double farmClicks = (Double) session.getAttribute("nb_Current_Click");
         if (farmClicks == null) farmClicks = 0.0;
+        // gains des bonus pendant l'absence, calcules depuis l'ancien lastUpdate
+        double offlineGain = new PlayerBonusService(emf).computeOfflineGain(player);
         //mise a jours  BD
-        double totalCredits = player.getCredits() + farmClicks;
+        double totalCredits = player.getCredits() + farmClicks + offlineGain;
         player.setCredits(totalCredits);
         player.setLastUpdate(java.time.LocalDateTime.now());
         playerService.updatePlayer(player);
@@ -49,6 +52,10 @@ public class LoginServlet extends HttpServlet {
         //Session credit msj
         session.setAttribute("player", player);
         session.setAttribute("nb_Current_Click", totalCredits);
+        // lu une seule fois par index.jsp pour afficher la notification
+        if (offlineGain >= 1) {
+            session.setAttribute("offlineGain", offlineGain);
+        }
 
         resp.sendRedirect(req.getContextPath() + "/");
 
