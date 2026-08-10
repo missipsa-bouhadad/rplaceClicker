@@ -6,12 +6,16 @@
   <title>rplace clicker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/tailwind.css">
+  <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/cookie.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fredoka:wght@500;600;700&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <%-- Style avec tailwind css en utilisant l'IA --%>
 
-<body class="bg-gray-100 min-h-screen flex flex-col overflow-x-hidden">
+<body class="bg-cream text-choco min-h-screen flex flex-col overflow-x-hidden">
 
   <%@ include file="nav.jsp" %>
 
@@ -36,7 +40,7 @@
 
     <div class="flex flex-col border-b-4 md:border-b-0 md:border-r-4 border-gray-400 p-4 pt-8 items-center md:col-span-2">
       <%-- Block central --%>
-      <h2 class="text-2xl font-bold mb-6 text-gray-800"><i class="fas fa-store mr-2"></i>Boutique de Bonus</h2>
+      <h2 class="font-display text-2xl font-bold mb-6 text-choco"><i class="fas fa-store mr-2"></i>Boutique de Bonus</h2>
       <div id="bonuses-container" class="w-full flex flex-col gap-3 overflow-y-auto max-h-[70vh] p-2">
         <p class="text-gray-500 italic text-center">Chargement des bonus...</p>
       </div>

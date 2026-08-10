@@ -8,15 +8,19 @@
     <title>Erreur ${code}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/tailwind.css">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/cookie.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fredoka:wght@500;600;700&display=swap">
 </head>
 
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+<body class="bg-cream text-choco min-h-screen flex items-center justify-center">
 
     <div class="bg-white shadow-lg rounded-xl p-8 w-full max-w-md text-center">
 
-        <p class="text-6xl font-black text-gray-300 mb-4">${code}</p>
+        <p class="font-display text-6xl font-bold text-cookie-300 mb-4">${code}</p>
 
-        <h1 class="text-2xl font-bold text-gray-800 mb-2">
+        <h1 class="font-display text-2xl font-bold text-choco mb-2">
             <c:choose>
                 <c:when test="${code == 404}">Page introuvable</c:when>
                 <c:when test="${code == 405}">Action non autorisée</c:when>
@@ -33,7 +37,7 @@
         </p>
 
         <a href="${pageContext.request.contextPath}/"
-           class="inline-block w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+           class="inline-block w-full bg-cookie-600 text-white py-2 rounded-lg hover:bg-cookie-700 transition duration-200">
             Retour à l'accueil
         </a>
 

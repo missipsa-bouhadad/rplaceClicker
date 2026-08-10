@@ -80,7 +80,7 @@ async function loadAllBonuses() {
                             <i class="fas fa-coins mr-1"></i>${formatCredits(displayPrice)}
                         </span>
                         <button onclick="buyBonus(${bonus.id})" data-price="${displayPrice}"
-                                class="buy-btn bg-blue-600 enabled:hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition-colors text-sm font-bold enabled:active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed">
+                                class="buy-btn bg-cookie-600 enabled:hover:bg-cookie-700 text-white px-4 py-2 rounded shadow transition-colors text-sm font-bold enabled:active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed">
                             Acheter
                         </button>
                     </div>

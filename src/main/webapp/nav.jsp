@@ -4,7 +4,8 @@
 <nav class="bg-white shadow-md">
     <div class="mx-auto px-6 py-4 flex items-center justify-between">
 
-        <a href="${pageContext.request.contextPath}/" class="text-xl font-bold text-gray-800 hover:text-gray-600 transition">
+        <a href="${pageContext.request.contextPath}/" class="flex items-center gap-2 font-display text-2xl font-bold text-choco hover:text-cookie-700 transition">
+            <img src="${pageContext.request.contextPath}/images/cookie.png" alt="" class="w-8 h-8">
             r/Place Clicker
         </a>
 
@@ -35,10 +36,10 @@
 
                 </c:when>
                 <c:otherwise>
-                    <a href="login" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+                    <a href="login" class="px-4 py-2 text-sm font-medium text-white bg-cookie-600 rounded-lg hover:bg-cookie-700 transition">
                         Connexion
                     </a>
-                    <a href="register" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+                    <a href="register" class="px-4 py-2 text-sm font-medium text-white bg-cookie-600 rounded-lg hover:bg-cookie-700 transition">
                         Inscription
                     </a>
                 </c:otherwise>
