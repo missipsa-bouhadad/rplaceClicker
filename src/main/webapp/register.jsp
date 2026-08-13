@@ -14,9 +14,9 @@
 
 <%-- Style basique avec tailwind css en utilisant l'IA --%>
 
-<body class="bg-cream text-choco min-h-screen flex items-center justify-center">
+<body class="bg-app text-choco min-h-screen flex items-center justify-center">
 
-    <div class="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
+    <div class="card p-8 w-full max-w-md">
 
         <h1 class="font-display text-2xl font-bold text-center text-choco mb-6">
             Inscription

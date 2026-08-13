@@ -21,7 +21,7 @@
   </style>
 </head>
 
-<body class="bg-cream text-choco h-screen flex flex-col overflow-hidden">
+<body class="bg-app text-choco h-screen flex flex-col overflow-hidden">
 
   <%@ include file="nav.jsp" %>
 
@@ -39,7 +39,7 @@
       </c:forEach>
 
       <c:if test="${not empty myStats}">
-        <div class="mx-auto w-full bg-white rounded-lg shadow-md mb-6 shrink-0">
+        <div class="card mx-auto w-full mb-6 shrink-0">
           <h2 class="font-display text-xl font-bold text-choco p-3 text-center border-b">Mes statistiques</h2>
           <div class="bg-gray-50 flex rounded-b-lg overflow-hidden">
             <div class="flex-1 p-4 text-center border-r border-gray-200">
@@ -80,7 +80,7 @@
       <%-- Liste des joueurs --%>
       <section class="flex flex-col min-h-0">
         <h2 class="font-display text-xl font-bold text-choco mb-3">Joueurs enregistrés</h2>
-        <div class="bg-white rounded-xl shadow p-4 overflow-y-auto flex-1 border border-gray-100 custom-scroll">
+        <div class="card p-4 overflow-y-auto flex-1 custom-scroll">
           <c:forEach var="ps" items="${playerStats}">
             <div class="flex justify-between items-center py-2 border-b last:border-0 cursor-pointer hover:bg-gray-50 px-1" onclick="togglePlayer('${ps.player.pseudo}')">
               <span class="text-gray-800 font-medium">${ps.player.pseudo}</span>
@@ -112,7 +112,7 @@
       <%-- Classement par credits, avec le cps de chaque joueur --%>
       <section class="flex flex-col min-h-0">
         <h2 class="font-display text-xl font-bold text-choco mb-3">Classement – Crédits</h2>
-        <div class="bg-white rounded-xl shadow p-4 overflow-y-auto flex-1 border border-gray-100 custom-scroll">
+        <div class="card p-4 overflow-y-auto flex-1 custom-scroll">
           <c:forEach var="ps" items="${topCredits}" varStatus="loop">
             <div class="flex items-center justify-between py-2 border-b last:border-0 hover:bg-gray-50 px-1">
               <div class="flex items-center gap-3">
@@ -135,7 +135,7 @@
       <%-- Classement par couverture --%>
       <section class="flex flex-col min-h-0">
         <h2 class="font-display text-xl font-bold text-choco mb-3">Classement – Couverture</h2>
-        <div class="bg-white rounded-xl shadow p-4 overflow-y-auto flex-1 border border-gray-100 custom-scroll">
+        <div class="card p-4 overflow-y-auto flex-1 custom-scroll">
           <c:forEach var="ps" items="${topPlayers}" varStatus="loop">
             <div class="flex items-center justify-between py-2 border-b last:border-0 hover:bg-gray-50 px-1">
               <div class="flex items-center gap-3">
@@ -153,7 +153,7 @@
       <%-- Classement par ancienneté --%>
       <section class="flex flex-col min-h-0">
         <h2 class="font-display text-xl font-bold text-choco mb-3">Classement – Ancienneté</h2>
-        <div class="bg-white rounded-xl shadow p-4 overflow-y-auto flex-1 border border-gray-100 custom-scroll">
+        <div class="card p-4 overflow-y-auto flex-1 custom-scroll">
           <c:forEach var="ps" items="${topPlayersWithOldestPixel}" varStatus="loop">
             <div class="flex items-center justify-between py-2 border-b last:border-0 hover:bg-gray-50 px-1">
               <div class="flex items-center gap-3">

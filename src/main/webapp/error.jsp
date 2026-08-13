@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fredoka:wght@500;600;700&display=swap">
 </head>
 
-<body class="bg-cream text-choco min-h-screen flex items-center justify-center">
+<body class="bg-app text-choco min-h-screen flex items-center justify-center">
 
-    <div class="bg-white shadow-lg rounded-xl p-8 w-full max-w-md text-center">
+    <div class="card p-8 w-full max-w-md text-center">
 
         <p class="font-display text-6xl font-bold text-cookie-300 mb-4">${code}</p>
 

@@ -15,15 +15,15 @@
 
 <%-- Style avec tailwind css en utilisant l'IA --%>
 
-<body class="bg-cream text-choco min-h-screen flex flex-col overflow-x-hidden">
+<body class="bg-app text-choco min-h-screen flex flex-col overflow-x-hidden">
 
   <%@ include file="nav.jsp" %>
 
 <main class="flex-1 grid grid-cols-1 md:grid-cols-4 min-h-[calc(100vh-64px)] pb-24">
 
-    <div class="flex flex-col items-center border-b-4 md:border-b-0 md:border-r-4 border-gray-400 p-6 gap-6">
+    <div class="flex flex-col items-center border-b md:border-b-0 md:border-r border-cookie-200 p-6 gap-6">
       <%-- Block gauche --%>
-      <div class="flex flex-col items-center gap-1 bg-white rounded-2xl shadow px-6 py-3 border border-gray-200">
+      <div class="card flex flex-col items-center gap-1 px-6 py-3">
         <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Crédits</span>
         <span id="nb_click" class="text-4xl font-bold text-gray-800">
           ${sessionScope.nb_Current_Click != null ? sessionScope.nb_Current_Click : 0}
@@ -38,7 +38,7 @@
            class="hover:scale-110 active:scale-95 transition-transform duration-100 drop-shadow-lg">
     </div>
 
-    <div class="flex flex-col border-b-4 md:border-b-0 md:border-r-4 border-gray-400 p-4 pt-8 items-center md:col-span-2">
+    <div class="flex flex-col border-b md:border-b-0 md:border-r border-cookie-200 p-4 pt-8 items-center md:col-span-2">
       <%-- Block central --%>
       <h2 class="font-display text-2xl font-bold mb-6 text-choco"><i class="fas fa-store mr-2"></i>Boutique de Bonus</h2>
       <div id="bonuses-container" class="w-full flex flex-col gap-3 overflow-y-auto max-h-[70vh] p-2">
@@ -51,12 +51,16 @@
 
   <div class="flex flex-col items-center p-4">
     <%-- Block droite --%>
-    <div onclick="openGrid()" 
-      class="p-2 bg-white border-2 border-gray-800 shadow-md">
-        <canvas id="gridCanvas" 
-                width="500" 
-                height="500" 
-                class="w-full h-auto bg-gray-100 cursor-pointer border border-gray-200"
+    <div onclick="openGrid()"
+      class="card w-full p-3 cursor-pointer hover:shadow-lg transition-shadow">
+        <h2 class="font-display text-lg font-bold text-choco mb-2 flex items-center justify-between">
+          Grille partagée
+          <span class="text-xs font-sans font-medium text-cookie-700"><i class="fas fa-up-right-and-down-left-from-center mr-1"></i>Ouvrir</span>
+        </h2>
+        <canvas id="gridCanvas"
+                width="500"
+                height="500"
+                class="w-full h-auto bg-gray-100 rounded-lg border border-cookie-100"
                 style="image-rendering: pixelated;">
         </canvas>
     </div>

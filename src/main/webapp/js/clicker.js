@@ -54,7 +54,7 @@ async function loadAllBonuses() {
 
             if (bonus.type === 'PASSIVE') {
                 const bonusDiv = document.createElement('div');
-                bonusDiv.className = 'bg-white p-4 rounded-lg shadow-sm border border-gray-200 flex justify-between items-center hover:shadow-md transition-shadow';
+                bonusDiv.className = 'card p-4 flex justify-between items-center hover:shadow-lg transition-shadow';
 
                 const quantityHtml = quantity > 0
                     ? `<div class="hidden sm:flex absolute right-36 top-1/2 transform -translate-y-1/2 select-none pointer-events-none">

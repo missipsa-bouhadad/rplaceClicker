@@ -13,9 +13,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body class="bg-cream text-choco min-h-screen flex items-center justify-center py-10">
+<body class="bg-app text-choco min-h-screen flex items-center justify-center py-10">
 
-<div class="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
+<div class="card p-8 w-full max-w-md">
 
   <%-- Utilisation de l'IA pour le style de la page de modification du profil --%>
   <div class="flex justify-between items-center mb-6">
