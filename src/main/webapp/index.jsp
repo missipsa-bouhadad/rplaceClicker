@@ -17,9 +17,10 @@
 
 <body class="bg-app text-choco min-h-screen flex flex-col overflow-x-hidden">
 
+  <c:set var="activePage" value="home" />
   <%@ include file="nav.jsp" %>
 
-<main class="flex-1 grid grid-cols-1 md:grid-cols-4 min-h-[calc(100vh-64px)] pb-24">
+<main class="flex-1 grid grid-cols-1 md:grid-cols-4 min-h-[calc(100vh-64px)] pb-6">
 
     <div class="flex flex-col items-center border-b md:border-b-0 md:border-r border-cookie-200 p-6 gap-6">
       <%-- Block gauche --%>
@@ -154,12 +155,6 @@
     </div>
   </div>
 
-  <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40">
-      <a href="${pageContext.request.contextPath}/stats"
-         class="flex items-center gap-2 px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors font-semibold text-lg shadow-lg">
-          Statistiques
-      </a>
-  </div>
 
   <script>
     const isConnected = ${not empty sessionScope.player ? "true" : "false"};

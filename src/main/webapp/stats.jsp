@@ -23,6 +23,7 @@
 
 <body class="bg-app text-choco h-screen flex flex-col overflow-hidden">
 
+  <c:set var="activePage" value="stats" />
   <%@ include file="nav.jsp" %>
 
   <main class="flex-1 w-full px-4 py-6 flex flex-col min-h-0">
