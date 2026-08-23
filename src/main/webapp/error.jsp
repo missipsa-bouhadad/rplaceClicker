@@ -12,10 +12,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fredoka:wght@500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
-<body class="bg-app text-choco min-h-screen flex items-center justify-center">
+<body class="bg-app text-choco min-h-screen flex flex-col">
 
+    <%@ include file="nav.jsp" %>
+
+    <main class="flex-1 flex items-center justify-center px-4 py-10">
     <div class="card p-8 w-full max-w-md text-center">
 
         <p class="font-display text-6xl font-bold text-cookie-300 mb-4">${code}</p>
@@ -36,12 +40,12 @@
             </c:choose>
         </p>
 
-        <a href="${pageContext.request.contextPath}/"
-           class="inline-block w-full bg-cookie-600 text-white py-2 rounded-lg hover:bg-cookie-700 transition duration-200">
+        <a href="${pageContext.request.contextPath}/" class="btn-primary inline-block">
             Retour à l'accueil
         </a>
 
     </div>
+    </main>
 
 </body>
 </html>

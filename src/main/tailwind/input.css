@@ -18,4 +18,28 @@
   .card {
     @apply bg-white rounded-2xl shadow-md border border-cookie-100;
   }
+
+  /* formulaires */
+  .label {
+    @apply block text-sm font-semibold text-choco mb-1;
+  }
+  .input {
+    @apply w-full pl-10 pr-3 py-2.5 rounded-lg border border-cookie-200 bg-cookie-50/40 text-choco
+      placeholder:text-gray-400 transition
+      focus:outline-none focus:bg-white focus:border-cookie-500 focus:ring-2 focus:ring-cookie-500/30;
+  }
+  /* icone a gauche dans le champ, le parent doit etre en relative */
+  .input-icon {
+    @apply absolute left-3 top-1/2 -translate-y-1/2 text-cookie-400 pointer-events-none;
+  }
+  .btn-primary {
+    @apply w-full bg-cookie-600 text-white font-semibold py-2.5 rounded-lg shadow-sm transition
+      hover:bg-cookie-700 active:scale-[0.98];
+  }
+  .alert-error {
+    @apply flex items-center gap-2 bg-red-50 text-red-700 border border-red-200 px-4 py-3 rounded-lg text-sm;
+  }
+  .alert-success {
+    @apply flex items-center gap-2 bg-green-50 text-green-700 border border-green-200 px-4 py-3 rounded-lg text-sm;
+  }
 }

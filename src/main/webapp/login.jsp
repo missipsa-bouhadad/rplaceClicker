@@ -10,56 +10,66 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fredoka:wght@500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
-<body class="bg-app text-choco min-h-screen flex items-center justify-center">
+<body class="bg-app text-choco min-h-screen flex flex-col">
 
-    <div class="card p-8 w-full max-w-md">
+    <%@ include file="nav.jsp" %>
 
-        <h1 class="font-display text-2xl font-bold text-center text-choco mb-6">
-            Connexion
-        </h1>
+    <main class="flex-1 flex items-center justify-center px-4 py-10">
+        <div class="card p-8 w-full max-w-md">
 
-        <form method="post" action="login" class="space-y-4">
+            <h1 class="font-display text-3xl font-bold text-choco text-center mb-6">Connexion</h1>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Pseudo</label>
-                <input type="text" name="pseudo" required value="<c:out value='${param.pseudo}'/>"
-                       class="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cookie-500"/>
-            </div>
+            <%-- apres la redirection de RegisterServlet --%>
+            <c:if test="${param.registered != null}">
+                <div class="alert-success mb-4">
+                    <i class="fas fa-circle-check"></i>Compte créé avec succès, vous pouvez vous connecter.
+                </div>
+            </c:if>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Mot de passe</label>
-                <input type="password" name="password" required
-                       class="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cookie-500"/>
-            </div>
+            <c:if test="${not empty error}">
+                <div class="alert-error mb-4">
+                    <i class="fas fa-triangle-exclamation"></i>${error}
+                </div>
+            </c:if>
 
-            <button type="submit"
-                    class="w-full bg-cookie-600 text-white py-2 rounded-lg hover:bg-cookie-700 transition duration-200">
-                Se connecter
-            </button>
+            <form method="post" action="login" class="space-y-4">
 
-        </form>
+                <div>
+                    <label for="pseudo" class="label">Pseudo</label>
+                    <div class="relative">
+                        <i class="fas fa-user input-icon"></i>
+                        <input id="pseudo" type="text" name="pseudo" required autocomplete="username"
+                               value="<c:out value='${param.pseudo}'/>" class="input"/>
+                    </div>
+                </div>
 
-        <%-- apres la redirection de RegisterServlet --%>
-        <c:if test="${param.registered != null}">
-            <div class="mt-4 bg-green-100 text-green-700 px-4 py-2 rounded-lg text-sm">
-                Compte créé avec succès, vous pouvez vous connecter.
-            </div>
-        </c:if>
+                <div>
+                    <label for="password" class="label">Mot de passe</label>
+                    <div class="relative">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input id="password" type="password" name="password" required autocomplete="current-password" class="input pr-10"/>
+                        <button type="button" data-toggle-password aria-label="Afficher le mot de passe"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-cookie-700">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
 
-        <c:if test="${not empty error}">
-            <div class="mt-4 bg-red-100 text-red-700 px-4 py-2 rounded-lg text-sm">
-                ${error}
-            </div>
-        </c:if>
+                <button type="submit" class="btn-primary">Se connecter</button>
 
-        <p class="text-sm text-gray-500 text-center mt-6">
-            Pas de compte ?
-            <a href="register" class="ml-2 text-cookie-700 font-semibold hover:underline">S'inscrire</a>
-        </p>
+            </form>
 
-    </div>
+            <p class="text-sm text-gray-500 text-center mt-6">
+                Pas de compte ?
+                <a href="register" class="ml-1 text-cookie-700 font-semibold hover:underline">S'inscrire</a>
+            </p>
 
+        </div>
+    </main>
+
+    <script src="js/forms.js"></script>
 </body>
 </html>
