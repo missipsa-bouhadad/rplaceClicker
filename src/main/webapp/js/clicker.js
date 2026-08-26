@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btn) {
         btn.addEventListener('click', (e) => {
             showClickGain(e.clientX, e.clientY);
+            // petit rebond a chaque clic
+            btn.animate([{ transform: 'scale(0.9)' }, { transform: 'scale(1.05)' }, { transform: 'scale(1)' }], { duration: 200 });
             fetch('click', { method: 'POST' })
                 .then(res => res.text())
                 .then(credit => setCredits(credit));
@@ -16,6 +18,21 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast("Pendant votre absence : +" + formatCredits(offlineGain) + " crédits", 'success');
     }
 });
+
+// icone Font Awesome de chaque bonus de la boutique (cookie par defaut)
+const BONUS_ICONS = {
+    'Autoclicker': 'fa-arrow-pointer',
+    'Mineur': 'fa-person-digging',
+    'Super Mineur': 'fa-helmet-safety',
+    'Ferme': 'fa-wheat-awn',
+    'Mine': 'fa-gem',
+    'Usine': 'fa-industry',
+    'Banque': 'fa-building-columns',
+    'Temple': 'fa-place-of-worship',
+    'Tour de Sorcier': 'fa-hat-wizard',
+    'Vaisseau Spatial': 'fa-rocket',
+    "Laboratoire d'Alchimie": 'fa-flask'
+};
 
 async function loadAllBonuses() {
     // Utilisation de l'IA pour l'affichage stylisé des bonus
@@ -65,8 +82,11 @@ async function loadAllBonuses() {
                 bonusDiv.classList.add('relative');
 
                 bonusDiv.innerHTML = `
+                    <div class="w-12 h-12 shrink-0 mr-4 rounded-xl bg-cookie-100 text-cookie-700 text-xl flex items-center justify-center relative z-10">
+                        <i class="fas ${BONUS_ICONS[bonus.name] || 'fa-cookie'}"></i>
+                    </div>
                     <div class="flex-1 pr-4 relative z-10">
-                        <h3 class="font-bold text-lg text-gray-800">${bonus.name}</h3>
+                        <h3 class="font-bold text-lg text-choco">${bonus.name}</h3>
                         <p class="text-sm text-gray-600 line-clamp-2">${bonus.description}</p>
                         <p class="text-xs font-semibold text-green-600 mt-1">
                             <i class="fas fa-arrow-trend-up mr-1"></i>+${Number(bonus.creditsGeneratedPerSecond).toLocaleString('fr-FR')} crédits/sec

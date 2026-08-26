@@ -28,6 +28,16 @@ module.exports = {
         cream: '#FBF5EA',
         choco: '#3B2416',
       },
+      // flottement lent du cookie sur l'accueil
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
+      },
+      animation: {
+        float: 'float 4s ease-in-out infinite',
+      },
     },
   },
   plugins: [],

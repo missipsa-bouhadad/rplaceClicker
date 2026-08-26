@@ -24,24 +24,29 @@
 
     <div class="flex flex-col items-center border-b md:border-b-0 md:border-r border-cookie-200 p-6 gap-6">
       <%-- Block gauche --%>
-      <div class="card flex flex-col items-center gap-1 px-6 py-3">
-        <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Crédits</span>
-        <span id="nb_click" class="text-4xl font-bold text-gray-800">
+      <div class="card flex flex-col items-center gap-1 px-8 py-4 min-w-[12rem]">
+        <span class="text-xs font-semibold text-cookie-700 uppercase tracking-widest">Crédits</span>
+        <span id="nb_click" class="font-display text-5xl font-bold text-choco tabular-nums">
           ${sessionScope.nb_Current_Click != null ? sessionScope.nb_Current_Click : 0}
         </span>
-        <span id="cps_label" class="hidden text-xs font-semibold text-green-600"></span>
+        <span id="cps_label" class="hidden mt-1 text-xs font-semibold text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full"></span>
       </div>
 
-      <img id="credit_btn"
-           src="${pageContext.request.contextPath}/images/cookie.png"
-           style="width: 200px; cursor: pointer;"
-           alt="click me"
-           class="hover:scale-110 active:scale-95 transition-transform duration-100 drop-shadow-lg">
+      <%-- le flottement est sur le conteneur pour ne pas entrer en conflit avec le zoom au survol de l'image --%>
+      <div class="relative animate-float mt-4">
+        <div class="absolute inset-0 rounded-full bg-cookie-300/60 blur-3xl scale-110 pointer-events-none"></div>
+        <img id="credit_btn"
+             src="${pageContext.request.contextPath}/images/cookie.png"
+             style="width: 200px; cursor: pointer;"
+             alt="click me"
+             class="relative hover:scale-110 active:scale-95 transition-transform duration-100 drop-shadow-lg">
+      </div>
     </div>
 
     <div class="flex flex-col border-b md:border-b-0 md:border-r border-cookie-200 p-4 pt-8 items-center md:col-span-2">
       <%-- Block central --%>
-      <h2 class="font-display text-2xl font-bold mb-6 text-choco"><i class="fas fa-store mr-2"></i>Boutique de Bonus</h2>
+      <h2 class="font-display text-2xl font-bold text-choco"><i class="fas fa-store mr-2 text-cookie-600"></i>Boutique de Bonus</h2>
+      <p class="text-sm text-gray-500 mb-5">Investissez vos crédits pour en gagner automatiquement</p>
       <div id="bonuses-container" class="w-full flex flex-col gap-3 overflow-y-auto max-h-[70vh] p-2">
         <p class="text-gray-500 italic text-center">Chargement des bonus...</p>
       </div>
