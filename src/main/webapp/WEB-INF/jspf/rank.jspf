@@ -1,0 +1,7 @@
+<%-- rang d'une ligne de classement --%>
+<c:choose>
+  <c:when test="${loop.index == 0}"><i class="fas fa-medal w-6 text-center text-lg text-yellow-500" title="1er"></i></c:when>
+  <c:when test="${loop.index == 1}"><i class="fas fa-medal w-6 text-center text-lg text-gray-400" title="2e"></i></c:when>
+  <c:when test="${loop.index == 2}"><i class="fas fa-medal w-6 text-center text-lg text-amber-700" title="3e"></i></c:when>
+  <c:otherwise><span class="font-bold w-6 text-center text-gray-400 text-sm">${loop.index + 1}</span></c:otherwise>
+</c:choose>

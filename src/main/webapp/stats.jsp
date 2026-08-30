@@ -30,7 +30,6 @@
 
     <%-- ajout stat perso sans ia puis modifiaction du style avec ia avec retouche --%>
 
-
     <c:if test="${not empty sessionScope.player}">
       <c:set var="myStats" value="${null}" />
       <c:forEach var="ps" items="${playerStats}">
@@ -40,57 +39,75 @@
       </c:forEach>
 
       <c:if test="${not empty myStats}">
-        <div class="card mx-auto w-full mb-6 shrink-0">
-          <h2 class="font-display text-xl font-bold text-choco p-3 text-center border-b">Mes statistiques</h2>
-          <div class="bg-gray-50 flex rounded-b-lg overflow-hidden">
-            <div class="flex-1 p-4 text-center border-r border-gray-200">
-              <h3 class="text-xs font-semibold text-gray-500 uppercase mb-1">Pixels placés</h3>
-              <p class="text-2xl font-bold text-blue-600">${myStats.totalPlaced}</p>
+        <section class="mb-6 shrink-0">
+          <h2 class="font-display text-xl font-bold text-choco mb-3">Mes statistiques</h2>
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div class="card p-4 flex items-center gap-3">
+              <span class="w-10 h-10 shrink-0 rounded-full bg-cookie-100 text-cookie-700 flex items-center justify-center"><i class="fas fa-paintbrush"></i></span>
+              <div>
+                <p class="text-xs font-semibold text-gray-500 uppercase">Pixels placés</p>
+                <p class="font-display text-2xl font-bold text-choco">${myStats.totalPlaced}</p>
+              </div>
             </div>
-            <div class="flex-1 p-4 text-center border-r border-gray-200">
-              <h3 class="text-xs font-semibold text-gray-500 uppercase mb-1">En place</h3>
-              <p class="text-2xl font-bold text-green-600">${myStats.currentPixels}</p>
+            <div class="card p-4 flex items-center gap-3">
+              <span class="w-10 h-10 shrink-0 rounded-full bg-cookie-100 text-cookie-700 flex items-center justify-center"><i class="fas fa-border-all"></i></span>
+              <div>
+                <p class="text-xs font-semibold text-gray-500 uppercase">En place</p>
+                <p class="font-display text-2xl font-bold text-choco">${myStats.currentPixels}</p>
+              </div>
             </div>
-            <div class="flex-1 p-4 text-center border-r border-gray-200">
-              <h3 class="text-xs font-semibold text-gray-500 uppercase mb-1">Recouvrement</h3>
-              <p class="text-2xl font-bold text-purple-600">${myStats.coveragePercentForPlayer}%</p>
+            <div class="card p-4 flex items-center gap-3">
+              <span class="w-10 h-10 shrink-0 rounded-full bg-cookie-100 text-cookie-700 flex items-center justify-center"><i class="fas fa-chart-pie"></i></span>
+              <div>
+                <p class="text-xs font-semibold text-gray-500 uppercase">Couverture</p>
+                <p class="font-display text-2xl font-bold text-choco">${myStats.coveragePercentForPlayer}%</p>
+              </div>
             </div>
-            <div class="flex-1 p-4 text-center border-r border-gray-200">
-              <h3 class="text-xs font-semibold text-gray-500 uppercase mb-1">Record d'âge</h3>
-              <p class="text-2xl font-bold text-orange-600">${myStats.recordFormatted}</p>
+            <div class="card p-4 flex items-center gap-3">
+              <span class="w-10 h-10 shrink-0 rounded-full bg-cookie-100 text-cookie-700 flex items-center justify-center"><i class="fas fa-trophy"></i></span>
+              <div>
+                <p class="text-xs font-semibold text-gray-500 uppercase">Record d'âge</p>
+                <p class="font-display text-2xl font-bold text-choco">${myStats.recordFormatted}</p>
+              </div>
             </div>
-            <div class="flex-1 p-4 text-center">
-              <h3 class="text-xs font-semibold text-gray-500 uppercase mb-1">Plus ancien</h3>
-              <div class="flex items-center justify-center gap-2">
+            <div class="card p-4 flex items-center gap-3 col-span-2 md:col-span-1">
+              <span class="w-10 h-10 shrink-0 rounded-full bg-cookie-100 text-cookie-700 flex items-center justify-center"><i class="fas fa-hourglass-half"></i></span>
+              <div>
+                <p class="text-xs font-semibold text-gray-500 uppercase">Plus ancien</p>
                 <c:choose>
                   <c:when test="${myStats.oldestPixel != null}">
-                    <span style="display:inline-block; width:12px; height:12px; background:${myStats.oldestPixel.color}; border:1px solid #999;"></span>
-                    <span class="text-lg font-bold text-gray-700">(${myStats.oldestPixel.id.x}, ${myStats.oldestPixel.id.y})</span>
+                    <p class="font-display text-2xl font-bold text-choco flex items-center gap-2">
+                      <span style="display:inline-block; width:14px; height:14px; background:${myStats.oldestPixel.color}; border:1px solid #999; border-radius:3px;"></span>
+                      (${myStats.oldestPixel.id.x}, ${myStats.oldestPixel.id.y})
+                    </p>
                   </c:when>
-                  <c:otherwise><span class="text-gray-400">-</span></c:otherwise>
+                  <c:otherwise><p class="font-display text-2xl font-bold text-gray-300">–</p></c:otherwise>
                 </c:choose>
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </c:if>
     </c:if>
 
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 flex-1 min-h-0">
 
       <%-- Liste des joueurs --%>
-      <section class="flex flex-col min-h-0">
-        <h2 class="font-display text-xl font-bold text-choco mb-3">Joueurs enregistrés</h2>
-        <div class="card p-4 overflow-y-auto flex-1 custom-scroll">
+      <section class="card flex flex-col min-h-0 overflow-hidden">
+        <div class="px-4 py-3 bg-cookie-50 border-b border-cookie-100 flex items-center gap-2">
+          <i class="fas fa-users text-cookie-600"></i>
+          <h2 class="font-display text-lg font-bold text-choco">Joueurs enregistrés</h2>
+        </div>
+        <div class="p-4 overflow-y-auto flex-1 custom-scroll">
           <c:forEach var="ps" items="${playerStats}">
-            <div class="flex justify-between items-center py-2 border-b last:border-0 cursor-pointer hover:bg-gray-50 px-1" onclick="togglePlayer('${ps.player.pseudo}')">
-              <span class="text-gray-800 font-medium">${ps.player.pseudo}</span>
+            <div class="flex justify-between items-center py-2 border-b last:border-0 cursor-pointer hover:bg-cookie-50 px-1" onclick="togglePlayer('${ps.player.pseudo}')">
+              <span class="text-choco font-medium">${ps.player.pseudo}</span>
               <div class="flex items-center gap-2">
                 <span class="text-xs text-gray-400">${ps.player.country}</span>
                 <i id="icon-${ps.player.pseudo}" class="fas fa-chevron-down text-gray-400 text-xs"></i>
               </div>
             </div>
-            <div id="detail-${ps.player.pseudo}" class="hidden py-3 text-sm text-gray-600 flex flex-col gap-1 pl-4 border-l border-gray-200 my-1">
+            <div id="detail-${ps.player.pseudo}" class="hidden py-3 text-sm text-gray-600 flex flex-col gap-1 pl-4 border-l-2 border-cookie-200 my-1">
               <span><strong>Age :</strong> ${not empty ps.player.age ? ps.player.age : '–'}</span>
               <span><strong>Pays :</strong> ${not empty ps.player.country ? ps.player.country : '–'}</span>
               <span><strong>Pixels placés :</strong> ${ps.totalPlaced}</span>
@@ -111,20 +128,23 @@
       </section>
 
       <%-- Classement par credits, avec le cps de chaque joueur --%>
-      <section class="flex flex-col min-h-0">
-        <h2 class="font-display text-xl font-bold text-choco mb-3">Classement – Crédits</h2>
-        <div class="card p-4 overflow-y-auto flex-1 custom-scroll">
+      <section class="card flex flex-col min-h-0 overflow-hidden">
+        <div class="px-4 py-3 bg-cookie-50 border-b border-cookie-100 flex items-center gap-2">
+          <i class="fas fa-coins text-cookie-600"></i>
+          <h2 class="font-display text-lg font-bold text-choco">Classement – Crédits</h2>
+        </div>
+        <div class="p-4 overflow-y-auto flex-1 custom-scroll">
           <c:forEach var="ps" items="${topCredits}" varStatus="loop">
-            <div class="flex items-center justify-between py-2 border-b last:border-0 hover:bg-gray-50 px-1">
+            <div class="flex items-center justify-between py-2 border-b last:border-0 hover:bg-cookie-50 px-1">
               <div class="flex items-center gap-3">
-                <span class="font-bold w-6 text-center text-gray-400 text-sm">${loop.index + 1}</span>
-                <span class="text-gray-800 font-medium">${ps.player.pseudo}</span>
+                <%@ include file="WEB-INF/jspf/rank.jspf" %>
+                <span class="text-choco font-medium">${ps.player.pseudo}</span>
               </div>
               <div class="flex flex-col items-end">
-                <span class="text-sm font-bold text-yellow-600 bg-yellow-50 px-2 py-1 rounded">
+                <span class="text-sm font-bold text-cookie-600 bg-cookie-50 px-2 py-1 rounded">
                   <fmt:formatNumber value="${ps.player.credits}" maxFractionDigits="0" />
                 </span>
-                <span class="text-xs font-semibold text-green-600">
+                <span class="text-xs font-semibold text-cookie-600">
                   +<fmt:formatNumber value="${ps.cps}" maxFractionDigits="1" /> /s
                 </span>
               </div>
@@ -133,33 +153,42 @@
         </div>
       </section>
 
-      <%-- Classement par couverture --%>
-      <section class="flex flex-col min-h-0">
-        <h2 class="font-display text-xl font-bold text-choco mb-3">Classement – Couverture</h2>
-        <div class="card p-4 overflow-y-auto flex-1 custom-scroll">
+      <%-- Classement par couverture, barre proportionnelle a la part de la grille (2500 cases) --%>
+      <section class="card flex flex-col min-h-0 overflow-hidden">
+        <div class="px-4 py-3 bg-cookie-50 border-b border-cookie-100 flex items-center gap-2">
+          <i class="fas fa-border-all text-cookie-600"></i>
+          <h2 class="font-display text-lg font-bold text-choco">Classement – Couverture</h2>
+        </div>
+        <div class="p-4 overflow-y-auto flex-1 custom-scroll">
           <c:forEach var="ps" items="${topPlayers}" varStatus="loop">
-            <div class="flex items-center justify-between py-2 border-b last:border-0 hover:bg-gray-50 px-1">
-              <div class="flex items-center gap-3">
-                <span class="font-bold w-6 text-center text-gray-400 text-sm">${loop.index + 1}</span>
-                <span class="text-gray-800 font-medium">${ps.player.pseudo}</span>
+            <div class="py-2 border-b last:border-0 hover:bg-cookie-50 px-1">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <%@ include file="WEB-INF/jspf/rank.jspf" %>
+                  <span class="text-choco font-medium">${ps.player.pseudo}</span>
+                </div>
+                <span class="text-sm font-bold text-cookie-600">${ps.coveragePercentForPlayer}%</span>
               </div>
-              <span class="text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded">
-                ${ps.coveragePercentForPlayer}%
-              </span>
+              <div class="mt-1.5 ml-9 h-2 rounded-full bg-cookie-100 overflow-hidden">
+                <div class="h-full rounded-full bg-cookie-500" style="width: ${ps.currentPixels / 25}%"></div>
+              </div>
             </div>
           </c:forEach>
         </div>
       </section>
 
       <%-- Classement par ancienneté --%>
-      <section class="flex flex-col min-h-0">
-        <h2 class="font-display text-xl font-bold text-choco mb-3">Classement – Ancienneté</h2>
-        <div class="card p-4 overflow-y-auto flex-1 custom-scroll">
+      <section class="card flex flex-col min-h-0 overflow-hidden">
+        <div class="px-4 py-3 bg-cookie-50 border-b border-cookie-100 flex items-center gap-2">
+          <i class="fas fa-hourglass-half text-cookie-600"></i>
+          <h2 class="font-display text-lg font-bold text-choco">Classement – Ancienneté</h2>
+        </div>
+        <div class="p-4 overflow-y-auto flex-1 custom-scroll">
           <c:forEach var="ps" items="${topPlayersWithOldestPixel}" varStatus="loop">
-            <div class="flex items-center justify-between py-2 border-b last:border-0 hover:bg-gray-50 px-1">
+            <div class="flex items-center justify-between py-2 border-b last:border-0 hover:bg-cookie-50 px-1">
               <div class="flex items-center gap-3">
-                <span class="font-bold w-6 text-center text-gray-400 text-sm">${loop.index + 1}</span>
-                <span class="text-gray-800 font-medium">${ps.player.pseudo}</span>
+                <%@ include file="WEB-INF/jspf/rank.jspf" %>
+                <span class="text-choco font-medium">${ps.player.pseudo}</span>
               </div>
               <span class="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded border">
                 <c:choose>
