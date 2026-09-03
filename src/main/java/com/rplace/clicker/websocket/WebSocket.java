@@ -13,6 +13,7 @@ import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -52,7 +53,8 @@ public class WebSocket {
             docJson.add("pixels", pixelsJson);
             // prix d'une case jamais peinte, evite de le dupliquer dans grid.js
             docJson.addProperty("emptyPrice", new Pixel().getPrice());
-            session.getBasicRemote().sendText(docJson.toString());
+            send(session, docJson.toString());
+            broadcastPresence();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,7 +81,7 @@ public class WebSocket {
                 JsonObject errorJson = new JsonObject();
                 errorJson.addProperty("type", "error");
                 errorJson.addProperty("message", "Vous n'avez pas assez de crédits !");
-                session.getBasicRemote().sendText(errorJson.toString());
+                send(session, errorJson.toString());
                 return;
             }
             
@@ -102,15 +104,9 @@ public class WebSocket {
                 JsonObject privateMessage = broadCastMessage.deepCopy();
                 privateMessage.addProperty("newBalance", updatedPlayer.getCredits());
 
-                for (Session s : sessions) {
-                    if (s.isOpen()) {
-                        if (s.equals(session)) {
-                            s.getBasicRemote().sendText(privateMessage.toString());
-                        } else {
-                            s.getBasicRemote().sendText(broadCastMessage.toString());
-                        }
-                    }
-                }         
+                for (Session s : snapshot()) {
+                    send(s, s.equals(session) ? privateMessage.toString() : broadCastMessage.toString());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -120,10 +116,54 @@ public class WebSocket {
     @OnClose
     public void onClose(Session session) {
         sessions.remove(session);
+        broadcastPresence();
     }
 
     @OnError
     public void onError(Session session, Throwable throwable) {
         sessions.remove(session);
+        broadcastPresence();
+    }
+
+    // copie de la liste des connexions, pour la parcourir sans erreur si un joueur arrive ou part en meme temps
+    private static List<Session> snapshot() {
+        synchronized (sessions) {
+            return new ArrayList<>(sessions);
+        }
+    }
+
+    // un seul envoi a la fois par connexion
+    private static void send(Session s, String text) {
+        synchronized (s) {
+            if (!s.isOpen()) return;
+            try {
+                s.getBasicRemote().sendText(text);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // personnes en ligne, comptees une fois par session
+    private static void broadcastPresence() {
+        Set<String> httpIds = new HashSet<>();
+        for (Session s : snapshot()) {
+            HttpSession httpSession = (HttpSession) s.getUserProperties().get("httpSession");
+            if (httpSession == null) continue;
+            try {
+                httpIds.add(httpSession.getId());
+            } catch (IllegalStateException e) {
+                // session HTTP invalidee (deconnexion) => on l'ignore
+            }
+        }
+
+        JsonObject presence = new JsonObject();
+        presence.addProperty("type", "presence");
+        presence.addProperty("online", httpIds.size());
+
+        String text = presence.toString();
+        for (Session s : snapshot()) {
+            send(s, text);
+        }
     }
 }

@@ -43,6 +43,16 @@ document.addEventListener('DOMContentLoaded', () => {
             renderGrid();
         } else if (payload.type === "pixel") {
             drawPixel(payload.x, payload.y, payload.color);
+        } else if (payload.type === "presence") {
+            showPresence(payload);
         }
+    };
+
+    // "x en ligne" dans la barre de navigation
+    const showPresence = ({ online }) => {
+        const badge = document.getElementById('online-badge');
+        if (!badge) return;
+        badge.classList.remove('hidden');
+        document.getElementById('online-count').textContent = `${online} en ligne`;
     };
 });

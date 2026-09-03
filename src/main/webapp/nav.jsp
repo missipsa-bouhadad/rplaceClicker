@@ -22,6 +22,14 @@
             </a>
         </div>
 
+        <div class="flex items-center gap-3">
+
+        <%-- joueurs en ligne : rempli par gridPreview.js (message "presence"), reste cache sur les pages sans websocket --%>
+        <div id="online-badge" class="hidden mr-4 text-xs font-medium text-white bg-choco rounded-full px-3 py-1.5 shadow-lg cursor-default">
+            <span class="inline-block w-2 h-2 mr-1 rounded-full bg-green-500 animate-pulse"></span>
+            <span id="online-count"></span>
+        </div>
+
         <div class="hidden md:flex items-center gap-3">
             <c:choose>
                 <c:when test="${not empty sessionScope.player}">
@@ -62,6 +70,7 @@
         <button id="mobile-menu-btn" class="md:hidden text-choco text-2xl" aria-label="Ouvrir le menu">
             <i class="fas fa-bars"></i>
         </button>
+        </div>
     </div>
 
     <%-- menu mobile : memes liens que la barre, empiles --%>
