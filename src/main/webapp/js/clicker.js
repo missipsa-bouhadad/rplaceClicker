@@ -116,7 +116,7 @@ async function loadAllBonuses() {
                 paletteColorDiv.dataset.color = colorCode;
 
                 if (isUnlocked) {
-                    paletteColorDiv.className = 'selected-color w-7 h-7 rounded cursor-pointer';
+                    paletteColorDiv.className = 'selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer';
                     paletteColorDiv.style.backgroundColor = colorCode;
 
                     paletteColorDiv.onclick = () => {

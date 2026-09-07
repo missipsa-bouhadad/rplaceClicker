@@ -66,8 +66,7 @@
         <canvas id="gridCanvas"
                 width="500"
                 height="500"
-                class="w-full h-auto bg-gray-100 rounded-lg border border-cookie-100"
-                style="image-rendering: pixelated;">
+                class="w-full h-auto bg-white rounded-lg border border-cookie-100">
         </canvas>
     </div>
 </div>
@@ -78,66 +77,70 @@
 
   </main>
 
-  <div id="grid-overlay" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-    <div class="relative bg-gray-200 shadow-2xl p-4 w-[95vw] h-[95vh] flex flex-col">
-      <button onclick="document.getElementById('grid-overlay').classList.add('hidden')"
-              class="absolute top-3 right-4 z-30 text-gray-400 hover:text-gray-800 text-2xl bg-transparent border-none cursor-pointer transition-colors">
-              &times;
-      </button>
-
-      <button onclick="resetZoom()"
-              class="absolute top-3 left-4 z-30 text-xs font-semibold text-gray-600 bg-white border border-gray-300 rounded px-2 py-1 shadow-sm hover:bg-gray-50 transition-colors">
-        <i class="fas fa-compress mr-1"></i>Recentrer
-      </button>
+  <div id="grid-overlay" class="hidden fixed inset-0 bg-choco/60 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="relative bg-cream rounded-2xl border border-cookie-200 shadow-2xl p-4 w-[95vw] h-[95vh] flex flex-col">
+      <div class="relative z-30 flex items-center justify-between mb-3 shrink-0">
+        <h2 class="font-display text-xl font-bold text-choco"><i class="fas fa-border-all mr-2 text-cookie-600"></i>Grille partagée</h2>
+        <div class="flex items-center gap-2">
+          <button onclick="resetZoom()"
+                  class="text-sm font-semibold text-cookie-700 bg-white border border-cookie-200 rounded-full px-3 py-1.5 shadow-sm hover:bg-cookie-50 transition">
+            <i class="fas fa-compress mr-1"></i>Recentrer
+          </button>
+          <button onclick="document.getElementById('grid-overlay').classList.add('hidden')" aria-label="Fermer la grille"
+                  class="w-9 h-9 rounded-full bg-white border border-cookie-200 text-choco shadow-sm hover:bg-cookie-50 transition">
+            <i class="fas fa-xmark"></i>
+          </button>
+        </div>
+      </div>
 
       <c:if test="${not empty sessionScope.player}">
           <button id="palette-btn"
                   onclick="handlePalette()"
-                  class="absolute -right-5 top-1/2 -translate-y-1/2 bg-white border border-gray-300 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-50 transition-all z-30">
-            <i id="palette-icon" class="fas fa-chevron-left text-gray-600"></i>
+                  class="absolute -right-5 top-1/2 -translate-y-1/2 bg-cookie-600 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-cookie-700 transition-all z-30">
+            <i id="palette-icon" class="fas fa-chevron-left"></i>
           </button>
 
           <%-- Drawer palette --%>
           <div id="palette-drawer"
-               class="hidden absolute right-0 top-0 h-full w-48 bg-white border-l border-gray-200 rounded-r-xl p-3 flex-col gap-2 z-20">
+               class="hidden absolute right-4 top-16 bottom-4 w-48 card p-4 flex-col gap-2 z-20 overflow-y-auto overflow-x-hidden">
 
-            <p class="text-xs font-semibold text-gray-500 mb-1">Couleur sélectionnée</p>
-            <div id="selected-color-rectangle" class="w-full h-8 rounded" style="background:#FF0000;"></div>
+            <p class="font-display text-sm font-bold text-choco">Couleur sélectionnée</p>
+            <div id="selected-color-rectangle" class="w-full h-8 rounded-lg border border-cookie-200 mb-2" style="background:#FF0000;"></div>
 
-            <p class="text-xs font-semibold text-gray-500 mb-1">Palette</p>
-            <div id="palette-grid" class="grid grid-cols-4 gap-1">
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FF0000;" data-color="#FF0000"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FF4500;" data-color="#FF4500"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FF6600;" data-color="#FF6600"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FF8C00;" data-color="#FF8C00"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FFA500;" data-color="#FFA500"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FFD700;" data-color="#FFD700"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FFFF00;" data-color="#FFFF00"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#ADFF2F;" data-color="#ADFF2F"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#00FF00;" data-color="#00FF00"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#00FA9A;" data-color="#00FA9A"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#00FFFF;" data-color="#00FFFF"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#00BFFF;" data-color="#00BFFF"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#0000FF;" data-color="#0000FF"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#8A2BE2;" data-color="#8A2BE2"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FF00FF;" data-color="#FF00FF"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FF1493;" data-color="#FF1493"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FF69B4;" data-color="#FF69B4"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FFC0CB;" data-color="#FFC0CB"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FFFFFF;" data-color="#FFFFFF"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#D3D3D3;" data-color="#D3D3D3"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#A9A9A9;" data-color="#A9A9A9"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#696969;" data-color="#696969"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#000000;" data-color="#000000"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#8B4513;" data-color="#8B4513"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#A0522D;" data-color="#A0522D"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#D2691E;" data-color="#D2691E"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#F4A460;" data-color="#F4A460"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#DEB887;" data-color="#DEB887"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FFDEAD;" data-color="#FFDEAD"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#FFFACD;" data-color="#FFFACD"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#E6E6FA;" data-color="#E6E6FA"></div>
-              <div class="selected-color w-7 h-7 rounded cursor-pointer" style="background:#B0C4DE;" data-color="#B0C4DE"></div>
+            <p class="font-display text-sm font-bold text-choco">Palette</p>
+            <div id="palette-grid" class="grid grid-cols-4 gap-2 p-1">
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#FF0000;" data-color="#FF0000"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#FF4500;" data-color="#FF4500"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#FF6600;" data-color="#FF6600"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#FF8C00;" data-color="#FF8C00"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#FFA500;" data-color="#FFA500"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#FFD700;" data-color="#FFD700"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#FFFF00;" data-color="#FFFF00"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#ADFF2F;" data-color="#ADFF2F"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#00FF00;" data-color="#00FF00"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#00FA9A;" data-color="#00FA9A"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#00FFFF;" data-color="#00FFFF"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#00BFFF;" data-color="#00BFFF"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#0000FF;" data-color="#0000FF"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#8A2BE2;" data-color="#8A2BE2"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#FF00FF;" data-color="#FF00FF"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#FF1493;" data-color="#FF1493"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#FF69B4;" data-color="#FF69B4"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#FFC0CB;" data-color="#FFC0CB"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#FFFFFF;" data-color="#FFFFFF"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#D3D3D3;" data-color="#D3D3D3"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#A9A9A9;" data-color="#A9A9A9"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#696969;" data-color="#696969"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#000000;" data-color="#000000"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#8B4513;" data-color="#8B4513"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#A0522D;" data-color="#A0522D"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#D2691E;" data-color="#D2691E"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#F4A460;" data-color="#F4A460"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#DEB887;" data-color="#DEB887"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#FFDEAD;" data-color="#FFDEAD"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#FFFACD;" data-color="#FFFACD"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#E6E6FA;" data-color="#E6E6FA"></div>
+              <div class="selected-color w-7 h-7 rounded border border-cookie-200 cursor-pointer" style="background:#B0C4DE;" data-color="#B0C4DE"></div>
             </div>
           </div>
       </c:if>
@@ -146,13 +149,13 @@
         
         <canvas id="grid-canvas"
                 width="1000" height="1000"
-                style="image-rendering: pixelated; width: calc(min(95vh, 95vw) - 2rem); height: calc(min(95vh, 95vw) - 2rem);"
-                class="border border-gray-200 block">
+                style="image-rendering: pixelated; width: calc(min(95vh - 6rem, 95vw - 2rem)); height: calc(min(95vh - 6rem, 95vw - 2rem));"
+                class="block bg-white rounded-lg border border-cookie-200 shadow-sm cursor-crosshair">
         </canvas>
 
         <div id="pixel-popover"
-            class="pointer-events-none opacity-0 absolute w-48 bg-white text-gray-800 border border-gray-300 rounded-lg shadow-lg py-2 z-[60] transition-opacity duration-200">
-            <p id="popover-content" class="px-4 py-2 text-sm"></p>
+            class="pointer-events-none opacity-0 absolute w-max max-w-[14rem] bg-choco text-white rounded-xl shadow-lg py-1 z-[60] transition-opacity duration-200">
+            <p id="popover-content" class="px-3 py-1.5 text-sm"></p>
         </div>
 
       </div>

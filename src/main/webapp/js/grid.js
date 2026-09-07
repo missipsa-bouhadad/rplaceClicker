@@ -6,6 +6,8 @@
     let socket = null;
     //ajout objet pour les infos sur les pixel 
     let gridData = {};
+    // quadrillage discret
+    const GRID_LINE = "#E5E7EB";
     // prix d'une case jamais peinte, envoye par le serveur dans le message init
     let emptyPixelPrice = null;
 
@@ -15,7 +17,7 @@
             for (let y = 0; y < gridSize; y++) {
                 ctx.fillStyle = "#FFFFFF";
                 ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
-                ctx.strokeStyle = "#000000";
+                ctx.strokeStyle = GRID_LINE;
                 ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
             }
         }
@@ -26,7 +28,7 @@
         ctx.fillStyle = color;
         ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
         //ajout ligne noir pour visibiliter des pixels c'est plus simple de viser les couleur deja peintes
-        ctx.strokeStyle = "#000000";
+        ctx.strokeStyle = GRID_LINE;
         ctx.strokeRect(x*cellSize, y*cellSize, cellSize, cellSize);
     }
 
@@ -48,12 +50,12 @@
                 drawGrid();
                 data.pixels.forEach(p => { 
                     drawPixel(p.x, p.y, p.color);
-                    gridData[`${p.x},${p.y}`] = { pseudo: p.player, date: p.date, price: p.price };
+                    gridData[`${p.x},${p.y}`] = { pseudo: p.player, date: p.date, price: p.price, color: p.color };
                 });
 
             } else if (data.type == "pixel") {
                 drawPixel(data.x, data.y, data.color);
-                gridData[`${data.x},${data.y}`] = { pseudo: data.player, date: data.date, price: data.price };
+                gridData[`${data.x},${data.y}`] = { pseudo: data.player, date: data.date, price: data.price, color: data.color };
             } else if (data.type == "error") {
                 showToast(data.message);
             }
@@ -165,10 +167,10 @@
       drawer.style.display = isHidden ? "flex" : "none";
 
       if (isHidden) {
-        button.classList.replace("-right-5", "right-48");
+        button.classList.replace("-right-5", "right-52");
         icon.classList.replace("fa-chevron-left", "fa-chevron-right");
       } else {
-        button.classList.replace("right-48", "-right-5");
+        button.classList.replace("right-52", "-right-5");
         icon.classList.replace("fa-chevron-right", "fa-chevron-left");
       }
     }
@@ -185,7 +187,15 @@
         if (!isConnected) return;
         selectedColor = color;
         document.getElementById("selected-color-rectangle").style.background = selectedColor;
+        // anneau autour de la couleur choisie
+        document.querySelectorAll("#palette-grid [data-color]").forEach(swatch => {
+            swatch.classList.toggle("ring-2", swatch.dataset.color === color);
+            swatch.classList.toggle("ring-offset-2", swatch.dataset.color === color);
+            swatch.classList.toggle("ring-cookie-600", swatch.dataset.color === color);
+        });
     }
+
+    changeSelectedColor(selectedColor);
 
     //action overlay au survol des pixels
     const popover = document.getElementById("pixel-popover");
@@ -199,13 +209,17 @@
         const info = gridData[`${x},${y}`] || {pseudo: "Personne", date: "Jamais peinte", price: emptyPixelPrice};
 
         if (info) {
+            // pastille de la couleur de la case puis le pseudo
+            const swatch = document.createElement("span");
+            swatch.className = "inline-block w-3 h-3 mr-1.5 align-middle rounded-sm border border-white/40";
+            swatch.style.backgroundColor = info.color || "#FFFFFF";
             const pseudo = document.createElement("strong");
             pseudo.textContent = info.pseudo;
             const date = document.createElement("span");
-            date.className = "text-xs";
+            date.className = "text-xs text-cookie-200";
             date.textContent = info.date;
 
-            popoverContent.replaceChildren(pseudo, document.createElement("br"));
+            popoverContent.replaceChildren(swatch, pseudo, document.createElement("br"));
             if (isConnected && info.price != null) {
                 popoverContent.append("Prix : " + formatCredits(info.price) + " crédits", document.createElement("br"));
             }
@@ -214,7 +228,7 @@
              if (e.clientY < 150) {
              popover.style.top = (e.clientY + 20) + "px";
          } else {
-             popover.style.top = (e.clientY - 125) + "px";
+             popover.style.top = (e.clientY - 90) + "px";
          }
             popover.classList.replace("opacity-0","opacity-100");
         } else {
