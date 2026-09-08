@@ -206,7 +206,7 @@
         const x = Math.floor((e.clientX - rect.left) * (canvas.width / rect.width) / cellSize);
         const y = Math.floor((e.clientY - rect.top) * (canvas.height / rect.height) / cellSize);
         // memes libelles que le serveur pour une case jamais peinte
-        const info = gridData[`${x},${y}`] || {pseudo: "Personne", date: "Jamais peinte", price: emptyPixelPrice};
+        const info = gridData[`${x},${y}`] || {pseudo: "Personne", date: "Jamais peint", price: emptyPixelPrice};
 
         if (info) {
             // pastille de la couleur de la case puis le pseudo
@@ -217,7 +217,9 @@
             pseudo.textContent = info.pseudo;
             const date = document.createElement("span");
             date.className = "text-xs text-cookie-200";
-            date.textContent = info.date;
+            // Peint le 2/10/2025 à 22:00"
+            const parts = /^(\d{2}\/\d{2}\/\d{4}) (\d{2}:\d{2})$/.exec(info.date);
+            date.textContent = parts ? `Peint le ${parts[1]} à ${parts[2]}` : info.date;
 
             popoverContent.replaceChildren(swatch, pseudo, document.createElement("br"));
             if (isConnected && info.price != null) {

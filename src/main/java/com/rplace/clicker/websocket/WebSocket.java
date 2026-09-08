@@ -44,7 +44,7 @@ public class WebSocket {
                 object.addProperty("color", p.getColor());
                 object.addProperty("player", p.getCurrentPlayer() != null ? p.getCurrentPlayer().getPseudo() : "Personne");
                 object.addProperty("price", p.getPrice());
-                object.addProperty("date", p.getUpdatedAt() != null ? p.getUpdatedAt().format(DATE_FORMATTER) : "Jamais peinte");
+                object.addProperty("date", p.getUpdatedAt() != null ? p.getUpdatedAt().format(DATE_FORMATTER) : "Jamais peint");
                 pixelsJson.add(object);
             }
 
