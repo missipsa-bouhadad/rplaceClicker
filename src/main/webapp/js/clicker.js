@@ -13,10 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     affichage();
-
-    if (typeof offlineGain !== 'undefined' && offlineGain > 0) {
-        showToast("Pendant votre absence : +" + formatCredits(offlineGain) + " crédits", 'success');
-    }
 });
 
 // icone Font Awesome de chaque bonus de la boutique (cookie par defaut)

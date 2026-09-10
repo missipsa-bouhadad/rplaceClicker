@@ -167,12 +167,9 @@
   <script>
     const isConnected = ${not empty sessionScope.player ? "true" : "false"};
     const contextPath = "${pageContext.request.contextPath}";
-    // gains hors ligne poses par LoginServlet, retires de la session des le premier affichage
-    const offlineGain = ${empty sessionScope.offlineGain ? 0 : sessionScope.offlineGain};
 
     document.addEventListener("DOMContentLoaded", () => loadAllBonuses());
   </script>
-  <c:remove var="offlineGain" scope="session" />
 
   
   <script src="js/toast.js"></script>
