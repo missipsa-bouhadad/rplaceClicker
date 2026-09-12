@@ -30,13 +30,13 @@ public class UpdatePasswordServlet extends HttpServlet {
         String oldPwd = request.getParameter("oldPassword");
         String newPwd = request.getParameter("newPassword");
 
-        if (!player.getPassword().equals(oldPwd)) {
+        if (!PlayerService.checkPassword(player, oldPwd)) {
             request.setAttribute("error", "Impossible de mettre à jour votre mot de passe");
             request.getRequestDispatcher("profile.jsp").forward(request, response);
             return;
         }
 
-        player.setPassword(newPwd);
+        player.setPassword(PlayerService.hashPassword(newPwd));
 
         playerService.updatePlayer(player);
         session.setAttribute("player", player);

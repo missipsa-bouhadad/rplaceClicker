@@ -3,6 +3,7 @@ package com.rplace.clicker.service;
 import com.rplace.clicker.dao.PlayerDAO;
 import com.rplace.clicker.model.Player;
 import jakarta.persistence.EntityManagerFactory;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
@@ -15,10 +16,18 @@ public class PlayerService {
 
     public Player login(String pseudo, String password){
         Player player = playerDAO.findPlayerByPseudo(pseudo);
-        if (player == null || !player.getPassword().equals(password)) {
+        if (player == null || !checkPassword(player, password)) {
             return null;
         }
         return player;
+    }
+
+    public static boolean checkPassword(Player player, String password) {
+        return password != null && BCrypt.checkpw(password, player.getPassword());
+    }
+
+    public static String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     // age facultatif, sinon un entier entre 1 et 120
@@ -64,7 +73,7 @@ public class PlayerService {
         }
         Player newPlayer = new Player();
         newPlayer.setPseudo(pseudo);
-        newPlayer.setPassword(password);
+        newPlayer.setPassword(hashPassword(password));
         newPlayer.setAge(age);
         newPlayer.setCountry(country);
         playerDAO.createPlayer(newPlayer);
