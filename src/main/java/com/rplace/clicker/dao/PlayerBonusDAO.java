@@ -39,31 +39,18 @@ public class PlayerBonusDAO {
     public PlayerBonus findPlayerBonusByBonusId(Integer playerId, Integer bonusId) {
         EntityManager em = emf.createEntityManager();
         try {
-            String query = "Select pb From PlayerBonus pb Where pb.player.id = :playerId And pb.bonus.id = :bonusId";
-            return em.createQuery(query, PlayerBonus.class)
-                    .setParameter("playerId", playerId)
-                    .setParameter("bonusId", bonusId)
-                    .getSingleResult();
-        } catch (Exception e) {
-            return null;
+            return findPlayerBonusByBonusId(em, playerId, bonusId);
         } finally {
             em.close();
         }
     }
 
-    public void createPlayerBonus(PlayerBonus playerBonus) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(playerBonus);
-        em.getTransaction().commit();
-        em.close();
-    }
-
-    public void updatePlayerBonus(PlayerBonus playerBonus) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.merge(playerBonus);
-        em.getTransaction().commit();
-        em.close();
+    public PlayerBonus findPlayerBonusByBonusId(EntityManager em, Integer playerId, Integer bonusId) {
+        String query = "Select pb From PlayerBonus pb Where pb.player.id = :playerId And pb.bonus.id = :bonusId";
+        List<PlayerBonus> result = em.createQuery(query, PlayerBonus.class)
+                .setParameter("playerId", playerId)
+                .setParameter("bonusId", bonusId)
+                .getResultList();
+        return result.isEmpty() ? null : result.get(0);
     }
 }

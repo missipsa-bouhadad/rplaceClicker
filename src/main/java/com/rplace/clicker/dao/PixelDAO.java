@@ -14,18 +14,6 @@ public class PixelDAO {
         this.emf = emf;
     }
 
-    // idée proposée par l'IA : utiliser merge au lieu de créer deux fonctions (create et update)
-    public void createOrUpdatePixel(Pixel pixel) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.merge(pixel);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
-    }
-
     public Pixel findPixelById(PixelId pixelId) {
         EntityManager em = emf.createEntityManager();
         try {

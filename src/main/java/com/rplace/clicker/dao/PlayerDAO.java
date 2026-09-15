@@ -3,6 +3,7 @@ package com.rplace.clicker.dao;
 import com.rplace.clicker.model.Player;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.LockModeType;
 
 import java.util.List;
 
@@ -43,6 +44,11 @@ public class PlayerDAO {
         } finally {
             em.close();
         }
+    }
+
+    // bloque la ligne du joueur jusqu'a la fin de la transaction
+    public Player lockPlayer(EntityManager em, int id) {
+        return em.find(Player.class, id, LockModeType.PESSIMISTIC_WRITE);
     }
 
     public List<Player> findAllPlayers() {
