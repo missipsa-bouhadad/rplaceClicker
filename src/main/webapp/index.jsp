@@ -77,7 +77,7 @@
 
   </main>
 
-  <div id="grid-overlay" class="hidden fixed inset-0 bg-choco/60 backdrop-blur-sm flex items-center justify-center z-50">
+  <div id="grid-overlay" class="hidden fixed inset-0 bg-choco/60 backdrop-blur-sm items-center justify-center z-50">
     <div class="relative bg-cream rounded-2xl border border-cookie-200 shadow-2xl p-4 w-[95vw] h-[95vh] flex flex-col">
       <div class="relative z-30 flex items-center justify-between mb-3 shrink-0">
         <h2 class="font-display text-xl font-bold text-choco"><i class="fas fa-border-all mr-2 text-cookie-600"></i>Grille partagée</h2>
@@ -86,7 +86,7 @@
                   class="text-sm font-semibold text-cookie-700 bg-white border border-cookie-200 rounded-full px-3 py-1.5 shadow-sm hover:bg-cookie-50 transition">
             <i class="fas fa-compress mr-1"></i>Recentrer
           </button>
-          <button onclick="document.getElementById('grid-overlay').classList.add('hidden')" aria-label="Fermer la grille"
+          <button onclick="document.getElementById('grid-overlay').classList.replace('flex', 'hidden')" aria-label="Fermer la grille"
                   class="w-9 h-9 rounded-full bg-white border border-cookie-200 text-choco shadow-sm hover:bg-cookie-50 transition">
             <i class="fas fa-xmark"></i>
           </button>

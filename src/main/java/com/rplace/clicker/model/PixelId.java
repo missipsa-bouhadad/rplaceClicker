@@ -1,6 +1,5 @@
 package com.rplace.clicker.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;

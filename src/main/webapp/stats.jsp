@@ -77,7 +77,7 @@
                 <c:choose>
                   <c:when test="${myStats.oldestPixel != null}">
                     <p class="font-display text-2xl font-bold text-choco flex items-center gap-2">
-                      <span style="display:inline-block; width:14px; height:14px; background:${myStats.oldestPixel.color}; border:1px solid #999; border-radius:3px;"></span>
+                      <span style="display:inline-block; width:14px; height:14px; border:1px solid #999; border-radius:3px;" data-color="<c:out value='${myStats.oldestPixel.color}'/>"></span>
                       (${myStats.oldestPixel.id.x}, ${myStats.oldestPixel.id.y})
                     </p>
                   </c:when>
@@ -107,7 +107,7 @@
                 <i id="icon-${ps.player.pseudo}" class="fas fa-chevron-down text-gray-400 text-xs"></i>
               </div>
             </div>
-            <div id="detail-${ps.player.pseudo}" class="hidden py-3 text-sm text-gray-600 flex flex-col gap-1 pl-4 border-l-2 border-cookie-200 my-1">
+            <div id="detail-${ps.player.pseudo}" class="hidden py-3 text-sm text-gray-600 flex-col gap-1 pl-4 border-l-2 border-cookie-200 my-1">
               <span><strong>Age :</strong> ${not empty ps.player.age ? ps.player.age : '–'}</span>
               <span><strong>Pays :</strong> ${not empty ps.player.country ? ps.player.country : '–'}</span>
               <span><strong>Pixels placés :</strong> ${ps.totalPlaced}</span>
@@ -115,7 +115,7 @@
               <span><strong>Pixel le plus ancien :</strong>
                 <c:choose>
                   <c:when test="${ps.oldestPixel != null}">
-                    <span style="display:inline-block; width:12px; height:12px; background:${ps.oldestPixel.color}; border:1px solid #999; vertical-align:middle;"></span>
+                    <span style="display:inline-block; width:12px; height:12px; border:1px solid #999; vertical-align:middle;" data-color="<c:out value='${ps.oldestPixel.color}'/>"></span>
                     (${ps.oldestPixel.id.x}, ${ps.oldestPixel.id.y})
                   </c:when>
                   <c:otherwise>-</c:otherwise>
@@ -170,7 +170,7 @@
                 <span class="text-sm font-bold text-cookie-600">${ps.coveragePercentForPlayer}%</span>
               </div>
               <div class="mt-1.5 ml-9 h-2 rounded-full bg-cookie-100 overflow-hidden">
-                <div class="h-full rounded-full bg-cookie-500" style="width: ${ps.currentPixels / 25}%"></div>
+                <div class="h-full rounded-full bg-cookie-500" data-width="${ps.currentPixels / 25}"></div>
               </div>
             </div>
           </c:forEach>
@@ -193,7 +193,7 @@
               <span class="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded border">
                 <c:choose>
                   <c:when test="${ps.oldestPixel != null}">
-                    <span style="display:inline-block; width:10px; height:10px; background:${ps.oldestPixel.color}; border:1px solid #999; vertical-align:middle;"></span>
+                    <span style="display:inline-block; width:10px; height:10px; border:1px solid #999; vertical-align:middle;" data-color="<c:out value='${ps.oldestPixel.color}'/>"></span>
                     (${ps.oldestPixel.id.x}, ${ps.oldestPixel.id.y})
                   </c:when>
                   <c:otherwise>Aucun pixel</c:otherwise>

@@ -34,7 +34,7 @@
 
     // ouvrir le websocket
     function openGrid() {
-        document.getElementById("grid-overlay").classList.remove("hidden");
+        document.getElementById("grid-overlay").classList.replace("hidden", "flex");
 
         if (socket !== null && socket.readyState == WebSocket.OPEN) return;
 

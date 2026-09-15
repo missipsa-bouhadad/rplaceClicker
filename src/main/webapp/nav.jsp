@@ -74,7 +74,7 @@
     </div>
 
     <%-- menu mobile : memes liens que la barre, empiles --%>
-    <div id="mobile-menu" class="hidden md:hidden border-t border-cookie-100 px-6 py-3 flex flex-col gap-1">
+    <div id="mobile-menu" class="hidden md:hidden border-t border-cookie-100 px-6 py-3 flex-col gap-1">
         <a href="${pageContext.request.contextPath}/" class="py-2 text-sm font-semibold ${activePage == 'home' ? 'text-cookie-700' : 'text-gray-700'}">
             <i class="fas fa-cookie-bite mr-2"></i>Jouer
         </a>
@@ -119,6 +119,9 @@
 
         const mobileBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+        });
     });
 </script>
