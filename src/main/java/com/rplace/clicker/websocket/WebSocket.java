@@ -144,14 +144,15 @@ public class WebSocket {
         }
     }
 
-    // personnes en ligne, comptees une fois par session
+    // joueurs connectes, comptes une fois chacun
     private static void broadcastPresence() {
-        Set<String> httpIds = new HashSet<>();
+        Set<Integer> playerIds = new HashSet<>();
         for (Session s : snapshot()) {
             HttpSession httpSession = (HttpSession) s.getUserProperties().get("httpSession");
             if (httpSession == null) continue;
             try {
-                httpIds.add(httpSession.getId());
+                Player player = (Player) httpSession.getAttribute("player");
+                if (player != null) playerIds.add(player.getId());
             } catch (IllegalStateException e) {
                 // session HTTP invalidee (deconnexion) => on l'ignore
             }
@@ -159,7 +160,7 @@ public class WebSocket {
 
         JsonObject presence = new JsonObject();
         presence.addProperty("type", "presence");
-        presence.addProperty("online", httpIds.size());
+        presence.addProperty("online", playerIds.size());
 
         String text = presence.toString();
         for (Session s : snapshot()) {
